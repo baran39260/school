@@ -105,28 +105,30 @@
 
         .droplet-face {
             position: absolute;
-            top: 30px;
-            left: 24px;
+            top: 35px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 2;
+            text-align: center;
         }
 
         .eye {
-            width: 8px;
-            height: 8px;
-            background: white;
+            width: 6px;
+            height: 6px;
+            background: #333;
             border-radius: 50%;
             display: inline-block;
             margin: 0 3px;
-            box-shadow: 0 0 2px rgba(0,0,0,0.3);
+            box-shadow: 0 0 1px rgba(0,0,0,0.5);
         }
 
         .smile {
-            width: 20px;
-            height: 10px;
-            border: 2px solid white;
+            width: 16px;
+            height: 8px;
+            border: 2px solid #333;
             border-top: none;
-            border-radius: 0 0 20px 20px;
-            margin-top: 5px;
+            border-radius: 0 0 16px 16px;
+            margin: 3px auto 0;
         }
 
         @keyframes float {
@@ -387,27 +389,30 @@
 
         .ocean-droplet .mini-droplet-face {
             position: absolute;
-            top: 12px;
-            left: 8px;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 2;
+            text-align: center;
         }
 
         .ocean-droplet .mini-eye {
-            width: 4px;
-            height: 4px;
-            background: white;
+            width: 3px;
+            height: 3px;
+            background: #333;
             border-radius: 50%;
             display: inline-block;
             margin: 0 1px;
+            box-shadow: 0 0 1px rgba(0,0,0,0.5);
         }
 
         .ocean-droplet .mini-smile {
-            width: 10px;
-            height: 5px;
-            border: 1px solid white;
+            width: 8px;
+            height: 4px;
+            border: 1px solid #333;
             border-top: none;
-            border-radius: 0 0 10px 10px;
-            margin-top: 2px;
+            border-radius: 0 0 8px 8px;
+            margin: 2px auto 0;
         }
 
         @keyframes swim {
