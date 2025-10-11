@@ -373,14 +373,9 @@
             // Add loading effect
             const body = document.body;
             body.style.opacity = '0.8';
-            
-            // Open game in new tab/window
-            window.open(filename, '_blank');
-            
-            // Restore opacity
-            setTimeout(() => {
-                body.style.opacity = '1';
-            }, 300);
+
+            // Navigate to game in same tab
+            window.location.href = filename;
         }
     </script>
 </body>
