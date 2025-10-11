@@ -754,6 +754,256 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
+
+        /* 24-Hour Introduction Section */
+        .introduction-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .clock-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .clock-type {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .clock-type:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .clock-type h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #ffeaa7;
+        }
+
+        .digital-clock {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #2d3436, #636e72);
+            padding: 15px 30px;
+            border-radius: 15px;
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+            margin: 10px 0;
+        }
+
+        .time-converter {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            color: #2d3436;
+        }
+
+        .converter-title {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #6c5ce7;
+        }
+
+        .converter-game {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .time-card {
+            background: linear-gradient(135deg, #74b9ff, #a29bfe);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .time-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .time-card.flipped {
+            background: linear-gradient(135deg, #55efc4, #00b894);
+        }
+
+        .time-12h {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .time-24h {
+            font-size: 1.3rem;
+            margin-top: 10px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .time-card.flipped .time-24h {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .day-night-cycle {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(to right,
+                #001f3f 0%,
+                #005577 15%,
+                #87CEEB 25%,
+                #FFD700 35%,
+                #FFA500 50%,
+                #FF6347 65%,
+                #4B0082 75%,
+                #001f3f 100%);
+            border-radius: 100px;
+            margin: 30px 0;
+            overflow: hidden;
+            box-shadow: inset 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .sun-moon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            animation: dayNightMove 20s linear infinite;
+        }
+
+        @keyframes dayNightMove {
+            0% { left: -50px; }
+            100% { left: calc(100% + 50px); }
+        }
+
+        .time-labels {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .story-box {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            color: #2d3436;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            position: relative;
+        }
+
+        .story-character {
+            font-size: 4rem;
+            position: absolute;
+            top: -20px;
+            right: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .interactive-clock-24 {
+            width: 300px;
+            height: 300px;
+            margin: 30px auto;
+            position: relative;
+            background: white;
+            border-radius: 50%;
+            border: 10px solid #6c5ce7;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .hour-24-number {
+            position: absolute;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #e17055;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+        }
+
+        .hour-12-number {
+            position: absolute;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #0984e3;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 50%;
+        }
+
+        .continue-button {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #00b894, #55efc4);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+            font-family: 'Vazir', sans-serif;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .continue-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
@@ -763,7 +1013,89 @@
         <h1>🕐 ۲۴ ساعت با علی</h1>
         <p class="subtitle">بیایید ببینیم علی در طول ۲۴ ساعت شبانه‌روز چه کارهایی انجام می‌دهد!</p>
 
-        <div class="character" id="character">👦</div>
+        <!-- 24-Hour Introduction Section -->
+        <div class="introduction-section" id="introSection">
+            <h2 class="intro-title">🌟 کشف راز ساعت ۲۴ ساعته!</h2>
+
+            <div class="story-box">
+                <span class="story-character">🧙‍♂️</span>
+                <p>
+                    سلام دوست من! من جادوگر زمان هستم. می‌خواهم رازی را با تو در میان بگذارم:
+                    <br><br>
+                    می‌دانستی که روز دو چهره دارد؟ یکی که همه می‌شناسند (ساعت ۱۲ ساعته) و یکی که بزرگترها استفاده می‌کنند (ساعت ۲۴ ساعته)!
+                    <br><br>
+                    بیا با هم این راز را کشف کنیم! 🎯
+                </p>
+            </div>
+
+            <div class="day-night-cycle">
+                <div class="sun-moon" id="sunMoon">☀️</div>
+                <div class="time-labels">
+                    <span>۱۲ شب</span>
+                    <span>۶ صبح</span>
+                    <span>۱۲ ظهر</span>
+                    <span>۶ عصر</span>
+                    <span>۱۲ شب</span>
+                </div>
+            </div>
+
+            <div class="clock-comparison">
+                <div class="clock-type">
+                    <h3>🕐 ساعت ۱۲ ساعته (آشنا)</h3>
+                    <div class="digital-clock" id="clock12">2:00 بعدازظهر</div>
+                    <p style="margin-top: 15px;">این همان ساعتی است که تو می‌شناسی!</p>
+                </div>
+                <div class="clock-type">
+                    <h3>🕰️ ساعت ۲۴ ساعته (جدید)</h3>
+                    <div class="digital-clock" id="clock24">14:00</div>
+                    <p style="margin-top: 15px;">این همان ساعت است به روش دیگر!</p>
+                </div>
+            </div>
+
+            <div class="time-converter">
+                <h3 class="converter-title">🎮 بازی تبدیل ساعت - روی کارت‌ها کلیک کن!</h3>
+                <div class="converter-game">
+                    <div class="time-card" onclick="flipCard(this, '1:00 بعدازظهر', '13:00')">
+                        <div class="time-12h">1:00 بعدازظهر</div>
+                        <div class="time-24h">= 13:00</div>
+                    </div>
+                    <div class="time-card" onclick="flipCard(this, '2:00 بعدازظهر', '14:00')">
+                        <div class="time-12h">2:00 بعدازظهر</div>
+                        <div class="time-24h">= 14:00</div>
+                    </div>
+                    <div class="time-card" onclick="flipCard(this, '3:00 بعدازظهر', '15:00')">
+                        <div class="time-12h">3:00 بعدازظهر</div>
+                        <div class="time-24h">= 15:00</div>
+                    </div>
+                    <div class="time-card" onclick="flipCard(this, '6:00 عصر', '18:00')">
+                        <div class="time-12h">6:00 عصر</div>
+                        <div class="time-24h">= 18:00</div>
+                    </div>
+                    <div class="time-card" onclick="flipCard(this, '8:00 شب', '20:00')">
+                        <div class="time-12h">8:00 شب</div>
+                        <div class="time-24h">= 20:00</div>
+                    </div>
+                    <div class="time-card" onclick="flipCard(this, '10:00 شب', '22:00')">
+                        <div class="time-12h">10:00 شب</div>
+                        <div class="time-24h">= 22:00</div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 20px; font-size: 1.1rem; color: #6c5ce7;">
+                    💡 نکته جادویی: برای تبدیل ساعت‌های بعد از ظهر به ۲۴ ساعته، فقط ۱۲ اضافه کن!
+                    <br>مثلاً: ۲ بعدازظهر + ۱۲ = ۱۴:۰۰
+                </p>
+            </div>
+
+            <div class="interactive-clock-24" id="clock24Interactive">
+                <!-- Will be filled by JavaScript -->
+            </div>
+
+            <button class="continue-button" onclick="hideIntroduction()">
+                ✨ حالا آماده‌ام! بریم سراغ تمرین
+            </button>
+        </div>
+
+        <div class="character" id="character" style="display: none;">👦</div>
 
         <div class="control-buttons">
             <button class="btn btn-morning btn-active" onclick="showAM()">
@@ -1496,26 +1828,219 @@
         `;
         document.head.appendChild(style);
 
-        // Initialize interactive features on load
-        window.addEventListener('load', () => {
-            // Add interactive hints
-            const hintBox = document.createElement('div');
-            hintBox.style.cssText = `
-                background: linear-gradient(135deg, #74b9ff, #a29bfe);
-                color: white;
-                padding: 20px;
-                border-radius: 15px;
-                margin: 20px 0;
-                text-align: center;
-                font-size: 1.2rem;
-                animation: pulse 2s infinite;
-            `;
-            hintBox.innerHTML = '👆 روی دکمه‌های بالا کلیک کن تا فعالیت‌های قبل و بعد از ظهر را ببینی!';
-            document.querySelector('.control-buttons').after(hintBox);
+        // 24-Hour Introduction Functions
+        function flipCard(card, time12, time24) {
+            // Toggle flipped state
+            card.classList.toggle('flipped');
+
+            // Add bounce animation
+            card.style.animation = 'none';
+            setTimeout(() => {
+                card.style.animation = 'pulse 0.5s';
+            }, 10);
+
+            // Play a little celebration if all cards are flipped
+            const allCards = document.querySelectorAll('.time-card');
+            const flippedCards = document.querySelectorAll('.time-card.flipped');
+
+            if (flippedCards.length === allCards.length) {
+                setTimeout(() => {
+                    showCelebration('🎉 عالی! حالا تبدیل ساعت‌ها را یاد گرفتی!');
+                }, 500);
+            }
+        }
+
+        function hideIntroduction() {
+            const introSection = document.getElementById('introSection');
+            const mainContent = document.getElementById('character');
+
+            // Fade out introduction
+            introSection.style.transition = 'all 0.5s ease';
+            introSection.style.opacity = '0';
+            introSection.style.transform = 'translateY(-20px)';
 
             setTimeout(() => {
-                hintBox.style.display = 'none';
-            }, 5000);
+                introSection.style.display = 'none';
+                mainContent.style.display = 'block';
+
+                // Scroll to main content
+                document.querySelector('.control-buttons').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 500);
+        }
+
+        // Initialize 24-hour clock display
+        function init24HourClock() {
+            const clock24 = document.getElementById('clock24Interactive');
+            if (!clock24) return;
+
+            const centerX = 150;
+            const centerY = 150;
+            const radius = 120;
+
+            // Add both 12-hour and 24-hour numbers
+            for (let i = 1; i <= 24; i++) {
+                const angle = ((i - 6) * 15 - 90) * Math.PI / 180;
+                const numberRadius = i <= 12 ? radius * 0.75 : radius * 0.9;
+
+                const x = centerX + numberRadius * Math.cos(angle);
+                const y = centerY + numberRadius * Math.sin(angle);
+
+                const number = document.createElement('div');
+
+                if (i <= 12) {
+                    // 12-hour numbers (inner circle)
+                    number.className = 'hour-12-number';
+                    number.textContent = i;
+                    number.style.left = `${x}px`;
+                    number.style.top = `${y}px`;
+                } else {
+                    // 24-hour numbers (outer circle)
+                    number.className = 'hour-24-number';
+                    number.textContent = i;
+                    const angle24 = ((i - 18) * 15 - 90) * Math.PI / 180;
+                    const x24 = centerX + radius * 0.9 * Math.cos(angle24);
+                    const y24 = centerY + radius * 0.9 * Math.sin(angle24);
+                    number.style.left = `${x24}px`;
+                    number.style.top = `${y24}px`;
+                }
+
+                clock24.appendChild(number);
+            }
+
+            // Add clock hands
+            const hourHand = document.createElement('div');
+            hourHand.className = 'hand hour-hand';
+            hourHand.style.height = '60px';
+            hourHand.style.left = '147px';
+            hourHand.style.bottom = '150px';
+            clock24.appendChild(hourHand);
+
+            const minuteHand = document.createElement('div');
+            minuteHand.className = 'hand minute-hand';
+            minuteHand.style.height = '80px';
+            minuteHand.style.left = '148px';
+            minuteHand.style.bottom = '150px';
+            clock24.appendChild(minuteHand);
+
+            const center = document.createElement('div');
+            center.className = 'clock-center';
+            center.style.left = '142px';
+            center.style.top = '142px';
+            clock24.appendChild(center);
+
+            // Animate the clock hands
+            function updateIntro24Clock() {
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+
+                const hourAngle = (hours % 12) * 30 + (minutes / 60) * 30;
+                const minuteAngle = minutes * 6;
+
+                hourHand.style.transform = `rotate(${hourAngle}deg)`;
+                minuteHand.style.transform = `rotate(${minuteAngle}deg)`;
+            }
+
+            updateIntro24Clock();
+            setInterval(updateIntro24Clock, 1000);
+        }
+
+        // Animate day-night cycle
+        function animateDayNightCycle() {
+            const sunMoon = document.getElementById('sunMoon');
+            if (!sunMoon) return;
+
+            let currentEmoji = 0;
+            const emojis = ['🌙', '🌅', '☀️', '🌇', '🌙'];
+            const times = ['نیمه شب', 'صبح', 'ظهر', 'عصر', 'شب'];
+
+            setInterval(() => {
+                currentEmoji = (currentEmoji + 1) % emojis.length;
+                sunMoon.textContent = emojis[currentEmoji];
+
+                // Update background gradient based on time
+                const dayNightCycle = sunMoon.parentElement;
+                if (dayNightCycle) {
+                    const gradients = [
+                        'linear-gradient(to right, #001f3f, #001f3f)', // Night
+                        'linear-gradient(to right, #87CEEB, #FFD700)', // Morning
+                        'linear-gradient(to right, #FFD700, #FFA500)', // Noon
+                        'linear-gradient(to right, #FFA500, #FF6347)', // Evening
+                        'linear-gradient(to right, #4B0082, #001f3f)'  // Night
+                    ];
+                    dayNightCycle.style.background = gradients[currentEmoji];
+                }
+            }, 4000);
+        }
+
+        // Update comparison clocks
+        function updateComparisonClocks() {
+            const clock12 = document.getElementById('clock12');
+            const clock24 = document.getElementById('clock24');
+
+            if (!clock12 || !clock24) return;
+
+            function updateClocks() {
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+
+                // 12-hour format
+                let hour12 = hours % 12;
+                if (hour12 === 0) hour12 = 12;
+
+                let period = '';
+                if (hours >= 0 && hours < 6) period = 'صبح';
+                else if (hours >= 6 && hours < 12) period = 'صبح';
+                else if (hours === 12) period = 'ظهر';
+                else if (hours > 12 && hours < 17) period = 'بعدازظهر';
+                else if (hours >= 17 && hours < 20) period = 'عصر';
+                else period = 'شب';
+
+                clock12.textContent = `${hour12}:${minutes} ${period}`;
+
+                // 24-hour format
+                clock24.textContent = `${hours.toString().padStart(2, '0')}:${minutes}`;
+            }
+
+            updateClocks();
+            setInterval(updateClocks, 1000);
+        }
+
+        // Initialize interactive features on load
+        window.addEventListener('load', () => {
+            // Initialize 24-hour introduction features
+            init24HourClock();
+            animateDayNightCycle();
+            updateComparisonClocks();
+
+            // Add interactive hints
+            const introSection = document.getElementById('introSection');
+            if (!introSection || introSection.style.display === 'none') {
+                const hintBox = document.createElement('div');
+                hintBox.style.cssText = `
+                    background: linear-gradient(135deg, #74b9ff, #a29bfe);
+                    color: white;
+                    padding: 20px;
+                    border-radius: 15px;
+                    margin: 20px 0;
+                    text-align: center;
+                    font-size: 1.2rem;
+                    animation: pulse 2s infinite;
+                `;
+                hintBox.innerHTML = '👆 روی دکمه‌های بالا کلیک کن تا فعالیت‌های قبل و بعد از ظهر را ببینی!';
+                const controlButtons = document.querySelector('.control-buttons');
+                if (controlButtons) {
+                    controlButtons.after(hintBox);
+
+                    setTimeout(() => {
+                        hintBox.style.display = 'none';
+                    }, 5000);
+                }
+            }
         });
     </script>
 </body>
