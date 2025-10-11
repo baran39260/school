@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>💧 سفر قطره آب - چرخه آب</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 50%, #90EE90 100%);
+            min-height: 100vh;
+            padding: 20px;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            color: #1E88E5;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* Water droplet character */
+        .water-droplet {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .droplet-body {
+            width: 60px;
+            height: 80px;
+            background: linear-gradient(135deg, #4FC3F7, #1E88E5);
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            position: absolute;
+            left: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .droplet-face {
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            transform: rotate(45deg);
+        }
+
+        .eye {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 3px;
+            box-shadow: 0 0 2px rgba(0,0,0,0.3);
+        }
+
+        .smile {
+            width: 20px;
+            height: 10px;
+            border: 2px solid white;
+            border-top: none;
+            border-radius: 0 0 20px 20px;
+            margin-top: 5px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Journey stages */
+        .journey-stage {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 5px solid #1E88E5;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .journey-stage.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stage-number {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .stage-icon {
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .stage-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1565C0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .stage-description {
+            font-size: 1.2rem;
+            color: #424242;
+            line-height: 2;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Animated elements */
+        .sun-animation {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #FFF176, #FFD54F);
+            border-radius: 50%;
+            margin: 20px auto;
+            position: relative;
+            animation: rotate 10s linear infinite;
+            box-shadow: 0 0 30px rgba(255, 193, 7, 0.5);
+        }
+
+        .sun-ray {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .sun-ray::before,
+        .sun-ray::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 6px;
+            background: #FFD54F;
+            border-radius: 3px;
+        }
+
+        .sun-ray::before {
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .sun-ray::after {
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cloud-animation {
+            width: 120px;
+            height: 60px;
+            background: #E8F4F8;
+            border-radius: 50px;
+            margin: 20px auto;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: float-cloud 4s ease-in-out infinite;
+        }
+
+        .cloud-animation::before,
+        .cloud-animation::after {
+            content: '';
+            position: absolute;
+            background: #E8F4F8;
+            border-radius: 50%;
+        }
+
+        .cloud-animation::before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 20px;
+        }
+
+        .cloud-animation::after {
+            width: 60px;
+            height: 60px;
+            top: -30px;
+            right: 20px;
+        }
+
+        @keyframes float-cloud {
+            0%, 100% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+        }
+
+        .rain-animation {
+            width: 200px;
+            height: 100px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .raindrop {
+            position: absolute;
+            width: 3px;
+            height: 20px;
+            background: linear-gradient(to bottom, #4FC3F7, #1E88E5);
+            border-radius: 3px;
+            animation: fall 1s linear infinite;
+        }
+
+        .raindrop:nth-child(1) { left: 20%; animation-delay: 0s; }
+        .raindrop:nth-child(2) { left: 40%; animation-delay: 0.2s; }
+        .raindrop:nth-child(3) { left: 60%; animation-delay: 0.4s; }
+        .raindrop:nth-child(4) { left: 80%; animation-delay: 0.6s; }
+        .raindrop:nth-child(5) { left: 30%; animation-delay: 0.3s; }
+        .raindrop:nth-child(6) { left: 50%; animation-delay: 0.5s; }
+        .raindrop:nth-child(7) { left: 70%; animation-delay: 0.7s; }
+
+        @keyframes fall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(100px); opacity: 0; }
+        }
+
+        .river-animation {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(90deg, #4FC3F7 0%, #1E88E5 50%, #4FC3F7 100%);
+            background-size: 200% 100%;
+            border-radius: 10px;
+            margin: 20px 0;
+            animation: wave 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes wave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255,255,255,0.2)"/></svg>') repeat-x;
+            animation: wave-move 10s linear infinite;
+        }
+
+        @keyframes wave-move {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Interactive buttons */
+        .next-button {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            font-family: 'Vazir', sans-serif;
+        }
+
+        .next-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .next-button:active {
+            transform: translateY(-1px);
+        }
+
+        /* Cycle diagram */
+        .cycle-diagram {
+            width: 100%;
+            max-width: 600px;
+            margin: 30px auto;
+            position: relative;
+            padding: 40px;
+        }
+
+        .cycle-circle {
+            width: 100%;
+            padding-top: 100%;
+            border: 5px dashed #1E88E5;
+            border-radius: 50%;
+            position: relative;
+            animation: rotate-slow 20s linear infinite;
+        }
+
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cycle-item {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .cycle-item:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+        .cycle-item:nth-child(2) { top: 50%; right: 0; transform: translateY(-50%); }
+        .cycle-item:nth-child(3) { bottom: 0; left: 50%; transform: translateX(-50%); }
+        .cycle-item:nth-child(4) { top: 50%; left: 0; transform: translateY(-50%); }
+
+        /* Quiz section */
+        .quiz-box {
+            background: linear-gradient(135deg, #FFF9C4, #FFF59D);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 3px solid #FBC02D;
+        }
+
+        .quiz-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #F57F17;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .quiz-question {
+            font-size: 1.3rem;
+            color: #424242;
+            margin-bottom: 20px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-option {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 3px solid #FBC02D;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            text-align: center;
+            font-family: 'Vazir', sans-serif;
+        }
+
+        .quiz-option:hover {
+            background: #FFF9C4;
+            transform: translateX(-5px);
+        }
+
+        .quiz-option.correct {
+            background: #C8E6C9;
+            border-color: #4CAF50;
+        }
+
+        .quiz-option.wrong {
+            background: #FFCDD2;
+            border-color: #F44336;
+        }
+
+        .fun-fact {
+            background: linear-gradient(135deg, #E1F5FE, #B3E5FC);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 5px solid #0288D1;
+        }
+
+        .fun-fact-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #01579B;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .fun-fact-content {
+            font-size: 1.1rem;
+            color: #424242;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .subtitle { font-size: 1.1rem; }
+            .stage-title { font-size: 1.5rem; }
+            .stage-description { font-size: 1rem; }
+            .container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="science.html" class="back-button">🔙 بازگشت به علوم</a>
+
+        <h1>💧 سفر شگفت‌انگیز قطره آب</h1>
+        <p class="subtitle">بیا با هم چرخه آب را کشف کنیم! 🌈</p>
+
+        <div class="water-droplet">
+            <div class="droplet-body"></div>
+            <div class="droplet-face">
+                <div class="eye"></div>
+                <div class="eye"></div>
+                <div class="smile"></div>
+            </div>
+        </div>
+
+        <div class="stage-description" style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); padding: 20px; border-radius: 15px; margin-bottom: 30px;">
+            <strong>سلام! من قطره‌ی آب هستم! 👋</strong><br>
+            می‌خوای با من یه سفر جالب داشته باشی؟ من همیشه در حال سفرم - از زمین به آسمان و دوباره به زمین! بیا ببینیم چطور ابرها و باران ساخته می‌شن! ☁️🌧️
+        </div>
+
+        <!-- Stage 1: Ocean/Lake -->
+        <div class="journey-stage" id="stage1">
+            <div class="stage-number">1</div>
+            <div class="stage-icon">🌊</div>
+            <h2 class="stage-title">خانه‌ی من: دریا و رودخانه</h2>
+            <p class="stage-description">
+                سفر من از دریا شروع می‌شه! من یکی از میلیون‌ها قطره آبی هستم که توی دریا، دریاچه یا رودخانه زندگی می‌کنم.
+                اینجا خیلی خنکه و دوستای زیادی دارم! 🐟
+            </p>
+            <div class="river-animation">
+                <div class="wave"></div>
+            </div>
+            <button class="next-button" onclick="showNextStage(2)">مرحله بعدی ⬅️</button>
+        </div>
+
+        <!-- Stage 2: Evaporation -->
+        <div class="journey-stage" id="stage2" style="display: none;">
+            <div class="stage-number">2</div>
+            <div class="stage-icon">☀️</div>
+            <h2 class="stage-title">پرواز به آسمان: تبخیر</h2>
+            <p class="stage-description">
+                وای! خورشید داره می‌تابه و هوا داغ شده! 🌡️<br>
+                گرمای خورشید باعث می‌شه من و دوستام از آب تبدیل به بخار بشیم و به آسمان پرواز کنیم!<br>
+                این فرآیند رو <strong>"تبخیر"</strong> می‌گن. مثل اینه که ناپدید بشم - ولی نترس، فقط تبدیل به بخار شدم! 💨
+            </p>
+            <div class="sun-animation">
+                <div class="sun-ray"></div>
+            </div>
+            <div class="fun-fact">
+                <div class="fun-fact-title">🤓 می‌دونستی؟</div>
+                <div class="fun-fact-content">
+                    هر روز، خورشید میلیون‌ها لیتر آب رو از دریاها و رودخونه‌ها تبخیر می‌کنه! این آب به شکل بخار به آسمون می‌ره.
+                </div>
+            </div>
+            <button class="next-button" onclick="showNextStage(3)">مرحله بعدی ⬅️</button>
+        </div>
+
+        <!-- Stage 3: Condensation -->
+        <div class="journey-stage" id="stage3" style="display: none;">
+            <div class="stage-number">3</div>
+            <div class="stage-icon">☁️</div>
+            <h2 class="stage-title">ساخت ابر: چگالش</h2>
+            <p class="stage-description">
+                حالا من توی آسمون هستم! 🎈<br>
+                اینجا بالا هوا خیلی سرده! وقتی بخار آب به هوای سرد می‌رسه، دوباره تبدیل به قطرات ریز آب می‌شه.<br>
+                من و میلیون‌ها قطره دیگه دور هم جمع می‌شیم و یه <strong>ابر</strong> می‌سازیم! ☁️<br>
+                این فرآیند رو <strong>"چگالش"</strong> می‌گن.
+            </p>
+            <div class="cloud-animation"></div>
+            <div class="fun-fact">
+                <div class="fun-fact-title">🤓 می‌دونستی؟</div>
+                <div class="fun-fact-content">
+                    ابرها از میلیون‌ها قطره خیلی خیلی کوچک آب ساخته شدن! اونقدر کوچیک که نمی‌تونی یکی‌شون رو ببینی!
+                </div>
+            </div>
+            <button class="next-button" onclick="showNextStage(4)">مرحله بعدی ⬅️</button>
+        </div>
+
+        <!-- Stage 4: Precipitation -->
+        <div class="journey-stage" id="stage4" style="display: none;">
+            <div class="stage-number">4</div>
+            <div class="stage-icon">🌧️</div>
+            <h2 class="stage-title">بازگشت به زمین: بارش</h2>
+            <p class="stage-description">
+                ابرمون داره بزرگ‌تر و سنگین‌تر می‌شه! 💪<br>
+                وقتی خیلی خیلی قطرات توی ابر جمع بشن، ابر نمی‌تونه همه‌شون رو نگه داره.<br>
+                قطرات به هم می‌چسبن و بزرگ‌تر می‌شن تا اینکه... 🎯<br>
+                <strong>باران می‌باره!</strong> من دارم به زمین برمی‌گردم! 🌧️<br>
+                به این فرآیند <strong>"بارش"</strong> می‌گیم. گاهی به شکل باران، برف یا تگرگ می‌باره!
+            </p>
+            <div class="rain-animation">
+                <div class="raindrop"></div>
+                <div class="raindrop"></div>
+                <div class="raindrop"></div>
+                <div class="raindrop"></div>
+                <div class="raindrop"></div>
+                <div class="raindrop"></div>
+                <div class="raindrop"></div>
+            </div>
+            <button class="next-button" onclick="showNextStage(5)">مرحله بعدی ⬅️</button>
+        </div>
+
+        <!-- Stage 5: Collection -->
+        <div class="journey-stage" id="stage5" style="display: none;">
+            <div class="stage-number">5</div>
+            <div class="stage-icon">🏞️</div>
+            <h2 class="stage-title">بازگشت به خانه: جمع‌آوری</h2>
+            <p class="stage-description">
+                یِه! برگشتم! 🎉<br>
+                حالا من دوباره روی زمین هستم. ممکنه روی کوه، درخت، یا زمین بیفتم.<br>
+                بعد از اون به رودخونه‌ها و دریاها برمی‌گردم و دوباره با دوستام جمع می‌شم! 🌊<br>
+                به این فرآیند <strong>"جمع‌آوری"</strong> می‌گیم.<br><br>
+                و حالا سفر من دوباره شروع می‌شه! این چرخه هیچ‌وقت تموم نمی‌شه! 🔄
+            </p>
+            <div class="river-animation">
+                <div class="wave"></div>
+            </div>
+            <button class="next-button" onclick="showNextStage(6)">ببین چرخه کامل رو! 🔄</button>
+        </div>
+
+        <!-- Complete Cycle -->
+        <div class="journey-stage" id="stage6" style="display: none;">
+            <div class="stage-icon">🔄</div>
+            <h2 class="stage-title">چرخه‌ی کامل آب</h2>
+            <p class="stage-description">
+                این چرخه همیشه در حال تکرار شدنه! از دریا به آسمون، از آسمون به زمین، و دوباره به دریا! 🌊☁️🌧️
+            </p>
+
+            <div class="cycle-diagram">
+                <div class="cycle-circle">
+                    <div class="cycle-item">☀️</div>
+                    <div class="cycle-item">☁️</div>
+                    <div class="cycle-item">🌧️</div>
+                    <div class="cycle-item">🌊</div>
+                </div>
+            </div>
+
+            <div class="fun-fact">
+                <div class="fun-fact-title">🌟 نکته مهم!</div>
+                <div class="fun-fact-content">
+                    آبی که امروز می‌نوشی، ممکنه همون آبی باشه که دایناسورها هم می‌نوشیدن!
+                    چون آب همیشه توی این چرخه در حال گردشه و هیچ‌وقت از بین نمی‌ره! 🦕💧
+                </div>
+            </div>
+
+            <button class="next-button" onclick="showNextStage(7)">حالا کوئیز بزنیم! 🎯</button>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="quiz-box" id="quiz" style="display: none;">
+            <h3 class="quiz-title">🎮 وقت کوئیزه! بزن بریم!</h3>
+
+            <div id="question1" class="quiz-question-box">
+                <p class="quiz-question"><strong>سوال 1:</strong> وقتی خورشید آب دریا رو گرم می‌کنه و آب به بخار تبدیل می‌شه، به این فرآیند چی می‌گیم?</p>
+                <div class="quiz-options">
+                    <button class="quiz-option" onclick="checkAnswer(1, 'تبخیر', this)">تبخیر</button>
+                    <button class="quiz-option" onclick="checkAnswer(1, 'چگالش', this)">چگالش</button>
+                    <button class="quiz-option" onclick="checkAnswer(1, 'بارش', this)">بارش</button>
+                </div>
+            </div>
+
+            <div id="question2" class="quiz-question-box" style="display: none; margin-top: 30px;">
+                <p class="quiz-question"><strong>سوال 2:</strong> ابرها از چی ساخته شدن؟</p>
+                <div class="quiz-options">
+                    <button class="quiz-option" onclick="checkAnswer(2, 'پنبه', this)">پنبه</button>
+                    <button class="quiz-option" onclick="checkAnswer(2, 'میلیون‌ها قطره کوچولوی آب', this)">میلیون‌ها قطره کوچولوی آب</button>
+                    <button class="quiz-option" onclick="checkAnswer(2, 'دود', this)">دود</button>
+                </div>
+            </div>
+
+            <div id="question3" class="quiz-question-box" style="display: none; margin-top: 30px;">
+                <p class="quiz-question"><strong>سوال 3:</strong> وقتی قطرات آب از ابر به زمین می‌ریزن، به این فرآیند چی می‌گیم؟</p>
+                <div class="quiz-options">
+                    <button class="quiz-option" onclick="checkAnswer(3, 'تبخیر', this)">تبخیر</button>
+                    <button class="quiz-option" onclick="checkAnswer(3, 'بارش', this)">بارش</button>
+                    <button class="quiz-option" onclick="checkAnswer(3, 'چگالش', this)">چگالش</button>
+                </div>
+            </div>
+
+            <div id="completion" style="display: none; text-align: center; margin-top: 30px;">
+                <h2 style="color: #4CAF50; font-size: 2rem;">🎉 آفرین! همه سوالات رو درست جواب دادی! 🌟</h2>
+                <p style="font-size: 1.3rem; margin-top: 20px;">حالا تو یه متخصص چرخه‌ی آب شدی! 💪💧</p>
+                <button class="next-button" onclick="location.reload()">دوباره شروع کن 🔄</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+
+        function showNextStage(stageNumber) {
+            // Hide all stages
+            for (let i = 1; i <= 7; i++) {
+                const stage = document.getElementById('stage' + i);
+                if (stage) stage.style.display = 'none';
+            }
+
+            // Show quiz
+            if (stageNumber === 7) {
+                document.getElementById('quiz').style.display = 'block';
+                document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            // Show next stage
+            const nextStage = document.getElementById('stage' + stageNumber);
+            if (nextStage) {
+                nextStage.style.display = 'block';
+                nextStage.classList.add('visible');
+                nextStage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function checkAnswer(questionNum, answer, button) {
+            const correctAnswers = {
+                1: 'تبخیر',
+                2: 'میلیون‌ها قطره کوچولوی آب',
+                3: 'بارش'
+            };
+
+            const allButtons = button.parentElement.querySelectorAll('.quiz-option');
+            allButtons.forEach(btn => btn.style.pointerEvents = 'none');
+
+            if (answer === correctAnswers[questionNum]) {
+                button.classList.add('correct');
+                setTimeout(() => {
+                    document.getElementById('question' + questionNum).style.display = 'none';
+                    if (questionNum < 3) {
+                        document.getElementById('question' + (questionNum + 1)).style.display = 'block';
+                    } else {
+                        document.getElementById('completion').style.display = 'block';
+                        createConfetti();
+                    }
+                }, 1500);
+            } else {
+                button.classList.add('wrong');
+                setTimeout(() => {
+                    button.classList.remove('wrong');
+                    allButtons.forEach(btn => btn.style.pointerEvents = 'auto');
+                }, 1000);
+            }
+        }
+
+        function createConfetti() {
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#FFD93D'];
+            const confettiCount = 50;
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.opacity = '1';
+                confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+                confetti.style.transition = 'all 3s ease-out';
+                confetti.style.zIndex = '9999';
+                confetti.style.borderRadius = '50%';
+
+                document.body.appendChild(confetti);
+
+                setTimeout(() => {
+                    confetti.style.top = '100vh';
+                    confetti.style.opacity = '0';
+                }, 100);
+
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+
+        // Show first stage on load
+        window.addEventListener('load', () => {
+            document.getElementById('stage1').classList.add('visible');
+        });
+    </script>
+</body>
+</html>
