@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🕐 آموزش ساعت با علی</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #4ecdc4, #44a3d5);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            color: #ff6b6b;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .main-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .clock-section {
+            background: linear-gradient(135deg, #fff, #f8f9fa);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .clock-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 20px 0;
+        }
+
+        .clock {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: white;
+            border: 8px solid #4ecdc4;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .clock-svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .time-zone-path {
+            opacity: 0.5;
+            stroke: none;
+        }
+
+        /* Zone colors for legend */
+        .zone-sleep { background: #ff6b6b; }
+        .zone-wake-up { background: #ffeaa7; }
+        .zone-go-school { background: #74b9ff; }
+        .zone-school { background: #4ecdc4; }
+        .zone-school-pm { background: #00b894; }
+        .zone-home { background: #6c5ce7; }
+        .zone-lunch { background: #55efc4; }
+        .zone-homework { background: #a29bfe; }
+        .zone-play { background: #fdcb6e; }
+        .zone-bath { background: #fd79a8; }
+        .zone-dinner { background: #fab1a0; }
+        .zone-family { background: #81ecec; }
+        .zone-story { background: #dfe6e9; }
+        .zone-bedtime { background: #ff7675; }
+
+        .clock-center {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        .clock-number {
+            position: absolute;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3436;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            border-radius: 10px;
+            transition: transform 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .hour-hand {
+            width: 8px;
+            height: 80px;
+            background: #2d3436;
+            margin-left: -4px;
+            z-index: 5;
+        }
+
+        .minute-hand {
+            width: 5px;
+            height: 110px;
+            background: #636e72;
+            margin-left: -2.5px;
+            z-index: 6;
+        }
+
+        .time-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d3436;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .period-badge {
+            display: inline-block;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .morning-badge {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            color: #2d3436;
+        }
+
+        .afternoon-badge {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+        }
+
+        .activities-section {
+            background: linear-gradient(135deg, #fff5e6, #ffe8cc);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .activities-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2d3436;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .activity-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: slideIn 0.5s ease forwards;
+        }
+
+        .activity-card:nth-child(1) { animation-delay: 0.1s; }
+        .activity-card:nth-child(2) { animation-delay: 0.2s; }
+        .activity-card:nth-child(3) { animation-delay: 0.3s; }
+        .activity-card:nth-child(4) { animation-delay: 0.4s; }
+        .activity-card:nth-child(5) { animation-delay: 0.5s; }
+        .activity-card:nth-child(6) { animation-delay: 0.6s; }
+        .activity-card:nth-child(7) { animation-delay: 0.7s; }
+        .activity-card:nth-child(8) { animation-delay: 0.8s; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        .activity-time {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4ecdc4;
+            margin-bottom: 10px;
+        }
+
+        .activity-icon {
+            font-size: 2.5rem;
+            margin-left: 15px;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .activity-description {
+            font-size: 1.1rem;
+            color: #2d3436;
+            line-height: 1.6;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-family: 'Vazir', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-morning {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            color: #2d3436;
+        }
+
+        .btn-afternoon {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+        }
+
+        .btn-active {
+            border: 4px solid #ff6b6b;
+            transform: scale(1.05);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #e8f4fd, #d1ecf1);
+            border: 3px solid #17a2b8;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .time-legend {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .legend-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .legend-color {
+            width: 25px;
+            height: 25px;
+            border-radius: 6px;
+            opacity: 0.7;
+            flex-shrink: 0;
+        }
+
+        .info-box h3 {
+            color: #2d3436;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .info-box p {
+            font-size: 1.1rem;
+            color: #2d3436;
+            line-height: 1.8;
+        }
+
+        .character {
+            font-size: 4rem;
+            text-align: center;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            75% { transform: rotate(-10deg); }
+        }
+
+        @media (max-width: 968px) {
+            .main-section {
+                grid-template-columns: 1fr;
+            }
+
+            .clock-container {
+                width: 240px;
+                height: 240px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            .clock-container {
+                width: 200px;
+                height: 200px;
+            }
+
+            .time-display {
+                font-size: 1.5rem;
+            }
+        }
+
+        .sun {
+            font-size: 3rem;
+            animation: spin 10s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="math.html" class="back-button">🏠 بازگشت به صفحه ریاضی</a>
+
+        <h1>🕐 ۲۴ ساعت با علی</h1>
+        <p class="subtitle">بیایید ببینیم علی در طول ۲۴ ساعت شبانه‌روز چه کارهایی انجام می‌دهد!</p>
+
+        <div class="character" id="character">👦</div>
+
+        <div class="control-buttons">
+            <button class="btn btn-morning btn-active" onclick="showAM()">
+                🌅 قبل از ظهر
+            </button>
+            <button class="btn btn-afternoon" onclick="showPM()">
+                🌆 بعد از ظهر
+            </button>
+        </div>
+
+        <div class="main-section">
+            <div class="clock-section">
+                <h2 style="color: #2d3436; margin-bottom: 10px;">ساعت الان:</h2>
+                <div class="clock-container">
+                    <div class="clock" id="clock">
+                        <div class="hand hour-hand" id="hourHand"></div>
+                        <div class="hand minute-hand" id="minuteHand"></div>
+                        <div class="clock-center"></div>
+                    </div>
+                </div>
+                <div class="time-display" id="timeDisplay">00:00</div>
+                <div class="period-badge morning-badge" id="periodBadge">
+                    <span class="sun">🌅</span> قبل از ظهر (12 شب تا 12 ظهر)
+                </div>
+
+                <div class="time-legend">
+                    <div class="legend-title">🎨 رنگ‌های ساعت</div>
+                    <div class="legend-items" id="legendItems">
+                        <!-- Legend will be updated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="activities-section">
+                <h2 class="activities-title" id="activitiesTitle">🌅 فعالیت‌های قبل از ظهر</h2>
+                <div id="activitiesList"></div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>💡 نکته مهم</h3>
+            <p id="infoText">
+                🌅 قبل از ظهر: ساعت ۶ تا ۷ صبح بیدار شدن، مسواک و صبحانه. ساعت ۷ تا ۸ رفتن به مدرسه. ساعت ۸ تا ۱۲ در مدرسه.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // قبل از ظهر: نیمه‌شب تا ظهر (00:00 تا 12:00)
+        const amActivities = [
+            { time: '00:00', hour: 0, minute: 0, icon: '😴', title: 'نیمه شب - خواب', desc: '💤 ساعت ۰۰:۰۰ (نیمه شب) - علی در خواب عمیق است' },
+            { time: '03:00', hour: 3, minute: 0, icon: '🌙', title: 'خواب عمیق', desc: '💤 ساعت ۰۳:۰۰ (بامداد) - علی همچنان می‌خوابد' },
+            { time: '06:00', hour: 6, minute: 0, icon: '⏰', title: 'بیدار شدن، مسواک و صبحانه', desc: '☀️ ساعت ۰۶:۰۰ تا ۰۷:۰۰ - علی بیدار می‌شود، مسواک می‌زند و صبحانه می‌خورد' },
+            { time: '07:00', hour: 7, minute: 0, icon: '🎒', title: 'رفتن به مدرسه', desc: '🚌 ساعت ۰۷:۰۰ تا ۰۸:۰۰ - علی به مدرسه می‌رود' },
+            { time: '08:00', hour: 8, minute: 0, icon: '📚', title: 'در مدرسه', desc: '✏️ ساعت ۰۸:۰۰ (صبح) - علی در کلاس درس است' },
+            { time: '10:00', hour: 10, minute: 0, icon: '📖', title: 'در مدرسه', desc: '📚 ساعت ۱۰:۰۰ (صبح) - علی در کلاس درس است' },
+            { time: '12:00', hour: 12, minute: 0, icon: '🏫', title: 'در مدرسه', desc: '📖 ساعت ۱۲:۰۰ (ظهر) - علی هنوز در مدرسه است' }
+        ];
+
+        // بعد از ظهر: ظهر تا نیمه‌شب (12:00 تا 24:00)
+        const pmActivities = [
+            { time: '12:00', hour: 12, minute: 0, icon: '🏫', title: 'در مدرسه', desc: '📚 ساعت ۱۲:۰۰ تا ۱۳:۰۰ - علی هنوز در مدرسه است' },
+            { time: '13:00', hour: 13, minute: 0, icon: '🏠', title: 'برگشت به خانه', desc: '🚌 ساعت ۱۳:۰۰ تا ۱۴:۰۰ - برگشت از مدرسه به خانه' },
+            { time: '14:00', hour: 14, minute: 0, icon: '🍽️', title: 'ناهار', desc: '🍛 ساعت ۱۴:۰۰ - ناهار خوردن با خانواده' },
+            { time: '15:00', hour: 15, minute: 0, icon: '📝', title: 'انجام تکالیف', desc: '✏️ ساعت ۱۵:۰۰ - انجام مشق‌های مدرسه' },
+            { time: '16:00', hour: 16, minute: 0, icon: '⚽', title: 'بازی و ورزش', desc: '🏃 ساعت ۱۶:۰۰ - بازی با دوستان' },
+            { time: '18:00', hour: 18, minute: 0, icon: '🛁', title: 'حمام', desc: '🚿 ساعت ۱۸:۰۰ - وقت حمام' },
+            { time: '19:00', hour: 19, minute: 0, icon: '🍲', title: 'شام', desc: '🍽️ ساعت ۱۹:۰۰ - شام با خانواده' },
+            { time: '20:00', hour: 20, minute: 0, icon: '📺', title: 'تفریح', desc: '👨‍👩‍👦 ساعت ۲۰:۰۰ - وقت گذرانی با خانواده' },
+            { time: '21:00', hour: 21, minute: 0, icon: '📚', title: 'داستان', desc: '📖 ساعت ۲۱:۰۰ - خواندن داستان' },
+            { time: '22:00', hour: 22, minute: 0, icon: '😴', title: 'خواب', desc: '🌙 ساعت ۲۲:۰۰ - رفتن به رختخواب' }
+        ];
+
+        let currentActivities = amActivities;
+        let currentIndex = 0;
+        let autoPlayInterval = null;
+
+        function setClock(hour, minute) {
+            const hourHand = document.getElementById('hourHand');
+            const minuteHand = document.getElementById('minuteHand');
+
+            // Calculate angles
+            const hourAngle = (hour % 12) * 30 + (minute / 60) * 30;
+            const minuteAngle = minute * 6;
+
+            hourHand.style.transform = `rotate(${hourAngle}deg)`;
+            minuteHand.style.transform = `rotate(${minuteAngle}deg)`;
+        }
+
+        function displayActivities(activities) {
+            const list = document.getElementById('activitiesList');
+            list.innerHTML = '';
+
+            activities.forEach((activity, index) => {
+                const card = document.createElement('div');
+                card.className = 'activity-card';
+                card.style.cursor = 'pointer';
+                card.onclick = () => selectActivity(index);
+
+                card.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <div class="activity-time">${activity.time}</div>
+                            <div class="activity-description">${activity.desc}</div>
+                        </div>
+                        <div class="activity-icon">${activity.icon}</div>
+                    </div>
+                `;
+
+                list.appendChild(card);
+            });
+        }
+
+        function selectActivity(index) {
+            currentIndex = index;
+            const activity = currentActivities[index];
+
+            // Update clock
+            setClock(activity.hour, activity.minute);
+
+            // Update time display
+            document.getElementById('timeDisplay').textContent = activity.time;
+
+            // Highlight selected card
+            const cards = document.querySelectorAll('.activity-card');
+            cards.forEach((card, i) => {
+                if (i === index) {
+                    card.style.border = '3px solid #ff6b6b';
+                    card.style.transform = 'scale(1.05)';
+                } else {
+                    card.style.border = 'none';
+                    card.style.transform = 'scale(1)';
+                }
+            });
+
+            // Update character animation
+            const character = document.getElementById('character');
+            character.textContent = activity.icon;
+            character.style.animation = 'none';
+            setTimeout(() => {
+                character.style.animation = 'bounce 1s ease';
+            }, 10);
+        }
+
+        function showAM() {
+            currentActivities = amActivities;
+            currentIndex = 0;
+
+            // Update buttons
+            document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('btn-active'));
+            event.target.classList.add('btn-active');
+
+            // Update UI
+            document.getElementById('activitiesTitle').textContent = '🌅 فعالیت‌های قبل از ظهر';
+            document.getElementById('periodBadge').className = 'period-badge morning-badge';
+            document.getElementById('periodBadge').innerHTML = '<span class="sun">🌅</span> قبل از ظهر (۰۰:۰۰ - ۱۲:۰۰)';
+            document.getElementById('infoText').textContent = '🌅 قبل از ظهر: ساعت ۶ تا ۷ صبح بیدار شدن، مسواک و صبحانه. ساعت ۷ تا ۸ رفتن به مدرسه. ساعت ۸ تا ۱۲ در مدرسه.';
+
+            // Change background
+            document.querySelector('.activities-section').style.background = 'linear-gradient(135deg, #fff5e6, #ffe8cc)';
+
+            // Update clock zones to show only morning activities
+            updateClockZones(morningTimeZones);
+
+            displayActivities(amActivities);
+            selectActivity(0);
+            startAutoPlay();
+        }
+
+        function showPM() {
+            currentActivities = pmActivities;
+            currentIndex = 0;
+
+            // Update buttons
+            document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('btn-active'));
+            event.target.classList.add('btn-active');
+
+            // Update UI
+            document.getElementById('activitiesTitle').textContent = '🌆 فعالیت‌های بعد از ظهر';
+            document.getElementById('periodBadge').className = 'period-badge afternoon-badge';
+            document.getElementById('periodBadge').innerHTML = '<span class="sun">🌆</span> بعد از ظهر (۱۲:۰۰ - ۲۴:۰۰)';
+            document.getElementById('infoText').textContent = '🌆 بعد از ظهر یعنی از ظهر (۱۲:۰۰) تا نیمه شب (۲۴:۰۰). علی ناهار می‌خورد، تکالیف انجام می‌دهد، بازی می‌کند و می‌خوابد!';
+
+            // Change background
+            document.querySelector('.activities-section').style.background = 'linear-gradient(135deg, #e8f4fd, #d1ecf1)';
+
+            // Update clock zones to show only afternoon activities
+            updateClockZones(afternoonTimeZones);
+
+            displayActivities(pmActivities);
+            selectActivity(0);
+            startAutoPlay();
+        }
+
+        function startAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+            }
+
+            autoPlayInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % currentActivities.length;
+                selectActivity(currentIndex);
+            }, 3000);
+        }
+
+        // Morning time zones (using 12-hour clock positions)
+        const morningTimeZones = [
+            // Sleep: 12 AM to 6 AM - split into two zones to avoid wrap-around
+            { start: 12, end: 3, class: 'zone-sleep', label: 'خواب', timeRange: '12-6' },
+            { start: 3, end: 6, class: 'zone-sleep', label: 'خواب', timeRange: '12-6' },
+            // Wake up: 6 AM to 7 AM (clock position 6-7)
+            { start: 6, end: 7, class: 'zone-wake-up', label: 'بیدار شدن', timeRange: '6-7' },
+            // Go to school: 7 AM to 8 AM (clock position 7-8)
+            { start: 7, end: 8, class: 'zone-go-school', label: 'رفتن به مدرسه', timeRange: '7-8' },
+            // At school: 8 AM to 12 PM (clock position 8-12)
+            { start: 8, end: 12, class: 'zone-school', label: 'در مدرسه', timeRange: '8-12' }
+        ];
+
+        // Afternoon time zones (using 12-hour clock positions)
+        const afternoonTimeZones = [
+            // At school: 12 PM to 1 PM (clock position 12-1)
+            { start: 12, end: 1, class: 'zone-school-pm', label: 'در مدرسه', timeRange: '12-1' },
+            // Coming home: 1 PM to 2 PM (clock position 1-2)
+            { start: 1, end: 2, class: 'zone-home', label: 'برگشت به خانه', timeRange: '1-2' },
+            // Lunch: 2 PM to 3 PM (clock position 2-3)
+            { start: 2, end: 3, class: 'zone-lunch', label: 'ناهار', timeRange: '2-3' },
+            // Homework: 3 PM to 4 PM (clock position 3-4)
+            { start: 3, end: 4, class: 'zone-homework', label: 'تکالیف', timeRange: '3-4' },
+            // Play: 4 PM to 6 PM (clock position 4-6)
+            { start: 4, end: 6, class: 'zone-play', label: 'بازی', timeRange: '4-6' },
+            // Bath: 6 PM to 7 PM (clock position 6-7)
+            { start: 6, end: 7, class: 'zone-bath', label: 'حمام', timeRange: '6-7' },
+            // Dinner: 7 PM to 8 PM (clock position 7-8)
+            { start: 7, end: 8, class: 'zone-dinner', label: 'شام', timeRange: '7-8' },
+            // Family time: 8 PM to 9 PM (clock position 8-9)
+            { start: 8, end: 9, class: 'zone-family', label: 'تفریح', timeRange: '8-9' },
+            // Story: 9 PM to 10 PM (clock position 9-10)
+            { start: 9, end: 10, class: 'zone-story', label: 'داستان', timeRange: '9-10' },
+            // Sleep: 10 PM to 12 AM (clock position 10-12)
+            { start: 10, end: 12, class: 'zone-bedtime', label: 'خواب', timeRange: '10-12' }
+        ];
+
+        // Initialize clock numbers and time zones
+        function initClockNumbers() {
+            const clock = document.getElementById('clock');
+            const clockWidth = clock.offsetWidth;
+            const clockHeight = clock.offsetHeight;
+            const radius = clockWidth / 2;
+            const numberRadius = radius * 0.75; // Distance from center to numbers
+
+            // Add clock numbers
+            for (let i = 1; i <= 12; i++) {
+                // Start from 12 o'clock (top) and go clockwise
+                const angle = ((i - 3) * 30) * Math.PI / 180; // -3 to start at 12 o'clock
+                const x = radius + numberRadius * Math.cos(angle);
+                const y = radius + numberRadius * Math.sin(angle);
+
+                const number = document.createElement('div');
+                number.className = 'clock-number';
+                number.textContent = i;
+                number.style.left = `${x}px`;
+                number.style.top = `${y}px`;
+                clock.appendChild(number);
+            }
+
+            // Add initial time zones (morning)
+            updateClockZones(morningTimeZones);
+        }
+
+        // Update clock zones based on selected period
+        function updateClockZones(timeZones) {
+            const clock = document.getElementById('clock');
+
+            // Remove existing SVG
+            const existingSvg = clock.querySelector('.clock-svg');
+            if (existingSvg) {
+                existingSvg.remove();
+            }
+
+            // Create SVG element
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('class', 'clock-svg');
+            svg.setAttribute('viewBox', '0 0 200 200');
+
+            const centerX = 100;
+            const centerY = 100;
+            const radius = 90;
+
+            // Color mapping for zones
+            const zoneColors = {
+                'zone-sleep': '#ff6b6b',
+                'zone-wake-up': '#ffeaa7',
+                'zone-go-school': '#74b9ff',
+                'zone-school': '#4ecdc4',
+                'zone-school-pm': '#00b894',
+                'zone-home': '#6c5ce7',
+                'zone-lunch': '#55efc4',
+                'zone-homework': '#a29bfe',
+                'zone-play': '#fdcb6e',
+                'zone-bath': '#fd79a8',
+                'zone-dinner': '#fab1a0',
+                'zone-family': '#81ecec',
+                'zone-story': '#dfe6e9',
+                'zone-bedtime': '#ff7675'
+            };
+
+            // Draw each time zone as a pie slice
+            timeZones.forEach(zone => {
+                // Convert clock hours to angles (12 o'clock = -90 degrees)
+                const startAngle = (zone.start * 30) - 90;
+                const endAngle = (zone.end * 30) - 90;
+
+                // Convert to radians
+                const startRad = (startAngle * Math.PI) / 180;
+                const endRad = (endAngle * Math.PI) / 180;
+
+                // Calculate arc points
+                const x1 = centerX + radius * Math.cos(startRad);
+                const y1 = centerY + radius * Math.sin(startRad);
+                const x2 = centerX + radius * Math.cos(endRad);
+                const y2 = centerY + radius * Math.sin(endRad);
+
+                // Determine if we need large arc flag
+                const largeArcFlag = (endAngle - startAngle) > 180 ? 1 : 0;
+
+                // Create path
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                const d = `M ${centerX} ${centerY} L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2} Z`;
+                path.setAttribute('d', d);
+                path.setAttribute('class', 'time-zone-path');
+                path.setAttribute('fill', zoneColors[zone.class] || '#ccc');
+
+                svg.appendChild(path);
+            });
+
+            // Add SVG to clock (before other elements)
+            clock.insertBefore(svg, clock.firstChild);
+
+            // Update legend
+            updateLegend(timeZones);
+        }
+
+        // Update legend based on time zones
+        function updateLegend(timeZones) {
+            const legendItems = document.getElementById('legendItems');
+            legendItems.innerHTML = '';
+
+            const legendLabels = {
+                'zone-sleep': '😴 خواب',
+                'zone-wake-up': '⏰ بیدار شدن و صبحانه',
+                'zone-go-school': '🎒 رفتن به مدرسه',
+                'zone-school': '📚 در مدرسه',
+                'zone-school-pm': '🏫 در مدرسه',
+                'zone-home': '🏠 برگشت به خانه',
+                'zone-lunch': '🍽️ ناهار',
+                'zone-homework': '📝 تکالیف',
+                'zone-play': '⚽ بازی',
+                'zone-bath': '🛁 حمام',
+                'zone-dinner': '🍲 شام',
+                'zone-family': '📺 تفریح خانوادگی',
+                'zone-story': '📚 داستان',
+                'zone-bedtime': '😴 خواب'
+            };
+
+            // Group zones with same class to avoid duplicate legend entries
+            const uniqueZones = [];
+            const seenClasses = new Set();
+
+            timeZones.forEach(zone => {
+                if (!seenClasses.has(zone.class)) {
+                    seenClasses.add(zone.class);
+                    uniqueZones.push(zone);
+                }
+            });
+
+            uniqueZones.forEach(zone => {
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+
+                const color = document.createElement('div');
+                color.className = `legend-color ${zone.class}`;
+
+                const label = document.createElement('span');
+                // Use timeRange if available, otherwise use start-end
+                const timeRange = zone.timeRange || `${zone.start}-${zone.end}`;
+                label.textContent = `${legendLabels[zone.class]} (${timeRange})`;
+
+                item.appendChild(color);
+                item.appendChild(label);
+                legendItems.appendChild(item);
+            });
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            initClockNumbers();
+            displayActivities(amActivities);
+            selectActivity(0);
+            startAutoPlay();
+        });
+
+        // Pause auto-play when user clicks on an activity
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.activity-card')) {
+                if (autoPlayInterval) {
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = null;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
