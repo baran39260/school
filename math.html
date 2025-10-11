@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>🎓 بازی‌های آموزشی ریاضی - Math Learning Games</title>
+    <title>🔢 بازی‌های آموزشی ریاضی - Math Learning Games</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -36,6 +36,24 @@
             padding: 30px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             backdrop-filter: blur(10px);
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #4ecdc4, #44a3d5);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         h1 {
@@ -162,49 +180,24 @@
             font-size: 1.5rem;
         }
 
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            background: linear-gradient(135deg, #fff9e6, #ffe4b5);
-            border-radius: 15px;
-            border: 3px dashed #ff9f43;
-        }
-
-        .footer p {
-            color: #666;
-            font-size: 1rem;
-            margin-bottom: 10px;
-        }
-
-        .footer a {
-            color: #ff6b6b;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
                 margin: 10px;
             }
-            
+
             h1 {
                 font-size: 2rem;
             }
-            
+
             .games-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .game-card {
                 padding: 20px;
             }
-            
+
             .features-list {
                 grid-template-columns: 1fr;
             }
@@ -214,15 +207,15 @@
             h1 {
                 font-size: 1.8rem;
             }
-            
+
             .subtitle {
                 font-size: 1rem;
             }
-            
+
             .game-title {
                 font-size: 1.2rem;
             }
-            
+
             .game-description {
                 font-size: 0.9rem;
             }
@@ -237,7 +230,7 @@
                 touch-action: manipulation;
                 cursor: pointer;
             }
-            
+
             .game-card:active {
                 -webkit-transform: scale(0.95);
                 transform: scale(0.95);
@@ -247,22 +240,45 @@
 </head>
 <body>
     <div class="container">
-        <h1>🎓 پلتفرم آموزشی</h1>
-        <p class="subtitle">یادگیری با بازی و سرگرمی برای کودکان عزیز</p>
+        <a href="index.html" class="back-button">🏠 بازگشت به صفحه اصلی</a>
+
+        <h1>🔢 بازی‌های آموزشی ریاضی</h1>
+        <p class="subtitle">یادگیری ریاضی با بازی و سرگرمی برای کودکان عزیز</p>
 
         <div class="games-grid">
-            <div class="game-card" onclick="openGame('math.html')">
-                <div class="game-icon">🔢</div>
-                <div class="game-title">ریاضی</div>
-                <div class="game-description">آموزش مفاهیم ریاضی پایه و پیشرفته</div>
-                <div class="game-age">سن: 6-12 سال</div>
+            <div class="game-card" onclick="openGame('days.html')">
+                <div class="game-icon">📅</div>
+                <div class="game-title">ماجراجویی تقویم جادویی</div>
+                <div class="game-description">یادگیری شمارش با استفاده از تقویم و هفته‌ها</div>
+                <div class="game-age">سن: 6-10 سال</div>
             </div>
 
-            <div class="game-card" onclick="openGame('science.html')">
-                <div class="game-icon">🔬</div>
-                <div class="game-title">علوم</div>
-                <div class="game-description">کشف جهان علم و طبیعت</div>
+            <div class="game-card" onclick="openGame('friday_math.html')">
+                <div class="game-icon">🎢</div>
+                <div class="game-title">ماجراجویی جمعه‌های جادویی</div>
+                <div class="game-description">داستان پارک تفریحی و یادگیری ریاضی</div>
                 <div class="game-age">سن: 7-12 سال</div>
+            </div>
+
+            <div class="game-card" onclick="openGame('multiplication_intro.html')">
+                <div class="game-icon">✖️</div>
+                <div class="game-title">آموزش ضرب با گروه‌بندی</div>
+                <div class="game-description">یادگیری مفهوم ضرب از طریق گروه‌بندی</div>
+                <div class="game-age">سن: 8-12 سال</div>
+            </div>
+
+            <div class="game-card" onclick="openGame('multiplication_intro2.html')">
+                <div class="game-icon">🔢</div>
+                <div class="game-title">مقدمه‌ای بر ضرب</div>
+                <div class="game-description">تمرینات اضافی ضرب و تقویت یادگیری</div>
+                <div class="game-age">سن: 8-12 سال</div>
+            </div>
+
+            <div class="game-card" onclick="openGame('saturday_math.html')">
+                <div class="game-icon">🎯</div>
+                <div class="game-title">ریاضی شنبه‌ها</div>
+                <div class="game-description">تمرینات ریاضی برای شنبه‌ها</div>
+                <div class="game-age">سن: 6-10 سال</div>
             </div>
         </div>
 
@@ -295,12 +311,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="footer">
-            <p>ساخته شده با ❤️ برای کودکان عزیز ایران</p>
-            <p>برای استفاده، روی هر بازی کلیک کنید</p>
-            <p>💡 <strong>نکته:</strong> این بازی‌ها در همه دستگاه‌ها (اندروید، آیفون، کامپیوتر) کار می‌کنند</p>
-        </div>
     </div>
 
     <script>
@@ -325,13 +335,13 @@
                         e.preventDefault();
                         e.stopPropagation();
                         e.stopImmediatePropagation();
-                        
+
                         // Add visual feedback
                         card.style.transform = 'scale(0.95)';
                         setTimeout(() => {
                             card.style.transform = '';
                         }, 150);
-                        
+
                         // Execute the original function
                         try {
                             eval(onclickAttr);
@@ -373,10 +383,10 @@
             // Add loading effect
             const body = document.body;
             body.style.opacity = '0.8';
-            
+
             // Open game in new tab/window
             window.open(filename, '_blank');
-            
+
             // Restore opacity
             setTimeout(() => {
                 body.style.opacity = '1';
