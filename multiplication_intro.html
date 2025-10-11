@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>آموزش ضرب با گروه‌بندی</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .step {
+            display: none;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        h1 {
+            color: #ff6b6b;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: bounce 1s ease-in-out;
+        }
+
+        h2 {
+            color: #4ecdc4;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .emoji {
+            font-size: 2em;
+            display: inline-block;
+            animation: pulse 1s infinite;
+        }
+
+        .story-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 3px solid #ff6b6b;
+            font-size: 1.125rem;
+            line-height: 1.8;
+        }
+
+        .problem-box {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 3px dashed #4ecdc4;
+        }
+
+        .calculation-box {
+            background: #f8f9fa;
+            border: 3px solid #4ecdc4;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            font-size: 1.5rem;
+            text-align: center;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .answer-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .answer-btn {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 15px;
+            font-size: 1.125rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            -webkit-appearance: none;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .answer-btn:active {
+            transform: scale(0.98);
+        }
+
+        .answer-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 15px;
+            font-size: 1.125rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            transition: all 0.3s ease;
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            -webkit-appearance: none;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .next-btn:active {
+            transform: scale(0.98);
+        }
+
+        .next-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .explanation {
+            background: #fff3cd;
+            border-right: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-size: 1.125rem;
+        }
+
+        .visual-groups {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 30px 0;
+            padding: 20px;
+        }
+
+        .group {
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px solid #4ecdc4;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .group-label {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        .svg-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .pattern-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            font-size: 1.125rem;
+        }
+
+        .pattern-table td {
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #4ecdc4;
+            background: #f8f9fa;
+        }
+
+        .pattern-table tr:nth-child(odd) td {
+            background: #e3f2fd;
+        }
+
+        .highlight {
+            animation: highlight 1s ease-in-out infinite;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes highlight {
+            0%, 100% {
+                background-color: transparent;
+            }
+            50% {
+                background-color: #ffeaa7;
+            }
+        }
+
+        .cookies-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 3em;
+        }
+
+        .plus-sign {
+            font-size: 2em;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.375rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .answer-btn, .next-btn {
+                font-size: 1rem;
+                padding: 14px 28px;
+            }
+
+            .calculation-box {
+                font-size: 1.25rem;
+            }
+
+            .visual-groups {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti"></canvas>
+
+    <div class="container">
+        <!-- Step 1: Introduction with Story -->
+        <div class="step active" id="step1">
+            <h1>سلام! آماده یک ماجرای جالبی؟ <span class="emoji">🎉</span></h1>
+            <div class="story-box">
+                <p><span class="emoji">👩‍🍳</span> این‌جا سارا خانوم شیرینی‌پز ماست!</p>
+                <p>امروز سارا می‌خواد کلوچه‌های خوشمزه‌ای برای مهمونی درست کنه.</p>
+                <p>اون کلوچه‌ها رو توی سینی‌های مختلف می‌ذاره تا مرتب و زیبا باشن.</p>
+                <p><span class="emoji">🍪</span> حالا بیا با هم یاد بگیریم چطور سارا کلوچه‌هاش رو می‌شماره!</p>
+            </div>
+            <button class="next-btn" onclick="nextStep(2)">بزن بریم! <span class="emoji">🚀</span></button>
+        </div>
+
+        <!-- Step 2: Visual Grouping with SVG Graphics -->
+        <div class="step" id="step2">
+            <h2>سارا ۳ سینی داره <span class="emoji">🍪</span></h2>
+            <p style="text-align: center; font-size: 1.4em;">توی هر سینی ۴ تا کلوچه می‌ذاره</p>
+
+            <div class="visual-groups">
+                <div class="group" id="group1">
+                    <div class="group-label">سینی ۱</div>
+                    <svg width="150" height="150" viewBox="0 0 150 150">
+                        <rect x="5" y="5" width="140" height="140" fill="#ffeaa7" stroke="#ff6b6b" stroke-width="3" rx="10"/>
+                        <circle cx="37.5" cy="37.5" r="15" fill="#d4a574"/>
+                        <circle cx="30" cy="30" r="3" fill="#3d2817"/>
+                        <circle cx="40" cy="35" r="3" fill="#3d2817"/>
+                        <circle cx="35" cy="43" r="3" fill="#3d2817"/>
+
+                        <circle cx="112.5" cy="37.5" r="15" fill="#d4a574"/>
+                        <circle cx="105" cy="30" r="3" fill="#3d2817"/>
+                        <circle cx="115" cy="35" r="3" fill="#3d2817"/>
+                        <circle cx="110" cy="43" r="3" fill="#3d2817"/>
+
+                        <circle cx="37.5" cy="112.5" r="15" fill="#d4a574"/>
+                        <circle cx="30" cy="105" r="3" fill="#3d2817"/>
+                        <circle cx="40" cy="110" r="3" fill="#3d2817"/>
+                        <circle cx="35" cy="118" r="3" fill="#3d2817"/>
+
+                        <circle cx="112.5" cy="112.5" r="15" fill="#d4a574"/>
+                        <circle cx="105" cy="105" r="3" fill="#3d2817"/>
+                        <circle cx="115" cy="110" r="3" fill="#3d2817"/>
+                        <circle cx="110" cy="118" r="3" fill="#3d2817"/>
+                    </svg>
+                </div>
+
+                <div class="group" id="group2">
+                    <div class="group-label">سینی ۲</div>
+                    <svg width="150" height="150" viewBox="0 0 150 150">
+                        <rect x="5" y="5" width="140" height="140" fill="#ffeaa7" stroke="#ff6b6b" stroke-width="3" rx="10"/>
+                        <circle cx="37.5" cy="37.5" r="15" fill="#d4a574"/>
+                        <circle cx="30" cy="30" r="3" fill="#3d2817"/>
+                        <circle cx="40" cy="35" r="3" fill="#3d2817"/>
+                        <circle cx="35" cy="43" r="3" fill="#3d2817"/>
+
+                        <circle cx="112.5" cy="37.5" r="15" fill="#d4a574"/>
+                        <circle cx="105" cy="30" r="3" fill="#3d2817"/>
+                        <circle cx="115" cy="35" r="3" fill="#3d2817"/>
+                        <circle cx="110" cy="43" r="3" fill="#3d2817"/>
+
+                        <circle cx="37.5" cy="112.5" r="15" fill="#d4a574"/>
+                        <circle cx="30" cy="105" r="3" fill="#3d2817"/>
+                        <circle cx="40" cy="110" r="3" fill="#3d2817"/>
+                        <circle cx="35" cy="118" r="3" fill="#3d2817"/>
+
+                        <circle cx="112.5" cy="112.5" r="15" fill="#d4a574"/>
+                        <circle cx="105" cy="105" r="3" fill="#3d2817"/>
+                        <circle cx="115" cy="110" r="3" fill="#3d2817"/>
+                        <circle cx="110" cy="118" r="3" fill="#3d2817"/>
+                    </svg>
+                </div>
+
+                <div class="group" id="group3">
+                    <div class="group-label">سینی ۳</div>
+                    <svg width="150" height="150" viewBox="0 0 150 150">
+                        <rect x="5" y="5" width="140" height="140" fill="#ffeaa7" stroke="#ff6b6b" stroke-width="3" rx="10"/>
+                        <circle cx="37.5" cy="37.5" r="15" fill="#d4a574"/>
+                        <circle cx="30" cy="30" r="3" fill="#3d2817"/>
+                        <circle cx="40" cy="35" r="3" fill="#3d2817"/>
+                        <circle cx="35" cy="43" r="3" fill="#3d2817"/>
+
+                        <circle cx="112.5" cy="37.5" r="15" fill="#d4a574"/>
+                        <circle cx="105" cy="30" r="3" fill="#3d2817"/>
+                        <circle cx="115" cy="35" r="3" fill="#3d2817"/>
+                        <circle cx="110" cy="43" r="3" fill="#3d2817"/>
+
+                        <circle cx="37.5" cy="112.5" r="15" fill="#d4a574"/>
+                        <circle cx="30" cy="105" r="3" fill="#3d2817"/>
+                        <circle cx="40" cy="110" r="3" fill="#3d2817"/>
+                        <circle cx="35" cy="118" r="3" fill="#3d2817"/>
+
+                        <circle cx="112.5" cy="112.5" r="15" fill="#d4a574"/>
+                        <circle cx="105" cy="105" r="3" fill="#3d2817"/>
+                        <circle cx="115" cy="110" r="3" fill="#3d2817"/>
+                        <circle cx="110" cy="118" r="3" fill="#3d2817"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <p style="font-size: 1.2em; text-align: center;">
+                    وقتی چیزها رو توی گروه‌های یکسان می‌ذاریم،<br>
+                    شمردنشون خیلی راحت‌تر می‌شه! <span class="emoji">✨</span>
+                </p>
+            </div>
+
+            <button class="next-btn" onclick="nextStep(3)">حالا بشماریم! <span class="emoji">🔢</span></button>
+        </div>
+
+        <!-- Step 3: Counting Together (Repeated Addition) -->
+        <div class="step" id="step3">
+            <h2>بیا با هم بشماریم! <span class="emoji">🤓</span></h2>
+
+            <p style="text-align: center;">سینی اول: ۴ تا کلوچه</p>
+            <div class="cookies-display">
+                🍪 🍪 🍪 🍪
+            </div>
+
+            <p style="text-align: center; margin-top: 20px;">سینی دوم: ۴ تا کلوچه</p>
+            <div class="cookies-display">
+                🍪 🍪 🍪 🍪
+            </div>
+
+            <p style="text-align: center; margin-top: 20px;">سینی سوم: ۴ تا کلوچه</p>
+            <div class="cookies-display">
+                🍪 🍪 🍪 🍪
+            </div>
+
+            <div class="calculation-box" style="margin-top: 40px;">
+                ۴ + ۴ + ۴ = ۱۲
+            </div>
+
+            <div class="explanation">
+                <p style="text-align: center; font-size: 1.3em;">
+                    <span class="emoji">💡</span> پس سارا جمعاً ۱۲ تا کلوچه داره!<br>
+                    این میشه: <strong>سه گروه چهارتایی</strong>
+                </p>
+            </div>
+
+            <button class="next-btn" onclick="nextStep(4)">یک مثال دیگه می‌بینیم؟ <span class="emoji">🌟</span></button>
+        </div>
+
+        <!-- Step 4: Practice with Different Examples -->
+        <div class="step" id="step4">
+            <h2>مثال ۱: گل‌ها توی گلدون <span class="emoji">🌺</span></h2>
+
+            <p style="text-align: center; font-size: 1.3em;">۲ تا گلدون داریم، توی هر کدوم ۵ تا گل هست</p>
+
+            <div class="visual-groups">
+                <div class="group">
+                    <div class="group-label">گلدون ۱</div>
+                    <svg width="150" height="180" viewBox="0 0 150 180">
+                        <rect x="50" y="120" width="50" height="60" fill="#8b4513" rx="5"/>
+                        <ellipse cx="75" cy="120" rx="35" ry="15" fill="#cd853f"/>
+
+                        <circle cx="45" cy="50" r="12" fill="#ff69b4"/>
+                        <circle cx="45" cy="50" r="6" fill="#ffd700"/>
+
+                        <circle cx="75" cy="40" r="12" fill="#ff69b4"/>
+                        <circle cx="75" cy="40" r="6" fill="#ffd700"/>
+
+                        <circle cx="105" cy="50" r="12" fill="#ff69b4"/>
+                        <circle cx="105" cy="50" r="6" fill="#ffd700"/>
+
+                        <circle cx="55" cy="80" r="12" fill="#ff69b4"/>
+                        <circle cx="55" cy="80" r="6" fill="#ffd700"/>
+
+                        <circle cx="95" cy="80" r="12" fill="#ff69b4"/>
+                        <circle cx="95" cy="80" r="6" fill="#ffd700"/>
+                    </svg>
+                </div>
+
+                <div class="group">
+                    <div class="group-label">گلدون ۲</div>
+                    <svg width="150" height="180" viewBox="0 0 150 180">
+                        <rect x="50" y="120" width="50" height="60" fill="#8b4513" rx="5"/>
+                        <ellipse cx="75" cy="120" rx="35" ry="15" fill="#cd853f"/>
+
+                        <circle cx="45" cy="50" r="12" fill="#ff69b4"/>
+                        <circle cx="45" cy="50" r="6" fill="#ffd700"/>
+
+                        <circle cx="75" cy="40" r="12" fill="#ff69b4"/>
+                        <circle cx="75" cy="40" r="6" fill="#ffd700"/>
+
+                        <circle cx="105" cy="50" r="12" fill="#ff69b4"/>
+                        <circle cx="105" cy="50" r="6" fill="#ffd700"/>
+
+                        <circle cx="55" cy="80" r="12" fill="#ff69b4"/>
+                        <circle cx="55" cy="80" r="6" fill="#ffd700"/>
+
+                        <circle cx="95" cy="80" r="12" fill="#ff69b4"/>
+                        <circle cx="95" cy="80" r="6" fill="#ffd700"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="calculation-box">
+                ۵ + ۵ = ۱۰
+            </div>
+
+            <div class="explanation">
+                <p style="text-align: center;">
+                    دو گروه پنج‌تایی = ۱۰ تا گل <span class="emoji">🌸</span>
+                </p>
+            </div>
+
+            <button class="next-btn" onclick="nextStep(5)">مثال بعدی <span class="emoji">⭐</span></button>
+        </div>
+
+        <!-- Step 4 Part 2: Stars Example -->
+        <div class="step" id="step5">
+            <h2>مثال ۲: ستاره‌ها توی آسمون <span class="emoji">⭐</span></h2>
+
+            <p style="text-align: center; font-size: 1.3em;">۴ تا ابر داریم، روی هر ابر ۳ تا ستاره می‌درخشه</p>
+
+            <div class="visual-groups">
+                <div class="group">
+                    <div class="group-label">ابر ۱</div>
+                    <svg width="120" height="100" viewBox="0 0 120 100">
+                        <ellipse cx="60" cy="60" rx="50" ry="25" fill="#e0e0e0"/>
+                        <polygon points="30,20 35,35 50,35 38,45 42,60 30,50 18,60 22,45 10,35 25,35" fill="#ffd700"/>
+                        <polygon points="60,15 65,30 80,30 68,40 72,55 60,45 48,55 52,40 40,30 55,30" fill="#ffd700"/>
+                        <polygon points="90,20 95,35 110,35 98,45 102,60 90,50 78,60 82,45 70,35 85,35" fill="#ffd700"/>
+                    </svg>
+                </div>
+
+                <div class="group">
+                    <div class="group-label">ابر ۲</div>
+                    <svg width="120" height="100" viewBox="0 0 120 100">
+                        <ellipse cx="60" cy="60" rx="50" ry="25" fill="#e0e0e0"/>
+                        <polygon points="30,20 35,35 50,35 38,45 42,60 30,50 18,60 22,45 10,35 25,35" fill="#ffd700"/>
+                        <polygon points="60,15 65,30 80,30 68,40 72,55 60,45 48,55 52,40 40,30 55,30" fill="#ffd700"/>
+                        <polygon points="90,20 95,35 110,35 98,45 102,60 90,50 78,60 82,45 70,35 85,35" fill="#ffd700"/>
+                    </svg>
+                </div>
+
+                <div class="group">
+                    <div class="group-label">ابر ۳</div>
+                    <svg width="120" height="100" viewBox="0 0 120 100">
+                        <ellipse cx="60" cy="60" rx="50" ry="25" fill="#e0e0e0"/>
+                        <polygon points="30,20 35,35 50,35 38,45 42,60 30,50 18,60 22,45 10,35 25,35" fill="#ffd700"/>
+                        <polygon points="60,15 65,30 80,30 68,40 72,55 60,45 48,55 52,40 40,30 55,30" fill="#ffd700"/>
+                        <polygon points="90,20 95,35 110,35 98,45 102,60 90,50 78,60 82,45 70,35 85,35" fill="#ffd700"/>
+                    </svg>
+                </div>
+
+                <div class="group">
+                    <div class="group-label">ابر ۴</div>
+                    <svg width="120" height="100" viewBox="0 0 120 100">
+                        <ellipse cx="60" cy="60" rx="50" ry="25" fill="#e0e0e0"/>
+                        <polygon points="30,20 35,35 50,35 38,45 42,60 30,50 18,60 22,45 10,35 25,35" fill="#ffd700"/>
+                        <polygon points="60,15 65,30 80,30 68,40 72,55 60,45 48,55 52,40 40,30 55,30" fill="#ffd700"/>
+                        <polygon points="90,20 95,35 110,35 98,45 102,60 90,50 78,60 82,45 70,35 85,35" fill="#ffd700"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="calculation-box">
+                ۳ + ۳ + ۳ + ۳ = ۱۲
+            </div>
+
+            <div class="explanation">
+                <p style="text-align: center;">
+                    چهار گروه سه‌تایی = ۱۲ تا ستاره <span class="emoji">✨</span>
+                </p>
+            </div>
+
+            <button class="next-btn" onclick="nextStep(6)">آخرین مثال <span class="emoji">🎯</span></button>
+        </div>
+
+        <!-- Step 4 Part 3: Toys Example -->
+        <div class="step" id="step6">
+            <h2>مثال ۳: اسباب‌بازی‌ها روی قفسه <span class="emoji">🧸</span></h2>
+
+            <p style="text-align: center; font-size: 1.3em;">۳ تا قفسه داریم، روی هر قفسه ۶ تا اسباب‌بازی هست</p>
+
+            <div class="visual-groups">
+                <div class="group">
+                    <div class="group-label">قفسه ۱</div>
+                    <div style="font-size: 2.5em; line-height: 1.5;">
+                        🧸 🚗 🎮<br>
+                        ⚽ 🎨 🪀
+                    </div>
+                </div>
+
+                <div class="group">
+                    <div class="group-label">قفسه ۲</div>
+                    <div style="font-size: 2.5em; line-height: 1.5;">
+                        🎸 🎯 🎭<br>
+                        🎲 🪁 🎪
+                    </div>
+                </div>
+
+                <div class="group">
+                    <div class="group-label">قفسه ۳</div>
+                    <div style="font-size: 2.5em; line-height: 1.5;">
+                        🎺 🎻 🥁<br>
+                        🎹 🎤 🎧
+                    </div>
+                </div>
+            </div>
+
+            <div class="calculation-box">
+                ۶ + ۶ + ۶ = ۱۸
+            </div>
+
+            <div class="explanation">
+                <p style="text-align: center;">
+                    سه گروه شش‌تایی = ۱۸ تا اسباب‌بازی <span class="emoji">🎉</span>
+                </p>
+            </div>
+
+            <button class="next-btn" onclick="nextStep(7)">حالا نوبت توئه! <span class="emoji">🎮</span></button>
+        </div>
+
+        <!-- Step 5: Interactive Quiz -->
+        <div class="step" id="step7">
+            <h2>حالا نوبت توئه! <span class="emoji">🤔</span></h2>
+
+            <div class="problem-box">
+                <p style="text-align: center; font-size: 1.4em;">
+                    اگر ۳ سبد داریم و در هر سبد ۵ سیب است،<br>
+                    جمعاً چند سیب داریم؟
+                </p>
+
+                <div class="visual-groups">
+                    <div class="group">
+                        <div class="group-label">سبد ۱</div>
+                        <div style="font-size: 2.5em;">
+                            🍎 🍎 🍎<br>
+                            🍎 🍎
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <div class="group-label">سبد ۲</div>
+                        <div style="font-size: 2.5em;">
+                            🍎 🍎 🍎<br>
+                            🍎 🍎
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <div class="group-label">سبد ۳</div>
+                        <div style="font-size: 2.5em;">
+                            🍎 🍎 🍎<br>
+                            🍎 🍎
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="answer-box">
+                <button class="answer-btn" onclick="wrongAnswer(this, '۱۲ نه عزیزم! دوباره نگاه کن، هر سبد ۵ تا سیب داره 😊')">۱۲ تا</button>
+                <button class="answer-btn" onclick="correctAnswer()">۱۵ تا</button>
+                <button class="answer-btn" onclick="wrongAnswer(this, '۱۸ نه عزیزم! بشمار: ۵ + ۵ + ۵ 🍎')">۱۸ تا</button>
+                <button class="answer-btn" onclick="wrongAnswer(this, '۱۰ نه عزیزم! سه سبد داریم، نه دو تا 😊')">۱۰ تا</button>
+            </div>
+
+            <div id="quiz-feedback" style="text-align: center; font-size: 1.4em; margin-top: 20px; min-height: 40px;"></div>
+        </div>
+
+        <!-- Step 6: Pattern Recognition -->
+        <div class="step" id="step8">
+            <h2>الگوی جالب! <span class="emoji">🎨</span></h2>
+
+            <p style="text-align: center; font-size: 1.3em; margin-bottom: 30px;">
+                ببین چه الگوی قشنگی پیدا می‌شه!
+            </p>
+
+            <table class="pattern-table">
+                <tr>
+                    <td>۱ گروه ۳تایی</td>
+                    <td>۳</td>
+                    <td>
+                        <div style="font-size: 1.5em;">🍎🍎🍎</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>۲ گروه ۳تایی</td>
+                    <td>۳ + ۳ = ۶</td>
+                    <td>
+                        <div style="font-size: 1.5em;">🍎🍎🍎 | 🍎🍎🍎</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>۳ گروه ۳تایی</td>
+                    <td>۳ + ۳ + ۳ = ۹</td>
+                    <td>
+                        <div style="font-size: 1.5em;">🍎🍎🍎 | 🍎🍎🍎 | 🍎🍎🍎</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>۴ گروه ۳تایی</td>
+                    <td>۳ + ۳ + ۳ + ۳ = ۱۲</td>
+                    <td>
+                        <div style="font-size: 1.5em;">🍎🍎🍎 | 🍎🍎🍎 | 🍎🍎🍎 | 🍎🍎🍎</div>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="explanation">
+                <p style="text-align: center; font-size: 1.3em;">
+                    <span class="emoji">💡</span> هر بار که یه گروه ۳تایی اضافه می‌کنیم،<br>
+                    جوابمون ۳ تا بیشتر می‌شه!<br>
+                    این یه الگوی منظم و قشنگه! <span class="emoji">✨</span>
+                </p>
+            </div>
+
+            <button class="next-btn" onclick="nextStep(9)">یک الگوی دیگه! <span class="emoji">🌈</span></button>
+        </div>
+
+        <!-- Step 6 Part 2: Another Pattern -->
+        <div class="step" id="step9">
+            <h2>الگوی دیگه: گروه‌های ۴تایی! <span class="emoji">🎯</span></h2>
+
+            <table class="pattern-table">
+                <tr>
+                    <td>۱ گروه ۴تایی</td>
+                    <td>۴</td>
+                    <td>
+                        <div style="font-size: 1.5em;">⭐⭐⭐⭐</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>۲ گروه ۴تایی</td>
+                    <td>۴ + ۴ = ۸</td>
+                    <td>
+                        <div style="font-size: 1.5em;">⭐⭐⭐⭐ | ⭐⭐⭐⭐</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>۳ گروه ۴تایی</td>
+                    <td>۴ + ۴ + ۴ = ۱۲</td>
+                    <td>
+                        <div style="font-size: 1.5em;">⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>۴ گروه ۴تایی</td>
+                    <td>۴ + ۴ + ۴ + ۴ = ۱۶</td>
+                    <td>
+                        <div style="font-size: 1.5em;">⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>۵ گروه ۴تایی</td>
+                    <td>۴ + ۴ + ۴ + ۴ + ۴ = ۲۰</td>
+                    <td>
+                        <div style="font-size: 1.5em;">⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐</div>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="explanation">
+                <p style="text-align: center; font-size: 1.3em;">
+                    <span class="emoji">🎉</span> با گروه‌های ۴تایی، هر بار ۴ تا اضافه می‌شه!<br>
+                    این کار شمارش رو خیلی راحت می‌کنه! <span class="emoji">🚀</span>
+                </p>
+            </div>
+
+            <button class="next-btn" onclick="nextStep(10)">پایان ماجرا! <span class="emoji">🏆</span></button>
+        </div>
+
+        <!-- Step 7: Final Celebration -->
+        <div class="step" id="step10">
+            <h1>آفرین! تو یه قهرمانی! <span class="emoji">🏆</span></h1>
+
+            <div class="story-box" style="background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 50%, #a29bfe 100%);">
+                <p style="text-align: center; font-size: 1.5em;">
+                    <span class="emoji">🎉</span> عالی بود!<br><br>
+                    امروز یاد گرفتی که:<br><br>
+                    <span class="emoji">✅</span> گروه‌بندی چطور کار می‌کنه<br>
+                    <span class="emoji">✅</span> چطور گروه‌های یکسان رو با هم جمع کنیم<br>
+                    <span class="emoji">✅</span> الگوهای قشنگ رو تشخیص بدیم<br><br>
+                    <span class="emoji">💡</span> حالا توی زندگی روزمره هم می‌تونی گروه‌ها رو پیدا کنی:<br>
+                    تخم‌مرغ‌ها توی بسته، شکلات‌ها توی جعبه،<br>
+                    ماشین‌ها توی پارکینگ، و خیلی چیزهای دیگه!<br><br>
+                    <span class="emoji">🌟</span> تو الان پایه‌های قوی برای یادگیری ریاضی رو داری!<br><br>
+                    <span class="emoji">❤️</span> ممنون که این ماجرا رو با من اومدی!
+                </p>
+            </div>
+
+            <button class="next-btn" onclick="restartLesson()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                می‌خوام دوباره تمرین کنم! <span class="emoji">🔄</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+
+        function nextStep(step) {
+            document.getElementById('step' + currentStep).classList.remove('active');
+            currentStep = step;
+            document.getElementById('step' + currentStep).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function correctAnswer() {
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.innerHTML = '<span style="color: #4ecdc4; font-weight: bold;">🎉 آفرین! درست گفتی! ۵ + ۵ + ۵ = ۱۵ 🎉</span>';
+
+            // Launch confetti
+            launchConfetti();
+
+            setTimeout(() => {
+                nextStep(8);
+            }, 3000);
+        }
+
+        function wrongAnswer(btn, message) {
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.innerHTML = '<span style="color: #ff6b6b;">' + message + '</span>';
+            btn.style.opacity = '0.5';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                feedback.innerHTML = '';
+            }, 3000);
+        }
+
+        function restartLesson() {
+            // Reset all buttons
+            const buttons = document.querySelectorAll('.answer-btn');
+            buttons.forEach(btn => {
+                btn.style.opacity = '1';
+                btn.disabled = false;
+            });
+
+            // Clear feedback
+            document.getElementById('quiz-feedback').innerHTML = '';
+
+            // Go to step 1
+            nextStep(1);
+        }
+
+        // Confetti animation
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const confettiPieces = [];
+            const confettiCount = 150;
+            const colors = ['#ff6b6b', '#4ecdc4', '#ffeaa7', '#fab1a0', '#a29bfe', '#fd79a8'];
+
+            class ConfettiPiece {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height - canvas.height;
+                    this.size = Math.random() * 8 + 4;
+                    this.speedY = Math.random() * 3 + 2;
+                    this.speedX = Math.random() * 2 - 1;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.rotation = Math.random() * 360;
+                    this.rotationSpeed = Math.random() * 10 - 5;
+                }
+
+                update() {
+                    this.y += this.speedY;
+                    this.x += this.speedX;
+                    this.rotation += this.rotationSpeed;
+
+                    if (this.y > canvas.height) {
+                        this.y = -10;
+                        this.x = Math.random() * canvas.width;
+                    }
+                }
+
+                draw() {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.rotation * Math.PI / 180);
+                    ctx.fillStyle = this.color;
+                    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                    ctx.restore();
+                }
+            }
+
+            for (let i = 0; i < confettiCount; i++) {
+                confettiPieces.push(new ConfettiPiece());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                confettiPieces.forEach(piece => {
+                    piece.update();
+                    piece.draw();
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            setTimeout(() => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }, 5000);
+        }
+
+        // Animate groups appearing sequentially
+        window.addEventListener('load', () => {
+            const groups = document.querySelectorAll('.group');
+            groups.forEach((group, index) => {
+                group.style.opacity = '0';
+                setTimeout(() => {
+                    group.style.transition = 'opacity 0.5s ease-in';
+                    group.style.opacity = '1';
+                }, index * 300);
+            });
+        });
+
+        // iOS Safari fix: Ensure all buttons work properly
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.style.cursor = 'pointer';
+
+                const onclickAttr = button.getAttribute('onclick');
+                if (onclickAttr) {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        eval(onclickAttr);
+                    }, false);
+
+                    button.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        eval(onclickAttr);
+                    }, false);
+                }
+
+                button.addEventListener('touchstart', function(e) {
+                    this.style.opacity = '0.8';
+                }, {passive: true});
+
+                button.addEventListener('touchcancel', function(e) {
+                    this.style.opacity = '1';
+                }, {passive: true});
+            });
+        });
+    </script>
+</body>
+</html>

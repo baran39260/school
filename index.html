@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>🎓 بازی‌های آموزشی ریاضی - Math Learning Games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #ff6b6b;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .game-card {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            border-left: 5px solid #4ecdc4;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            -webkit-appearance: none;
+            touch-action: manipulation;
+            position: relative;
+            z-index: 1;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .game-card:active {
+            transform: scale(0.98);
+        }
+
+        .game-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .game-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .game-description {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .game-age {
+            background: linear-gradient(135deg, #ff9f43, #ff6b6b);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .features {
+            background: linear-gradient(135deg, #e8f4fd, #d1ecf1);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 3px solid #17a2b8;
+        }
+
+        .features h3 {
+            color: #2d3436;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            color: #2d3436;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff9e6, #ffe4b5);
+            border-radius: 15px;
+            border: 3px dashed #ff9f43;
+        }
+
+        .footer p {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .footer a {
+            color: #ff6b6b;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-card {
+                padding: 20px;
+            }
+            
+            .features-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .game-title {
+                font-size: 1.2rem;
+            }
+            
+            .game-description {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* iOS Safari specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            .game-card {
+                -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                touch-action: manipulation;
+                cursor: pointer;
+            }
+            
+            .game-card:active {
+                -webkit-transform: scale(0.95);
+                transform: scale(0.95);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎓 بازی‌های آموزشی ریاضی</h1>
+        <p class="subtitle">یادگیری ریاضی با بازی و سرگرمی برای کودکان عزیز</p>
+
+        <div class="games-grid">
+            <div class="game-card" onclick="openGame('days.html')">
+                <div class="game-icon">📅</div>
+                <div class="game-title">ماجراجویی تقویم جادویی</div>
+                <div class="game-description">یادگیری شمارش با استفاده از تقویم و هفته‌ها</div>
+                <div class="game-age">سن: 6-10 سال</div>
+            </div>
+
+            <div class="game-card" onclick="openGame('friday_math.html')">
+                <div class="game-icon">🎢</div>
+                <div class="game-title">ماجراجویی جمعه‌های جادویی</div>
+                <div class="game-description">داستان پارک تفریحی و یادگیری ریاضی</div>
+                <div class="game-age">سن: 7-12 سال</div>
+            </div>
+
+            <div class="game-card" onclick="openGame('multiplication_intro.html')">
+                <div class="game-icon">✖️</div>
+                <div class="game-title">آموزش ضرب با گروه‌بندی</div>
+                <div class="game-description">یادگیری مفهوم ضرب از طریق گروه‌بندی</div>
+                <div class="game-age">سن: 8-12 سال</div>
+            </div>
+
+            <div class="game-card" onclick="openGame('multiplication_intro2.html')">
+                <div class="game-icon">🔢</div>
+                <div class="game-title">مقدمه‌ای بر ضرب</div>
+                <div class="game-description">تمرینات اضافی ضرب و تقویت یادگیری</div>
+                <div class="game-age">سن: 8-12 سال</div>
+            </div>
+
+            <div class="game-card" onclick="openGame('saturday_math.html')">
+                <div class="game-icon">🎯</div>
+                <div class="game-title">ریاضی شنبه‌ها</div>
+                <div class="game-description">تمرینات ریاضی برای شنبه‌ها</div>
+                <div class="game-age">سن: 6-10 سال</div>
+            </div>
+        </div>
+
+        <div class="features">
+            <h3>🌟 ویژگی‌های بازی‌ها</h3>
+            <div class="features-list">
+                <div class="feature-item">
+                    <span class="feature-icon">🎨</span>
+                    <span>طراحی جذاب و رنگارنگ</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🔊</span>
+                    <span>تعاملی و سرگرم‌کننده</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📱</span>
+                    <span>سازگار با موبایل و تبلت</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🎓</span>
+                    <span>آموزشی و مفید</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🌟</span>
+                    <span>انیمیشن‌های زیبا</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🎯</span>
+                    <span>سطح‌بندی شده</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>ساخته شده با ❤️ برای کودکان عزیز ایران</p>
+            <p>برای استفاده، روی هر بازی کلیک کنید</p>
+            <p>💡 <strong>نکته:</strong> این بازی‌ها در همه دستگاه‌ها (اندروید، آیفون، کامپیوتر) کار می‌کنند</p>
+        </div>
+    </div>
+
+    <script>
+        // iOS Safari fix: Comprehensive button handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const gameCards = document.querySelectorAll('.game-card');
+            gameCards.forEach(card => {
+                // Make card tappable on iOS
+                card.style.cursor = 'pointer';
+                card.style.webkitUserSelect = 'none';
+                card.style.userSelect = 'none';
+
+                // Get the onclick attribute value
+                const onclickAttr = card.getAttribute('onclick');
+
+                if (onclickAttr) {
+                    // Remove the onclick attribute to prevent conflicts
+                    card.removeAttribute('onclick');
+
+                    // Create a unified click handler
+                    const handleClick = function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                        
+                        // Add visual feedback
+                        card.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            card.style.transform = '';
+                        }, 150);
+                        
+                        // Execute the original function
+                        try {
+                            eval(onclickAttr);
+                        } catch (error) {
+                            console.error('Error executing card function:', error);
+                        }
+                    };
+
+                    // Add multiple event listeners for maximum compatibility
+                    card.addEventListener('click', handleClick, { passive: false });
+                    card.addEventListener('touchend', handleClick, { passive: false });
+                    card.addEventListener('mousedown', handleClick, { passive: false });
+                }
+
+                // Visual feedback for touch
+                card.addEventListener('touchstart', function(e) {
+                    this.style.opacity = '0.8';
+                    this.style.transform = 'scale(0.98)';
+                }, { passive: true });
+
+                card.addEventListener('touchend', function(e) {
+                    this.style.opacity = '1';
+                    this.style.transform = '';
+                }, { passive: true });
+
+                card.addEventListener('touchcancel', function(e) {
+                    this.style.opacity = '1';
+                    this.style.transform = '';
+                }, { passive: true });
+            });
+
+            // Additional iOS fixes
+            document.body.style.webkitTouchCallout = 'none';
+            document.body.style.webkitUserSelect = 'none';
+            document.body.style.userSelect = 'none';
+        });
+
+        function openGame(filename) {
+            // Add loading effect
+            const body = document.body;
+            body.style.opacity = '0.8';
+            
+            // Open game in new tab/window
+            window.open(filename, '_blank');
+            
+            // Restore opacity
+            setTimeout(() => {
+                body.style.opacity = '1';
+            }, 300);
+        }
+    </script>
+</body>
+</html>

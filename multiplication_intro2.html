@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ماجراجویی باغ جادویی - یاد بگیریم چطور سریع بشماریم! 🌸</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Vazir', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            animation: fadeIn 2s ease-in-out;
+            position: relative;
+            overflow: auto;
+            min-height: 100vh;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #ff6b6b;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        p {
+            font-size: 1.125rem;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        .step {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            display: none;
+            animation: slideInUp 0.8s ease-out;
+            border-left: 5px solid #4ecdc4;
+        }
+        @keyframes slideInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .step.active {
+            display: block;
+        }
+
+        .step h3 {
+            color: #2d3436;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        button {
+            background: linear-gradient(135deg, #ff9f43, #ff6b6b);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.125rem;
+            font-weight: 500;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            -webkit-appearance: none;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        .quiz button {
+            background: linear-gradient(135deg, #48dbfb, #0abde3);
+            margin: 10px;
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            -webkit-appearance: none;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .quiz button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .emoji {
+            font-size: 2em;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.4em;
+            font-weight: bold;
+            text-align: center;
+            display: none;
+            animation: slideInUp 0.5s ease-out;
+        }
+        .correct-feedback {
+            background: linear-gradient(135deg, #a8e6cf, #88d8a3);
+            color: #2d5016;
+            border: 2px solid #4ecdc4;
+        }
+        .wrong-feedback {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            color: #d63031;
+            border: 2px solid #ff9f43;
+        }
+        .visual-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+        }
+        .group-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .group-container:hover {
+            transform: scale(1.05);
+        }
+        .item-row {
+            display: flex;
+            gap: 10px;
+            margin: 5px 0;
+        }
+        .item {
+            font-size: 2.5em;
+            animation: popIn 0.5s ease-out;
+        }
+        @keyframes popIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .group-label {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2d3436;
+            margin-top: 10px;
+        }
+        .story-box {
+            background: linear-gradient(135deg, #fff9e6, #ffe4b5);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 3px dashed #ff9f43;
+            font-size: 1.125rem;
+            line-height: 1.8;
+        }
+        .quiz {
+            background: linear-gradient(135deg, #e8f4fd, #d1ecf1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #17a2b8;
+        }
+        .counting-help {
+            background: linear-gradient(135deg, #e8ffe8, #d4f1d4);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 2px solid #4ecdc4;
+            font-size: 1rem;
+        }
+        .array-container {
+            display: grid;
+            gap: 8px;
+            justify-content: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            h1 {
+                font-size: 1.625rem;
+            }
+            .step h3 {
+                font-size: 1.25rem;
+            }
+            .item {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container">
+        <h1 class="emoji">🌸 ماجراجویی باغ جادویی - یاد بگیریم سریع بشماریم! ✨</h1>
+
+    <div id="step1" class="step active">
+        <h3>🌺 گام ۱: باغبان و گلدان‌های جادویی! 🪴</h3>
+        <div class="story-box">
+            سلام قهرمان کوچولو! 👋 من باغبان علی هستم. امروز می‌خوام یه راز جادویی بهت بگم که شمارش رو خیلی خیلی راحت‌تر می‌کنه! 🎩✨
+        </div>
+        <p>فرض کن من ۳ تا گلدان دارم 🪴 و تو هر گلدان ۴ تا گل قرمز کاشتم 🌹</p>
+
+        <div class="visual-group">
+            <div class="group-container">
+                <div class="item-row">
+                    <span class="item">🌹</span>
+                    <span class="item">🌹</span>
+                    <span class="item">🌹</span>
+                    <span class="item">🌹</span>
+                </div>
+                <div class="group-label">گلدان ۱</div>
+            </div>
+            <div class="group-container">
+                <div class="item-row">
+                    <span class="item">🌹</span>
+                    <span class="item">🌹</span>
+                    <span class="item">🌹</span>
+                    <span class="item">🌹</span>
+                </div>
+                <div class="group-label">گلدان ۲</div>
+            </div>
+            <div class="group-container">
+                <div class="item-row">
+                    <span class="item">🌹</span>
+                    <span class="item">🌹</span>
+                    <span class="item">🌹</span>
+                    <span class="item">🌹</span>
+                </div>
+                <div class="group-label">گلدان ۳</div>
+            </div>
+        </div>
+
+        <p>حالا بیا با هم بشماریم چند تا گل داریم! 🤔</p>
+        <div class="counting-help">
+            گلدان ۱: ۴ تا گل 🌹<br>
+            گلدان ۲: ۴ تا گل دیگه 🌹<br>
+            گلدان ۳: ۴ تا گل دیگه 🌹<br>
+            <strong>جمع کنیم: ۴ + ۴ + ۴ = ؟</strong>
+        </div>
+
+        <div class="quiz">
+            <p>کمکم کن! اگه ۳ تا گلدان داشته باشیم و تو هر کدوم ۴ تا گل باشه، جمعاً چند تا گل داریم? 🌹</p>
+            <button onclick="correctAnswer('آفرین! 🎉 درسته! ۱۲ تا گل داریم. تو می‌تونی سریع بشماری!')">۱۲ تا</button>
+            <button onclick="wrongAnswer('نزدیک بودی! 🤗 بیا دوباره بشماریم: ۴ + ۴ + ۴')">۹ تا</button>
+            <div id="feedback-step1" class="feedback"></div>
+        </div>
+        <button onclick="nextStep(2)">حالا یه راز جادویی بهت یاد می‌دم! ➡️✨</button>
+    </div>
+
+    <div id="step2" class="step">
+        <h3>✨ گام ۲: راز شمارش جادویی! 🎯</h3>
+        <div class="story-box">
+            حالا راز جادویی رو یاد می‌گیری! وقتی چیزهای یکسان داریم که تو گروه‌های مساوی هستن، می‌تونیم سریع‌تر بشماریم! 🚀
+        </div>
+
+        <p>فرض کن الان ۴ تا سبد سیب دارم 🧺 و تو هر سبد ۳ تا سیب قرمز هست 🍎</p>
+
+        <div class="visual-group">
+            <div class="group-container">
+                <div class="item-row">
+                    <span class="item">🍎</span>
+                    <span class="item">🍎</span>
+                    <span class="item">🍎</span>
+                </div>
+                <div class="group-label">سبد ۱</div>
+            </div>
+            <div class="group-container">
+                <div class="item-row">
+                    <span class="item">🍎</span>
+                    <span class="item">🍎</span>
+                    <span class="item">🍎</span>
+                </div>
+                <div class="group-label">سبد ۲</div>
+            </div>
+            <div class="group-container">
+                <div class="item-row">
+                    <span class="item">🍎</span>
+                    <span class="item">🍎</span>
+                    <span class="item">🍎</span>
+                </div>
+                <div class="group-label">سبد ۳</div>
+            </div>
+            <div class="group-container">
+                <div class="item-row">
+                    <span class="item">🍎</span>
+                    <span class="item">🍎</span>
+                    <span class="item">🍎</span>
+                </div>
+                <div class="group-label">سبد ۴</div>
+            </div>
+        </div>
+
+        <div class="counting-help">
+            <strong>راه شمارش:</strong><br>
+            می‌تونیم بگیم: "۴ تا سبد داریم، هر کدوم ۳ تا سیب داره"<br>
+            پس می‌شه: ۳ + ۳ + ۳ + ۳ = ؟<br>
+            <strong>یا می‌تونیم بشماریم با ۳ تا:</strong><br>
+            ۳، ۶، ۹، ۱۲! 🎯
+        </div>
+
+        <div class="quiz">
+            <p>سؤال: اگه ۴ تا سبد داشته باشیم و تو هر سبد ۳ تا سیب باشه، جمعاً چند تا سیب داریم? 🍎</p>
+            <button onclick="correctAnswer('عالی! 🌟 درسته! ۱۲ تا سیب داریم. تو داری استاد می‌شی!')">۱۲ تا</button>
+            <button onclick="wrongAnswer('اوه نزدیک بود! بیا با هم بشماریم: ۳ + ۳ + ۳ + ۳ 😊')">۱۰ تا</button>
+            <div id="feedback-step2" class="feedback"></div>
+        </div>
+        <button onclick="nextStep(3)">بریم کار سخت‌تری انجام بدیم! ➡️🎓</button>
+    </div>
+
+    <div id="step3" class="step">
+        <h3>🦋 گام ۳: پروانه‌های رنگی و شمارش سریع! 🎨</h3>
+        <div class="story-box">
+            حالا با پروانه‌های زیبا یاد می‌گیریم! 🦋 وقتی چیزها رو تو ردیف و ستون بچینیم، شمارششون خیلی راحت‌تر می‌شه! ✨
+        </div>
+
+        <p>نگاه کن! من ۵ ردیف پروانه دارم و تو هر ردیف ۲ تا پروانه هست 🦋</p>
+
+        <div class="array-container" style="grid-template-columns: repeat(2, 1fr);">
+            <span class="item">🦋</span>
+            <span class="item">🦋</span>
+            <span class="item">🦋</span>
+            <span class="item">🦋</span>
+            <span class="item">🦋</span>
+            <span class="item">🦋</span>
+            <span class="item">🦋</span>
+            <span class="item">🦋</span>
+            <span class="item">🦋</span>
+            <span class="item">🦋</span>
+        </div>
+
+        <div class="counting-help">
+            <strong>بیا با هم بشماریم:</strong><br>
+            ردیف ۱: ۲ تا 🦋<br>
+            ردیف ۲: ۲ تا 🦋<br>
+            ردیف ۳: ۲ تا 🦋<br>
+            ردیف ۴: ۲ تا 🦋<br>
+            ردیف ۵: ۲ تا 🦋<br>
+            <strong>جمع: ۲ + ۲ + ۲ + ۲ + ۲ = ؟</strong><br>
+            یا بشمار با ۲ تا: ۲، ۴، ۶، ۸، ۱۰! 🎯
+        </div>
+
+        <div class="quiz">
+            <p>سؤال: اگه ۵ ردیف پروانه داشته باشیم و تو هر ردیف ۲ تا پروانه باشه، چند تا پروانه داریم? 🦋</p>
+            <button onclick="correctAnswer('فوق‌العاده! 🎊 آره! ۱۰ تا پروانه داریم. تو واقعاً جادوگری!')">۱۰ تا</button>
+            <button onclick="wrongAnswer('نزدیک بودی! بیا دوباره بشماریم با ۲ تا: ۲، ۴، ۶، ۸... 🤗')">۸ تا</button>
+            <div id="feedback-step3" class="feedback"></div>
+        </div>
+        <button onclick="nextStep(4)">حالا چیز جدیدی یاد بگیریم! ➡️🌟</button>
+    </div>
+
+    <div id="step4" class="step">
+        <h3>🌟 گام ۴: ستاره‌های آسمان و جمع کردن گروهی! 🌙</h3>
+        <div class="story-box">
+            شب شده و آسمون پر از ستاره‌های زیباست! 🌠 بیا یاد بگیریم چطور گروه‌های بزرگ‌تر رو بشماریم!
+        </div>
+
+        <p>تو آسمون ۳ تا ابر هست ☁️ و روی هر ابر ۵ تا ستاره درخشان نشسته! ⭐</p>
+
+        <div class="visual-group">
+            <div class="group-container">
+                <div class="item-row">
+                    <span class="item">⭐</span>
+                    <span class="item">⭐</span>
+                    <span class="item">⭐</span>
+                    <span class="item">⭐</span>
+                    <span class="item">⭐</span>
+                </div>
+                <div class="group-label">ابر ۱</div>
+            </div>
+            <div class="group-container">
+                <div class="item-row">
+                    <span class="item">⭐</span>
+                    <span class="item">⭐</span>
+                    <span class="item">⭐</span>
+                    <span class="item">⭐</span>
+                    <span class="item">⭐</span>
+                </div>
+                <div class="group-label">ابر ۲</div>
+            </div>
+            <div class="group-container">
+                <div class="item-row">
+                    <span class="item">⭐</span>
+                    <span class="item">⭐</span>
+                    <span class="item">⭐</span>
+                    <span class="item">⭐</span>
+                    <span class="item">⭐</span>
+                </div>
+                <div class="group-label">ابر ۳</div>
+            </div>
+        </div>
+
+        <div class="counting-help">
+            <strong>بیا با عدد ۵ بشماریم:</strong><br>
+            ابر اول: ۵ تا ستاره ⭐<br>
+            ابر دوم: ۵ + ۵ = ۱۰ تا ستاره ⭐⭐<br>
+            ابر سوم: ۱۰ + ۵ = ۱۵ تا ستاره ⭐⭐⭐<br>
+            <strong>یا بگو: ۵، ۱۰، ۱۵! 🎯</strong>
+        </div>
+
+        <div class="quiz">
+            <p>سؤال: اگه ۳ تا ابر داشته باشیم و روی هر ابر ۵ تا ستاره باشه، چند تا ستاره داریم? ⭐</p>
+            <button onclick="correctAnswer('وای عالی! 🎆 بله! ۱۵ تا ستاره داریم. تو استاد شدی!')">۱۵ تا</button>
+            <button onclick="wrongAnswer('خیلی نزدیک! بیا با هم بشماریم: ۵، ۱۰، ۱۵ 😊')">۱۲ تا</button>
+            <div id="feedback-step4" class="feedback"></div>
+        </div>
+        <button onclick="nextStep(5)">بریم کار بزرگ‌تر! ➡️🚀</button>
+    </div>
+
+    <div id="step5" class="step">
+        <h3>🎁 گام ۵: جعبه‌های کادو و شمارش عالی! 🎉</h3>
+        <div class="story-box">
+            امروز تولدِ! 🎂 و خیلی کادو داریم! بیا یاد بگیریم با اعداد بزرگ‌تر چطور سریع بشماریم! 🎊
+        </div>
+
+        <p>۴ تا جعبه کادو داریم 🎁 و تو هر جعبه ۶ تا شیرینی هست 🍬</p>
+
+        <div class="visual-group">
+            <div class="group-container">
+                <div class="item-row">
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                </div>
+                <div class="item-row">
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                </div>
+                <div class="group-label">جعبه ۱ (۶ تا)</div>
+            </div>
+            <div class="group-container">
+                <div class="item-row">
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                </div>
+                <div class="item-row">
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                </div>
+                <div class="group-label">جعبه ۲ (۶ تا)</div>
+            </div>
+            <div class="group-container">
+                <div class="item-row">
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                </div>
+                <div class="item-row">
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                </div>
+                <div class="group-label">جعبه ۳ (۶ تا)</div>
+            </div>
+            <div class="group-container">
+                <div class="item-row">
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                </div>
+                <div class="item-row">
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                    <span class="item">🍬</span>
+                </div>
+                <div class="group-label">جعبه ۴ (۶ تا)</div>
+            </div>
+        </div>
+
+        <div class="counting-help">
+            <strong>بیا با ۶ تا بشماریم:</strong><br>
+            جعبه ۱: ۶ تا 🍬<br>
+            جعبه ۲: ۶ + ۶ = ۱۲ تا 🍬<br>
+            جعبه ۳: ۱۲ + ۶ = ۱۸ تا 🍬<br>
+            جعبه ۴: ۱۸ + ۶ = ۲۴ تا 🍬<br>
+            <strong>یا بگو: ۶، ۱۲، ۱۸، ۲۴! 🎯</strong>
+        </div>
+
+        <div class="quiz">
+            <p>سؤال: اگه ۴ تا جعبه داشته باشیم و تو هر جعبه ۶ تا شیرینی باشه، چند تا شیرینی داریم? 🍬</p>
+            <button onclick="correctAnswer('بی‌نظیر! 🏆 عالی! ۲۴ تا شیرینی داریم. تو قهرمانی!')">۲۴ تا</button>
+            <button onclick="wrongAnswer('خیلی نزدیکی! بیا دوباره بشماریم: ۶، ۱۲، ۱۸، ۲۴ 🤗')">۲۰ تا</button>
+            <div id="feedback-step5" class="feedback"></div>
+        </div>
+        <button onclick="nextStep(6)">گام نهایی! بریم چالش بزرگ! ➡️🏅</button>
+    </div>
+
+    <div id="step6" class="step">
+        <h3>🏆 گام ۶: چالش نهایی - تو استاد شدی! 🎓✨</h3>
+        <div class="story-box">
+            وای! تو الان یه راز خیلی مهم یاد گرفتی! 🌟 وقتی گروه‌های مساوی داریم، می‌تونیم خیلی سریع‌تر بشماریم به‌جای اینکه یکی یکی بشماریم! این یکی از پایه‌های ریاضیات جادویی‌ئه! 🎩✨
+        </div>
+
+        <p><strong>چیزی که یاد گرفتی:</strong></p>
+        <div class="counting-help">
+            ✅ وقتی چیزهای یکسان تو گروه‌های مساوی داریم، می‌تونیم اون‌ها رو جمع کنیم!<br>
+            ✅ می‌تونیم با شمارش پرشی (۲، ۴، ۶ یا ۳، ۶، ۹) سریع‌تر بشماریم!<br>
+            ✅ می‌تونیم با دیدن ردیف و ستون، سریع تعداد رو بفهمیم!<br>
+            ✅ این کار باعث می‌شه حساب‌های بزرگ خیلی راحت‌تر بشن! 🚀
+        </div>
+
+        <p>حالا یه چالش نهایی! 💪 آماده‌ای؟</p>
+
+        <div class="array-container" style="grid-template-columns: repeat(4, 1fr);">
+            <span class="item">🎈</span>
+            <span class="item">🎈</span>
+            <span class="item">🎈</span>
+            <span class="item">🎈</span>
+            <span class="item">🎈</span>
+            <span class="item">🎈</span>
+            <span class="item">🎈</span>
+            <span class="item">🎈</span>
+            <span class="item">🎈</span>
+            <span class="item">🎈</span>
+            <span class="item">🎈</span>
+            <span class="item">🎈</span>
+        </div>
+
+        <p>نگاه کن به این بادکنک‌ها! می‌بینی ۳ ردیف و ۴ ستون داریم؟ 🎈</p>
+
+        <div class="quiz">
+            <p>چالش نهایی: اگه ۳ ردیف داشته باشیم و تو هر ردیف ۴ تا بادکنک باشه، چند تا بادکنک داریم? 🎈</p>
+            <button onclick="correctAnswer('وااااای! 🎆🎊🏆 فوق‌العاده! تو الان استاد شدی! ۱۲ تا بادکنک داریم. تو می‌تونی همه چیز رو سریع بشماری!')">۱۲ تا</button>
+            <button onclick="wrongAnswer('تقریباً! بیا با هم بشماریم: ۴ + ۴ + ۴ یا ۴، ۸، ۱۲ 💪')">۱۰ تا</button>
+            <div id="feedback-step6" class="feedback"></div>
+        </div>
+
+        <div class="story-box" style="margin-top: 30px;">
+            <strong>🎉 مبارکه! تو الان می‌دونی چطور سریع بشماری! 🎉</strong><br><br>
+            این چیزی که یاد گرفتی، فونداسیون یک مهارت خیلی مهمه که بهش "ضرب" می‌گن! 🌟<br>
+            بعداً وقتی بزرگ‌تر شدی، یاد می‌گیری که به‌جای نوشتن ۴+۴+۴، می‌تونی بنویسی ۳×۴! ✨<br>
+            ولی الان مهم اینه که تو می‌فهمی <strong>چرا</strong> این کار می‌کنیم و <strong>چطور</strong> کار می‌کنه! 🎯<br><br>
+            آفرین به تو، قهرمان! 🏆💪
+        </div>
+
+        <p style="font-size: 1.5em; margin-top: 20px;">اگه دوست داشتی دوباره تمرین کنی، صفحه رو تازه کن! 🔄</p>
+    </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        function nextStep(step) {
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
+            document.querySelectorAll('.feedback').forEach(el => el.style.display = 'none');
+            currentStep = step;
+            window.scrollTo(0, 0);
+        }
+        function correctAnswer(message) {
+            const feedbackDiv = document.getElementById('feedback-step' + currentStep);
+            feedbackDiv.innerHTML = message;
+            feedbackDiv.className = 'feedback correct-feedback';
+            feedbackDiv.style.display = 'block';
+            startConfetti();
+        }
+        function wrongAnswer(message) {
+            const feedbackDiv = document.getElementById('feedback-step' + currentStep);
+            feedbackDiv.innerHTML = message;
+            feedbackDiv.className = 'feedback wrong-feedback';
+            feedbackDiv.style.display = 'block';
+        }
+        // کد انیمیشن کنفتی جذاب با canvas
+        function startConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const confetti = [];
+            const colors = ['#ff6b6b', '#4ecdc4', '#ff9f43', '#ffeaa7', '#48dbfb'];
+
+            for (let i = 0; i < 300; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 6 + 2,
+                    d: Math.random() * 300 + 100,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    tilt: Math.random() * 10 - 5,
+                    tiltAngleIncremental: Math.random() * 0.07 + 0.05,
+                    tiltAngle: 0
+                });
+            }
+
+            let animationFrameId;
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confetti.forEach((conf, index) => {
+                    conf.tiltAngle += conf.tiltAngleIncremental;
+                    conf.y += (Math.cos(conf.d) + 3 + conf.r / 2) / 2;
+                    conf.x += Math.sin(conf.d) * 0.5;
+                    conf.tilt = Math.sin(conf.tiltAngle) * 15;
+
+                    if (conf.y > canvas.height) {
+                        confetti.splice(index, 1);
+                    } else {
+                        ctx.beginPath();
+                        ctx.lineWidth = conf.r;
+                        ctx.strokeStyle = conf.color;
+                        ctx.moveTo(conf.x + conf.tilt + conf.r / 4, conf.y);
+                        ctx.lineTo(conf.x + conf.tilt, conf.y + conf.tilt + conf.r / 4);
+                        ctx.stroke();
+                    }
+                });
+
+                if (confetti.length > 0) {
+                    animationFrameId = requestAnimationFrame(draw);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+
+            draw();
+
+            // توقف بعد از ۵ ثانیه
+            setTimeout(() => {
+                cancelAnimationFrame(animationFrameId);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }, 5000);
+        }
+
+        // تنظیم مجدد canvas با تغییر اندازه پنجره
+        window.addEventListener('resize', () => {
+            const canvas = document.getElementById('confetti-canvas');
+            if (canvas) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+        });
+
+        // انیمیشن برای آیتم‌ها
+        document.addEventListener('DOMContentLoaded', function() {
+            const items = document.querySelectorAll('.item');
+            items.forEach((item, index) => {
+                item.style.animationDelay = (index * 0.1) + 's';
+            });
+
+            // iOS Safari fix: Ensure all buttons work properly
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.style.cursor = 'pointer';
+
+                const onclickAttr = button.getAttribute('onclick');
+                if (onclickAttr) {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        eval(onclickAttr);
+                    }, false);
+
+                    button.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        eval(onclickAttr);
+                    }, false);
+                }
+
+                button.addEventListener('touchstart', function(e) {
+                    this.style.opacity = '0.8';
+                }, {passive: true});
+
+                button.addEventListener('touchcancel', function(e) {
+                    this.style.opacity = '1';
+                }, {passive: true});
+            });
+        });
+    </script>
+
+    <p style="font-size:1em; color:#666;">این بازی آموزشی برای یادگیری مفهوم ضرب از طریق جمع تکراری طراحی شده است. 🌟</p>
+</body>
+</html>

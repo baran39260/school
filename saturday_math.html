@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ماجراجویی شنبه‌های جادویی - داستان کتابخانه! 📚</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            animation: fadeIn 2s ease-in-out;
+            position: relative;
+            overflow: auto;
+            min-height: 100vh;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #ff6b6b;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .story-box {
+            background: linear-gradient(135deg, #fff9e6, #ffe4b5);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 3px dashed #ff9f43;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            font-size: 1.125rem;
+            line-height: 1.8;
+        }
+
+        .character {
+            font-size: 4em;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        .step {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            display: none;
+            animation: slideInUp 0.8s ease-out;
+            border-left: 5px solid #4ecdc4;
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .step h3 {
+            color: #2d3436;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .calendar {
+            margin: 25px auto;
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            display: table;
+            background-color: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            animation: zoomIn 1s ease-out;
+        }
+        
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .calendar th {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 15px;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+
+        .calendar td {
+            border: 2px solid #ddd;
+            padding: 15px;
+            font-size: 1.3em;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .saturday {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            font-weight: bold;
+            animation: saturdayGlow 2s infinite;
+            transform: scale(1.1);
+        }
+
+        @keyframes saturdayGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.8); }
+            50% { box-shadow: 0 0 40px rgba(255, 107, 107, 1); }
+        }
+
+        .other-day {
+            background-color: #f8f9fa;
+        }
+
+        .quiz {
+            background: linear-gradient(135deg, #e8f4fd, #d1ecf1);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px auto;
+            border: 3px solid #17a2b8;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .quiz h4 {
+            font-size: 1.6em;
+            color: #2d3436;
+            margin-bottom: 20px;
+        }
+
+        .quiz button {
+            background: linear-gradient(135deg, #48dbfb, #0abde3);
+            margin: 10px;
+            padding: 14px 28px;
+            font-size: 1.125rem;
+            font-weight: 500;
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            -webkit-appearance: none;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff9f43, #ff6b6b);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.125rem;
+            font-weight: 500;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            -webkit-appearance: none;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+            display: none;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        .correct {
+            background: linear-gradient(135deg, #a8e6cf, #88d8a3);
+            color: #2d5016;
+            border: 3px solid #4ecdc4;
+        }
+
+        .wrong {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            color: #d63031;
+            border: 3px solid #ff9f43;
+        }
+
+        .calculation-box {
+            background: linear-gradient(135deg, #a8e6cf, #88d8a3);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 3px solid #4ecdc4;
+            font-size: 1.4em;
+            line-height: 2;
+        }
+
+        .answer-box {
+            background: linear-gradient(135deg, #ff9ff3, #f368e0);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 3px solid #e84393;
+            animation: celebration 1s ease-in-out;
+        }
+
+        @keyframes celebration {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .answer-text {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2em; }
+            .story-box { font-size: 1.1em; }
+            .step h3 { font-size: 1.6em; }
+            .calendar th, .calendar td {
+                font-size: 0.9em;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .calendar th, .calendar td {
+                font-size: 0.75em;
+                padding: 5px;
+            }
+            .calendar {
+                width: 100%;
+                margin: 15px auto;
+                max-width: none;
+            }
+            .step {
+                padding: 15px;
+                margin: 10px 0;
+            }
+            .calculation-box {
+                font-size: 1.2em;
+                padding: 15px;
+            }
+            .quiz {
+                padding: 15px;
+                width: 95%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+                margin: 5px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .calendar th, .calendar td {
+                font-size: 0.65em;
+                padding: 3px;
+            }
+            button {
+                padding: 10px 15px;
+                font-size: 1em;
+                margin: 8px;
+            }
+            .step h3 {
+                font-size: 1.3em;
+            }
+            .story-box {
+                font-size: 1em;
+                padding: 15px;
+            }
+            .calculation-box {
+                font-size: 1em;
+                padding: 12px;
+            }
+            .quiz {
+                padding: 12px;
+                width: 98%;
+            }
+            .quiz button {
+                padding: 8px 12px;
+                font-size: 0.9em;
+                margin: 5px;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .calendar th, .calendar td {
+                font-size: 0.58em;
+                padding: 2px;
+            }
+            h1 {
+                font-size: 1.7em;
+            }
+            .step h3 {
+                font-size: 1.25em;
+            }
+            .story-box {
+                font-size: 0.95em;
+                padding: 12px;
+            }
+            .calculation-box {
+                font-size: 0.95em;
+                padding: 10px;
+            }
+            .character {
+                font-size: 3.5em;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .calendar th, .calendar td {
+                font-size: 0.52em;
+                padding: 2px;
+            }
+            h1 {
+                font-size: 1.6em;
+            }
+            .step h3 {
+                font-size: 1.2em;
+            }
+            .story-box {
+                font-size: 0.9em;
+                padding: 10px;
+            }
+            .calculation-box {
+                font-size: 0.9em;
+                padding: 10px;
+            }
+            .character {
+                font-size: 3em;
+            }
+            button {
+                padding: 8px 12px;
+                font-size: 0.95em;
+                margin: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container">
+        <h1>📚 ماجراجویی شنبه‌های جادویی! 🦉</h1>
+
+        <div id="step1" class="step active">
+            <div class="character">🦉</div>
+            <h3>داستان جغد دانا و کتابخانه جادویی! 📖</h3>
+            <div class="story-box">
+                <p>سلام دوست کوچولوی من! 👋</p>
+                <p>من جغد دانا هستم! من عاشق کتاب خوندنم! 📚</p>
+                <p>امروز شنبه است و روز هفتم ماه! یعنی می‌تونم برم کتابخانه! 🎉</p>
+                <p>کتابخانه هر شنبه یه کتاب داستانی جدید می‌ده! 📕</p>
+                <p>ولی یه مشکل دارم... 😢</p>
+                <p>می‌خوام بدونم سه هفته دیگه شنبه چندم ماه می‌شه تا برم کتاب بگیرم!</p>
+                <p><strong>می‌تونی کمکم کنی؟ 🥺</strong></p>
+            </div>
+
+            <div class="quiz">
+                <h4>سؤال اول: امروز چه روزی‌ئه؟ 🤔</h4>
+                <button onclick="checkAnswer(1, 'شنبه', 'آفرین! 🎉 امروز شنبه‌ئه! روز کتابخانه!')">شنبه 📚</button>
+                <button onclick="checkAnswer(1, 'یکشنبه', 'نه عزیزم! دوباره داستان رو بخون 😊')">یکشنبه ☀️</button>
+                <div id="feedback1" class="feedback"></div>
+            </div>
+            <button onclick="nextStep(2)" style="display:none;" id="next1">بریم کمک کنیم! ➡️🦉</button>
+        </div>
+
+        <div id="step2" class="step">
+            <div class="character">📅</div>
+            <h3>یاد بگیریم تقویم چطور کار می‌کنه! 🔍</h3>
+            <div class="story-box">
+                <p>جغد دانا می‌گه: "بیا با هم یاد بگیریم!" 🦉</p>
+                <p>هر هفته ۷ روز داره:</p>
+                <p>شنبه، یکشنبه، دوشنبه، سه‌شنبه، چهارشنبه، پنج‌شنبه، جمعه</p>
+                <p>بعد از جمعه، دوباره شنبه می‌شه و یه هفته جدید شروع می‌شه! 🔄</p>
+                <p>شنبه‌ها همیشه ۷ روز بعد از شنبه قبلی میان! 🎯</p>
+            </div>
+
+            <div class="quiz">
+                <h4>سؤال کوچولو: هر هفته چند روز داره؟ 🎯</h4>
+                <button onclick="checkAnswer(2, '۷', 'عالی! 🌟 هر هفته ۷ روز داره!')">۷ روز</button>
+                <button onclick="checkAnswer(2, '۶', 'نه عزیزم! بشمار: شنبه، یکشنبه، دوشنبه... 🤗')">۶ روز</button>
+                <div id="feedback2" class="feedback"></div>
+            </div>
+            <button onclick="nextStep(3)" style="display:none;" id="next2">بریم تقویم رو ببینیم! ➡️📅</button>
+        </div>
+
+        <div id="step3" class="step">
+            <div class="character">🎨</div>
+            <h3>بیا تقویم جغد دانا رو بکشیم! 🖍️</h3>
+            <div class="story-box">
+                <p>جغد دانا می‌گه: "بیا یه تقویم بکشیم!"</p>
+                <p>شنبه روز ۷ ماه است. پس روز ۷ باید تو ستون شنبه باشه! 🎯</p>
+            </div>
+
+            <table class="calendar">
+                <thead>
+                    <tr>
+                        <th>شنبه</th>
+                        <th>یکشنبه</th>
+                        <th>دوشنبه</th>
+                        <th>سه‌شنبه</th>
+                        <th>چهارشنبه</th>
+                        <th>پنج‌شنبه</th>
+                        <th>جمعه</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="other-day"></td>
+                        <td class="other-day">۱</td>
+                        <td class="other-day">۲</td>
+                        <td class="other-day">۳</td>
+                        <td class="other-day">۴</td>
+                        <td class="other-day">۵</td>
+                        <td class="other-day">۶</td>
+                    </tr>
+                    <tr>
+                        <td class="saturday">۷ 🦉</td>
+                        <td class="other-day">۸</td>
+                        <td class="other-day">۹</td>
+                        <td class="other-day">۱۰</td>
+                        <td class="other-day">۱۱</td>
+                        <td class="other-day">۱۲</td>
+                        <td class="other-day">۱۳</td>
+                    </tr>
+                    <tr>
+                        <td class="saturday">۱۴ 📕</td>
+                        <td class="other-day">۱۵</td>
+                        <td class="other-day">۱۶</td>
+                        <td class="other-day">۱۷</td>
+                        <td class="other-day">۱۸</td>
+                        <td class="other-day">۱۹</td>
+                        <td class="other-day">۲۰</td>
+                    </tr>
+                    <tr>
+                        <td class="saturday">۲۱ 📗</td>
+                        <td class="other-day">۲۲</td>
+                        <td class="other-day">۲۳</td>
+                        <td class="other-day">۲۴</td>
+                        <td class="other-day">۲۵</td>
+                        <td class="other-day">۲۶</td>
+                        <td class="other-day">۲۷</td>
+                    </tr>
+                    <tr>
+                        <td class="saturday">۲۸ 📘</td>
+                        <td class="other-day">۲۹</td>
+                        <td class="other-day">۳۰</td>
+                        <td colspan="4" style="background-color:#ffeaa7;">آخر ماه! 🎊</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="quiz">
+                <h4>می‌بینی شنبه‌ها کجا هستن؟ کدوم روز شنبه بعدی‌ئه؟ 📚</h4>
+                <button onclick="checkAnswer(3, '۱۴', 'آفرین! 🎉 شنبه بعدی روز ۱۴ ماه است!')">روز ۱۴</button>
+                <button onclick="checkAnswer(3, '۱۳', 'نه عزیزم! نگاه کن به ستون قرمز شنبه‌ها! 😊')">روز ۱۳</button>
+                <div id="feedback3" class="feedback"></div>
+            </div>
+            <button onclick="nextStep(4)" style="display:none;" id="next3">حالا بیا حساب کنیم! ➡️🧮</button>
+        </div>
+
+        <div id="step4" class="step">
+            <div class="character">🧮</div>
+            <h3>بیا با هم حساب کنیم! 🎯</h3>
+            <div class="story-box">
+                <p>جغد دانا می‌گه: "حالا باید یاد بگیریم چطور حساب کنیم!"</p>
+                <p>سه هفته یعنی چی؟ 🤔</p>
+                <p>یه هفته = ۷ روز</p>
+                <p>دو هفته = ۷ + ۷ = ۱۴ روز</p>
+                <p>سه هفته = ۷ + ۷ + ۷ = ؟</p>
+            </div>
+
+            <div class="calculation-box">
+                <p><strong>بیا با هم بشماریم:</strong></p>
+                <p>📕📕📕📕📕📕📕 (هفته اول = ۷ روز)</p>
+                <p>📗📗📗📗📗📗📗 (هفته دوم = ۷ روز)</p>
+                <p>📘📘📘📘📘📘📘 (هفته سوم = ۷ روز)</p>
+                <p><strong>جمع: ۷ + ۷ + ۷ = ۲۱ روز!</strong></p>
+            </div>
+
+            <div class="quiz">
+                <h4>سؤال مهم: سه هفته چند روز می‌شه؟ 🎓</h4>
+                <button onclick="checkAnswer(4, '۲۱', 'عالی! 🌟 سه هفته = ۲۱ روز!')">۲۱ روز</button>
+                <button onclick="checkAnswer(4, '۱۸', 'نزدیک بودی! بیا دوباره بشماریم: ۷ + ۷ + ۷ = ؟ 😊')">۱۸ روز</button>
+                <div id="feedback4" class="feedback"></div>
+            </div>
+            <button onclick="nextStep(5)" style="display:none;" id="next4">حالا جواب رو پیدا کنیم! ➡️🎁</button>
+        </div>
+
+        <div id="step5" class="step">
+            <div class="character">🎊</div>
+            <h3>حالا شنبه سه هفته بعد رو پیدا کنیم! 🔍</h3>
+            <div class="story-box">
+                <p>جغد دانا می‌گه: "حالا می‌تونیم پیدا کنیم!"</p>
+                <p>امروز شنبه = روز ۷</p>
+                <p>شنبه یه هفته بعد = ۷ + ۷ = ۱۴</p>
+                <p>شنبه دو هفته بعد = ۱۴ + ۷ = ۲۱</p>
+                <p>شنبه سه هفته بعد = ۲۱ + ۷ = ۲۸</p>
+            </div>
+
+            <div class="calculation-box">
+                <p><strong>📊 بیا گام به گام حساب کنیم:</strong></p>
+                <p>🦉 شنبه امروز: روز ۷</p>
+                <p>➕ یه هفته (۷ روز) = ۷ + ۷ = ۱۴</p>
+                <p>📕 شنبه یه هفته بعد: روز ۱۴</p>
+                <p>➕ یه هفته دیگه (۷ روز) = ۱۴ + ۷ = ۲۱</p>
+                <p>📗 شنبه دو هفته بعد: روز ۲۱</p>
+                <p>➕ یه هفته دیگه (۷ روز) = ۲۱ + ۷ = ۲۸</p>
+                <p>📘 شنبه سه هفته بعد: روز ۲۸</p>
+            </div>
+
+            <div class="quiz">
+                <h4>سؤال نهایی: سه هفته دیگه شنبه چه روزی می‌شه؟ 🎯</h4>
+                <button onclick="checkAnswer(5, 'correct', 'یِیِیِ! 🎉🎊 درسته! روز ۲۸! جغد دانا خیلی خوشحاله!')">روز ۲۸</button>
+                <button onclick="checkAnswer(5, 'wrong', 'نزدیک بودی! دوباره نگاه کن به محاسبات بالا 🤗')">روز ۲۱</button>
+                <div id="feedback5" class="feedback"></div>
+            </div>
+            <button onclick="nextStep(6)" style="display:none;" id="next5">بریم جشن بگیریم! ➡️🎉</button>
+        </div>
+
+        <div id="step6" class="step">
+            <div class="character">🎉</div>
+            <h3>یِییِ! موفق شدیم! 🏆</h3>
+            <div class="answer-box">
+                <div class="answer-text">
+                    🎊 سه هفته دیگه شنبه:<br>
+                    روز ۲۸م ماه می‌شه! 📚🦉
+                </div>
+            </div>
+
+            <div class="story-box">
+                <p>🦉 جغد دانا می‌گه: "مرسی که کمکم کردی!"</p>
+                <p>حالا می‌دونم کِی می‌تونم برم کتابخانه و کتاب جدید بگیرم! 📖</p>
+                <p><strong>چیزی که یاد گرفتیم:</strong></p>
+                <p>✨ هر هفته ۷ روز داره</p>
+                <p>✨ سه هفته = ۷ + ۷ + ۷ = ۲۱ روز</p>
+                <p>✨ شنبه‌ها هر ۷ روز یکبار میان</p>
+                <p>✨ این یه نوع جمع تکراری‌ئه که بعداً می‌شه "ضرب"!</p>
+                <p>✨ بعداً می‌فهمی که ۷ + ۷ + ۷ می‌شه ۳ × ۷!</p>
+                <p>🎓 تو الان پایه ضرب رو فهمیدی!</p>
+                <p>🌟 آفرین! تو یه ریاضی‌دان کوچولوی باهوش هستی! 🌟</p>
+            </div>
+
+            <button onclick="restart()">بریم یه داستان دیگه! 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+
+        function nextStep(step) {
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
+            currentStep = step;
+            window.scrollTo(0, 0);
+        }
+
+        function checkAnswer(step, answer, message) {
+            const feedback = document.getElementById('feedback' + step);
+            const nextBtn = document.getElementById('next' + step);
+
+            if (answer === 'شنبه' || answer === '۷' || answer === '۱۴' || answer === '۲۱' || answer === 'correct') {
+                feedback.innerHTML = message;
+                feedback.className = 'feedback correct';
+                feedback.style.display = 'block';
+                if (nextBtn) nextBtn.style.display = 'inline-block';
+                startConfetti();
+            } else {
+                feedback.innerHTML = message;
+                feedback.className = 'feedback wrong';
+                feedback.style.display = 'block';
+            }
+        }
+
+        function restart() {
+            nextStep(1);
+            document.querySelectorAll('.feedback').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('button[id^="next"]').forEach(btn => btn.style.display = 'none');
+        }
+
+        function startConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const confetti = [];
+            const colors = ['#ff6b6b', '#4ecdc4', '#ff9f43', '#ffeaa7', '#48dbfb'];
+
+            for (let i = 0; i < 200; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 6 + 2,
+                    d: Math.random() * 300 + 100,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    tilt: Math.random() * 10 - 5,
+                    tiltAngleIncremental: Math.random() * 0.07 + 0.05,
+                    tiltAngle: 0
+                });
+            }
+
+            let animationFrameId;
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confetti.forEach((conf, index) => {
+                    conf.tiltAngle += conf.tiltAngleIncremental;
+                    conf.y += (Math.cos(conf.d) + 3 + conf.r / 2) / 2;
+                    conf.x += Math.sin(conf.d) * 0.5;
+                    conf.tilt = Math.sin(conf.tiltAngle) * 15;
+
+                    if (conf.y > canvas.height) {
+                        confetti.splice(index, 1);
+                    } else {
+                        ctx.beginPath();
+                        ctx.lineWidth = conf.r;
+                        ctx.strokeStyle = conf.color;
+                        ctx.moveTo(conf.x + conf.tilt + conf.r / 4, conf.y);
+                        ctx.lineTo(conf.x + conf.tilt, conf.y + conf.tilt + conf.r / 4);
+                        ctx.stroke();
+                    }
+                });
+
+                if (confetti.length > 0) {
+                    animationFrameId = requestAnimationFrame(draw);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+
+            draw();
+            setTimeout(() => {
+                cancelAnimationFrame(animationFrameId);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }, 4000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const saturdayCells = document.querySelectorAll('.saturday');
+            saturdayCells.forEach((cell, index) => {
+                setTimeout(() => {
+                    cell.style.animation = 'saturdayGlow 2s infinite';
+                }, index * 200);
+            });
+
+            // iOS Safari fix: Ensure all buttons work properly
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.style.cursor = 'pointer';
+
+                const onclickAttr = button.getAttribute('onclick');
+                if (onclickAttr) {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        eval(onclickAttr);
+                    }, false);
+
+                    button.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        eval(onclickAttr);
+                    }, false);
+                }
+
+                button.addEventListener('touchstart', function(e) {
+                    this.style.opacity = '0.8';
+                }, {passive: true});
+
+                button.addEventListener('touchcancel', function(e) {
+                    this.style.opacity = '1';
+                }, {passive: true});
+            });
+        });
+    </script>
+</body>
+</html>

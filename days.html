@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ماجراجویی تقویم جادویی - یاد بگیریم سریع بشماریم! 📅</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            animation: fadeIn 2s ease-in-out;
+            position: relative;
+            overflow: auto;
+            min-height: 100vh;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #ff6b6b;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        p {
+            font-size: 1.125rem;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        .step {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            display: none;
+            animation: slideInUp 0.8s ease-out;
+            border-left: 5px solid #4ecdc4;
+        }
+        @keyframes slideInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .step.active {
+            display: block;
+        }
+
+        .step h3 {
+            color: #2d3436;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        button {
+            background: linear-gradient(135deg, #ff9f43, #ff6b6b);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.125rem;
+            font-weight: 500;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            -webkit-appearance: none;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-user-drag: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        .calendar {
+            margin: 25px auto;
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            display: none;
+            background-color: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            animation: zoomIn 1s ease-out;
+        }
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .calendar td {
+            border: 2px solid #ddd;
+            padding: 15px;
+            font-size: 1.3em;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .calendar th {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 15px;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        .day {
+            background-color: white;
+            transition: background-color 0.3s, transform 0.3s;
+            cursor: pointer;
+        }
+        .day:hover {
+            background-color: #f1f1f1;
+            transform: scale(1.05);
+        }
+        .highlighted {
+            background: transparent !important;
+            color: #333;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(76, 209, 196, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(76, 209, 196, 0.8); }
+        }
+        .saturday {
+            background: transparent !important;
+            color: white;
+            font-weight: bold;
+        }
+        .other-day {
+            background: transparent !important;
+            color: #333;
+        }
+        .quiz {
+            background: linear-gradient(135deg, #e8f4fd, #d1ecf1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #17a2b8;
+        }
+        .quiz button {
+            background: linear-gradient(135deg, #48dbfb, #0abde3);
+            margin: 10px;
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            -webkit-appearance: none;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-user-drag: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            position: relative;
+            z-index: 1;
+        }
+        .quiz button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .emoji {
+            font-size: 2em;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.4em;
+            font-weight: bold;
+            text-align: center;
+            display: none;
+            animation: slideInUp 0.5s ease-out;
+        }
+        .correct-feedback {
+            background: linear-gradient(135deg, #a8e6cf, #88d8a3);
+            color: #2d5016;
+            border: 2px solid #4ecdc4;
+        }
+        .wrong-feedback {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            color: #d63031;
+            border: 2px solid #ff9f43;
+        }
+        .story-box {
+            background: linear-gradient(135deg, #fff9e6, #ffe4b5);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 3px dashed #ff9f43;
+            font-size: 1.125rem;
+            line-height: 1.8;
+        }
+        .counting-help {
+            background: linear-gradient(135deg, #e8ffe8, #d4f1d4);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 2px solid #4ecdc4;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+        .week-box {
+            display: inline-block;
+            background: white;
+            border: 3px solid #4ecdc4;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .week-label {
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 5px;
+        }
+        .day-dots {
+            font-size: 1.5em;
+            letter-spacing: 3px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            h1 {
+                font-size: 1.625rem;
+            }
+            .step h3 {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .calendar th, .calendar td {
+                font-size: 0.75em;
+                padding: 5px;
+            }
+            .calendar td span {
+                font-size: 0.65em;
+            }
+            .calendar {
+                width: 100%;
+                margin: 15px auto;
+                max-width: none;
+            }
+            .step {
+                padding: 15px;
+                margin: 10px 0;
+            }
+            .counting-help {
+                font-size: 1em;
+                padding: 10px;
+            }
+            .quiz {
+                padding: 15px;
+                width: 95%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+                margin: 5px;
+            }
+            h1 {
+                font-size: 1.6em;
+            }
+            .calendar th, .calendar td {
+                font-size: 0.65em;
+                padding: 3px;
+            }
+            .calendar td span {
+                font-size: 0.55em;
+            }
+            button {
+                padding: 10px 15px;
+                font-size: 1em;
+                margin: 8px;
+            }
+            .step h3 {
+                font-size: 1.3em;
+            }
+            .story-box {
+                font-size: 1em;
+                padding: 15px;
+            }
+            .counting-help {
+                font-size: 0.9em;
+                padding: 8px;
+            }
+            .quiz {
+                padding: 12px;
+                width: 98%;
+            }
+            .quiz button {
+                padding: 8px 12px;
+                font-size: 0.9em;
+                margin: 5px;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .calendar th, .calendar td {
+                font-size: 0.58em;
+                padding: 2px;
+            }
+            .calendar td span {
+                font-size: 0.48em;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            .step h3 {
+                font-size: 1.2em;
+            }
+            .story-box {
+                font-size: 0.95em;
+                padding: 12px;
+            }
+            .counting-help {
+                font-size: 0.85em;
+                padding: 6px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .calendar th, .calendar td {
+                font-size: 0.52em;
+                padding: 2px;
+            }
+            .calendar td span {
+                font-size: 0.42em;
+            }
+            h1 {
+                font-size: 1.4em;
+            }
+            .step h3 {
+                font-size: 1.1em;
+            }
+            .story-box {
+                font-size: 0.9em;
+                padding: 10px;
+            }
+            .counting-help {
+                font-size: 0.8em;
+                padding: 5px;
+            }
+            button {
+                padding: 8px 12px;
+                font-size: 0.95em;
+                margin: 6px;
+            }
+        }
+
+        /* iOS Safari specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            button {
+                -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                touch-action: manipulation;
+                cursor: pointer;
+            }
+            
+            button:active {
+                -webkit-transform: scale(0.95);
+                transform: scale(0.95);
+            }
+            
+            .container {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container">
+        <h1 class="emoji">📅 ماجراجویی تقویم جادویی - یاد بگیریم سریع بشماریم! ✨</h1>
+
+    <div id="step1" class="step active">
+        <h3>🔍 گام ۱: راز تقویم رو کشف کنیم! 📆✨</h3>
+        <div class="story-box">
+            سلام دوست عزیز! 👋 من استاد تقویم هستم! امروز می‌خوام یه راز جادویی تقویم رو بهت بگم که باعث می‌شه خیلی سریع بتونی بشماری! 🎩✨
+        </div>
+        <p>می‌دونی تقویم چطوری کار می‌کنه؟ هر هفته <strong>۷ روز</strong> داره:</p>
+        <ul style="list-style-type: none; font-size: 1.4em; line-height: 2;">
+            <li>🎉 شنبه، ☀️ یکشنبه، 📚 دوشنبه، 🏫 سه‌شنبه، 🌟 چهارشنبه، 🚀 پنج‌شنبه، 🏖️ جمعه</li>
+        </ul>
+        <p>بعد از جمعه، دوباره شنبه می‌شه و یه هفته جدید شروع می‌شه! مثل یه چرخ جادویی. 🎡</p>
+
+        <div class="counting-help">
+            <strong>نکته مهم:</strong> هر هفته همیشه ۷ روز داره! این یعنی هفته‌ها مثل جعبه‌های یکسان هستن که هر کدوم ۷ تا روز توشون هست! 📦
+        </div>
+
+        <div class="quiz">
+            <p>سؤال: هر هفته چند روز داره؟ 🤔</p>
+            <button onclick="correctAnswer('آفرین! درسته! هر هفته ۷ روز داره. حالا بریم سریع بشماریم! 🎉')">۷ روز</button>
+            <button onclick="wrongAnswer('نه! دوباره فکر کن. شنبه تا جمعه رو بشمار! 😊')">۶ روز</button>
+            <div id="feedback-step1" class="feedback"></div>
+        </div>
+        <button onclick="nextStep(2)">بریم یاد بگیریم چطور هفته‌ها رو سریع بشماریم! ➡️✨</button>
+    </div>
+
+    <div id="step2" class="step">
+        <h3>📦 گام ۲: هفته‌ها مثل جعبه‌های جادویی! 🎁</h3>
+        <div class="story-box">
+            فرض کن هر هفته مثل یه جعبه هست که توش ۷ تا روز داره! 📦 حالا اگه چند هفته داشته باشیم، چطوری می‌تونیم سریع روزها رو بشماریم؟ 🤔
+        </div>
+
+        <p><strong>مثال:</strong> فرض کن ماهمون ۲ هفته داره. چند روز می‌شه؟</p>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <div class="week-box">
+                <div class="week-label">هفته ۱</div>
+                <div class="day-dots">🔵🔵🔵🔵🔵🔵🔵</div>
+                <div>۷ روز</div>
+            </div>
+            <div class="week-box">
+                <div class="week-label">هفته ۲</div>
+                <div class="day-dots">🔵🔵🔵🔵🔵🔵🔵</div>
+                <div>۷ روز</div>
+            </div>
+        </div>
+
+        <div class="counting-help">
+            <strong>بیا با هم بشماریم:</strong><br>
+            هفته ۱: ۷ روز 🔵🔵🔵🔵🔵🔵🔵<br>
+            هفته ۲: ۷ روز دیگه 🔵🔵🔵🔵🔵🔵🔵<br>
+            <strong>جمع کنیم: ۷ + ۷ = ۱۴ روز! 🎯</strong>
+        </div>
+
+        <div class="quiz">
+            <p>سؤال: اگه ۲ هفته داشته باشیم، جمعاً چند روز می‌شه؟ 📅</p>
+            <button onclick="correctAnswer('عالی! 🌟 درسته! ۲ هفته = ۱۴ روز. تو داری حرفه‌ای می‌شی!')">۱۴ روز</button>
+            <button onclick="wrongAnswer('نزدیک بودی! بیا دوباره بشماریم: ۷ + ۷ 😊')">۱۲ روز</button>
+            <div id="feedback-step2" class="feedback"></div>
+        </div>
+        <button onclick="nextStep(3)">حالا با تقویم واقعی تمرین کنیم! ➡️📆</button>
+    </div>
+
+    <div id="step3" class="step">
+        <h3>📅 گام ۳: تقویم جادویی - ۳ هفته! 🌈</h3>
+        <div class="story-box">
+            حالا یه تقویم واقعی رو ببین! 📆 این تقویم ۳ هفته کامل داره. می‌تونی هفته‌ها رو بشماری؟
+        </div>
+
+        <table id="calendar3" class="calendar">
+            <thead>
+                <tr>
+                    <th>شنبه</th>
+                    <th>یکشنبه</th>
+                    <th>دوشنبه</th>
+                    <th>سه‌شنبه</th>
+                    <th>چهارشنبه</th>
+                    <th>پنج‌شنبه</th>
+                    <th>جمعه</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e);">
+                    <td class="day highlighted">۱</td>
+                    <td class="day highlighted">۲</td>
+                    <td class="day highlighted">۳</td>
+                    <td class="day highlighted">۴</td>
+                    <td class="day highlighted">۵</td>
+                    <td class="day highlighted">۶</td>
+                    <td class="day highlighted">۷</td>
+                </tr>
+                <tr style="background: linear-gradient(135deg, #4ecdc4, #7dd3fc);">
+                    <td class="day highlighted">۸</td>
+                    <td class="day highlighted">۹</td>
+                    <td class="day highlighted">۱۰</td>
+                    <td class="day highlighted">۱۱</td>
+                    <td class="day highlighted">۱۲</td>
+                    <td class="day highlighted">۱۳</td>
+                    <td class="day highlighted">۱۴</td>
+                </tr>
+                <tr style="background: linear-gradient(135deg, #a8e6cf, #88d8a3);">
+                    <td class="day highlighted">۱۵</td>
+                    <td class="day highlighted">۱۶</td>
+                    <td class="day highlighted">۱۷</td>
+                    <td class="day highlighted">۱۸</td>
+                    <td class="day highlighted">۱۹</td>
+                    <td class="day highlighted">۲۰</td>
+                    <td class="day highlighted">۲۱</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="counting-help">
+            <strong>بیا با هم بشماریم:</strong><br>
+            هفته ۱ (قرمز): ۷ روز (۱ تا ۷) 🔴<br>
+            هفته ۲ (آبی): ۷ روز (۸ تا ۱۴) 🔵<br>
+            هفته ۳ (سبز): ۷ روز (۱۵ تا ۲۱) 🟢<br>
+            <strong>جمع: ۷ + ۷ + ۷ = ۲۱ روز! 🎯</strong><br>
+            یا می‌تونیم با ۷ تا بشماریم: ۷، ۱۴، ۲۱!
+        </div>
+
+        <div class="quiz">
+            <p>سؤال: اگه ۳ هفته کامل داشته باشیم، چند روز می‌شه؟ 🤔</p>
+            <button onclick="correctAnswer('فوق‌العاده! 🎊 بله! ۳ هفته = ۲۱ روز. تو واقعاً استادی!')">۲۱ روز</button>
+            <button onclick="wrongAnswer('خیلی نزدیک! بیا با هم بشماریم: ۷ + ۷ + ۷ 🤗')">۱۸ روز</button>
+            <div id="feedback-step3" class="feedback"></div>
+        </div>
+        <button onclick="nextStep(4)">بریم کار سخت‌تر! تقویم ۴ هفته‌ای! ➡️🚀</button>
+    </div>
+
+    <div id="step4" class="step">
+        <h3>🎯 گام ۴: تقویم یک ماه - ۴ هفته کامل! 📆</h3>
+        <div class="story-box">
+            حالا یه چالش بزرگ‌تر! 💪 این تقویم ۴ هفته کامل داره (یه ماه تقریباً!). می‌تونی بفهمی چند روز داره؟
+        </div>
+
+        <table id="calendar4" class="calendar">
+            <thead>
+                <tr>
+                    <th>شنبه</th>
+                    <th>یکشنبه</th>
+                    <th>دوشنبه</th>
+                    <th>سه‌شنبه</th>
+                    <th>چهارشنبه</th>
+                    <th>پنج‌شنبه</th>
+                    <th>جمعه</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e);">
+                    <td class="day highlighted">۱</td>
+                    <td class="day highlighted">۲</td>
+                    <td class="day highlighted">۳</td>
+                    <td class="day highlighted">۴</td>
+                    <td class="day highlighted">۵</td>
+                    <td class="day highlighted">۶</td>
+                    <td class="day highlighted">۷</td>
+                </tr>
+                <tr style="background: linear-gradient(135deg, #4ecdc4, #7dd3fc);">
+                    <td class="day highlighted">۸</td>
+                    <td class="day highlighted">۹</td>
+                    <td class="day highlighted">۱۰</td>
+                    <td class="day highlighted">۱۱</td>
+                    <td class="day highlighted">۱۲</td>
+                    <td class="day highlighted">۱۳</td>
+                    <td class="day highlighted">۱۴</td>
+                </tr>
+                <tr style="background: linear-gradient(135deg, #a8e6cf, #88d8a3);">
+                    <td class="day highlighted">۱۵</td>
+                    <td class="day highlighted">۱۶</td>
+                    <td class="day highlighted">۱۷</td>
+                    <td class="day highlighted">۱۸</td>
+                    <td class="day highlighted">۱۹</td>
+                    <td class="day highlighted">۲۰</td>
+                    <td class="day highlighted">۲۱</td>
+                </tr>
+                <tr style="background: linear-gradient(135deg, #ffeaa7, #fdcb6e);">
+                    <td class="day highlighted">۲۲</td>
+                    <td class="day highlighted">۲۳</td>
+                    <td class="day highlighted">۲۴</td>
+                    <td class="day highlighted">۲۵</td>
+                    <td class="day highlighted">۲۶</td>
+                    <td class="day highlighted">۲۷</td>
+                    <td class="day highlighted">۲۸</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="counting-help">
+            <strong>بیا گام به گام بشماریم:</strong><br>
+            <span style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e); padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold;">هفته ۱ (قرمز): ۷ روز</span><br>
+            <span style="background: linear-gradient(135deg, #4ecdc4, #7dd3fc); padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold;">هفته ۲ (آبی): ۷ + ۷ = ۱۴ روز</span><br>
+            <span style="background: linear-gradient(135deg, #a8e6cf, #88d8a3); padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold;">هفته ۳ (سبز): ۱۴ + ۷ = ۲۱ روز</span><br>
+            <span style="background: linear-gradient(135deg, #ffeaa7, #fdcb6e); padding: 5px 10px; border-radius: 5px; color: #333; font-weight: bold;">هفته ۴ (زرد): ۲۱ + ۷ = ۲۸ روز</span><br>
+            <strong>یا بگیم: ۷ + ۷ + ۷ + ۷ = ۲۸ روز! 🎯</strong><br>
+            یا با ۷ تا بشماریم: ۷، ۱۴، ۲۱، ۲۸!
+        </div>
+
+        <div class="quiz">
+            <p>سؤال: اگه ۴ هفته کامل داشته باشیم، چند روز می‌شه؟ 📅</p>
+            <button onclick="correctAnswer('وااااو! 🎆 عالی! ۴ هفته = ۲۸ روز. تو استاد تقویمی!')">۲۸ روز</button>
+            <button onclick="wrongAnswer('خیلی نزدیکی! بیا دوباره بشماریم: ۷ + ۷ + ۷ + ۷ 💪')">۲۴ روز</button>
+            <div id="feedback-step4" class="feedback"></div>
+        </div>
+        <button onclick="nextStep(5)">حالا با تقویم ۳۰ روزه کار کنیم! ➡️🌟</button>
+    </div>
+
+    <div id="step5" class="step">
+        <h3>🌟 گام ۵: تقویم ۳۰ روزه - چند هفته داره؟ 🔍</h3>
+        <div class="story-box">
+            حالا یه سؤال جالب! 🤔 اگه یه ماه ۳۰ روز داشته باشه، چند هفته کامل داره؟ بیا با هم کشف کنیم!
+        </div>
+
+        <table id="calendar5" class="calendar">
+            <thead>
+                <tr>
+                    <th>شنبه</th>
+                    <th>یکشنبه</th>
+                    <th>دوشنبه</th>
+                    <th>سه‌شنبه</th>
+                    <th>چهارشنبه</th>
+                    <th>پنج‌شنبه</th>
+                    <th>جمعه</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e);">
+                    <td class="day saturday">۱</td>
+                    <td class="day other-day">۲</td>
+                    <td class="day other-day">۳</td>
+                    <td class="day other-day">۴</td>
+                    <td class="day other-day">۵</td>
+                    <td class="day other-day">۶</td>
+                    <td class="day other-day">۷</td>
+                </tr>
+                <tr style="background: linear-gradient(135deg, #4ecdc4, #7dd3fc);">
+                    <td class="day saturday">۸</td>
+                    <td class="day other-day">۹</td>
+                    <td class="day other-day">۱۰</td>
+                    <td class="day other-day">۱۱</td>
+                    <td class="day other-day">۱۲</td>
+                    <td class="day other-day">۱۳</td>
+                    <td class="day other-day">۱۴</td>
+                </tr>
+                <tr style="background: linear-gradient(135deg, #a8e6cf, #88d8a3);">
+                    <td class="day saturday">۱۵</td>
+                    <td class="day other-day">۱۶</td>
+                    <td class="day other-day">۱۷</td>
+                    <td class="day other-day">۱۸</td>
+                    <td class="day other-day">۱۹</td>
+                    <td class="day other-day">۲۰</td>
+                    <td class="day other-day">۲۱</td>
+                </tr>
+                <tr style="background: linear-gradient(135deg, #ffeaa7, #fdcb6e);">
+                    <td class="day saturday">۲۲</td>
+                    <td class="day other-day">۲۳</td>
+                    <td class="day other-day">۲۴</td>
+                    <td class="day other-day">۲۵</td>
+                    <td class="day other-day">۲۶</td>
+                    <td class="day other-day">۲۷</td>
+                    <td class="day other-day">۲۸</td>
+                </tr>
+                <tr style="background: linear-gradient(135deg, #dda0dd, #e6e6fa);">
+                    <td class="day saturday">۲۹</td>
+                    <td class="day other-day">۳۰</td>
+                    <td colspan="5" style="background: linear-gradient(135deg, #ffd6d6, #ffb3ba); font-size:1.1em;">۲ روز اضافه! 🎈</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="counting-help">
+            <strong>بیا با هم تحلیل کنیم:</strong><br>
+            <span style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e); padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold;">هفته ۱ (قرمز): ۷ روز</span><br>
+            <span style="background: linear-gradient(135deg, #4ecdc4, #7dd3fc); padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold;">هفته ۲ (آبی): ۷ + ۷ = ۱۴ روز</span><br>
+            <span style="background: linear-gradient(135deg, #a8e6cf, #88d8a3); padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold;">هفته ۳ (سبز): ۱۴ + ۷ = ۲۱ روز</span><br>
+            <span style="background: linear-gradient(135deg, #ffeaa7, #fdcb6e); padding: 5px 10px; border-radius: 5px; color: #333; font-weight: bold;">هفته ۴ (زرد): ۲۱ + ۷ = ۲۸ روز</span><br>
+            <span style="background: linear-gradient(135deg, #dda0dd, #e6e6fa); padding: 5px 10px; border-radius: 5px; color: #333; font-weight: bold;">هفته ۵ (بنفش): ۲۸ + ۲ = ۳۰ روز</span><br>
+            <strong>پس: ۴ هفته کامل (۲۸ روز) + ۲ روز اضافه = ۳۰ روز! 🎯</strong><br><br>
+            <strong>یا بگیم:</strong> ۷ + ۷ + ۷ + ۷ + ۲ = ۳۰ روز!<br>
+            یعنی ۴ هفته کامل + ۲ روز اضافه!
+        </div>
+
+        <div class="quiz">
+            <p>سؤال: ماه ۳۰ روزه چند هفته کامل داره؟ 🤔</p>
+            <button onclick="correctAnswer('بی‌نظیر! 🏆 دقیقاً! ۴ هفته کامل (۲۸ روز) + ۲ روز اضافه!')">۴ هفته کامل</button>
+            <button onclick="wrongAnswer('نه! دقت کن. هر هفته ۷ روز داره. ۳۰ تقسیم بر ۷ کن! 🤗')">۵ هفته کامل</button>
+            <div id="feedback-step5" class="feedback"></div>
+        </div>
+        <button onclick="nextStep(6)">حالا ببینیم شنبه‌ها کجا هستن! ➡️🔍</button>
+    </div>
+
+    <div id="step6" class="step">
+        <h3>🔍 گام ۶: شنبه‌ها کجا هستن؟ 📅</h3>
+        <div class="story-box">
+            حالا یه سؤال جالب! 🤔 اگه به تقویم نگاه کنی، می‌تونی بگی کدوم روزها شنبه هستن؟ بیا با هم پیدا کنیم!
+        </div>
+
+        <table id="calendar6" class="calendar">
+            <thead>
+                <tr>
+                    <th>شنبه</th>
+                    <th>یکشنبه</th>
+                    <th>دوشنبه</th>
+                    <th>سه‌شنبه</th>
+                    <th>چهارشنبه</th>
+                    <th>پنج‌شنبه</th>
+                    <th>جمعه</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e);">
+                    <td class="day saturday">۱</td>
+                    <td class="day other-day">۲</td>
+                    <td class="day other-day">۳</td>
+                    <td class="day other-day">۴</td>
+                    <td class="day other-day">۵</td>
+                    <td class="day other-day">۶</td>
+                    <td class="day other-day">۷</td>
+                </tr>
+                <tr style="background: linear-gradient(135deg, #4ecdc4, #7dd3fc);">
+                    <td class="day saturday">۸</td>
+                    <td class="day other-day">۹</td>
+                    <td class="day other-day">۱۰</td>
+                    <td class="day other-day">۱۱</td>
+                    <td class="day other-day">۱۲</td>
+                    <td class="day other-day">۱۳</td>
+                    <td class="day other-day">۱۴</td>
+                </tr>
+                <tr style="background: linear-gradient(135deg, #a8e6cf, #88d8a3);">
+                    <td class="day saturday">۱۵</td>
+                    <td class="day other-day">۱۶</td>
+                    <td class="day other-day">۱۷</td>
+                    <td class="day other-day">۱۸</td>
+                    <td class="day other-day">۱۹</td>
+                    <td class="day other-day">۲۰</td>
+                    <td class="day other-day">۲۱</td>
+                </tr>
+                <tr style="background: linear-gradient(135deg, #ffeaa7, #fdcb6e);">
+                    <td class="day saturday">۲۲</td>
+                    <td class="day other-day">۲۳</td>
+                    <td class="day other-day">۲۴</td>
+                    <td class="day other-day">۲۵</td>
+                    <td class="day other-day">۲۶</td>
+                    <td class="day other-day">۲۷</td>
+                    <td class="day other-day">۲۸</td>
+                </tr>
+                <tr style="background: linear-gradient(135deg, #dda0dd, #e6e6fa);">
+                    <td class="day saturday">۲۹</td>
+                    <td class="day other-day">۳۰</td>
+                    <td colspan="5" style="background: linear-gradient(135deg, #ffd6d6, #ffb3ba); font-size:1.1em;">۲ روز اضافه! 🎈</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="counting-help">
+            <strong>بیا شنبه‌ها رو پیدا کنیم:</strong><br>
+            <span style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e); padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold;">شنبه اول: روز ۱</span><br>
+            <span style="background: linear-gradient(135deg, #4ecdc4, #7dd3fc); padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold;">شنبه دوم: روز ۸</span><br>
+            <span style="background: linear-gradient(135deg, #a8e6cf, #88d8a3); padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold;">شنبه سوم: روز ۱۵</span><br>
+            <span style="background: linear-gradient(135deg, #ffeaa7, #fdcb6e); padding: 5px 10px; border-radius: 5px; color: #333; font-weight: bold;">شنبه چهارم: روز ۲۲</span><br>
+            <span style="background: linear-gradient(135deg, #dda0dd, #e6e6fa); padding: 5px 10px; border-radius: 5px; color: #333; font-weight: bold;">شنبه پنجم: روز ۲۹</span><br>
+            <strong>پس شنبه‌ها: ۱، ۸، ۱۵، ۲۲، ۲۹ هستند! 🎯</strong><br>
+            یعنی هر ۷ روز یک بار شنبه می‌شه!
+        </div>
+
+        <div class="quiz">
+            <p>سؤال: در این تقویم، کدوم روزها شنبه هستن؟ 🤔</p>
+            <button onclick="correctAnswer('عالی! 🎊 درسته! شنبه‌ها: ۱، ۸، ۱۵، ۲۲، ۲۹ هستند. تو داری حرفه‌ای می‌شی!')">۱، ۸، ۱۵، ۲۲، ۲۹</button>
+            <button onclick="wrongAnswer('نزدیک بودی! دقت کن که شنبه‌ها در ستون اول هستن. بیا دوباره نگاه کن! 😊')">۲، ۹، ۱۶، ۲۳، ۳۰</button>
+            <div id="feedback-step6" class="feedback"></div>
+        </div>
+        <button onclick="nextStep(7)">چالش نهایی! بریم تقویم واقعی رو حل کنیم! ➡️🏅</button>
+    </div>
+
+    <div id="step7" class="step">
+        <h3>🏆 گام ۷: تو استاد تقویم شدی! 🎓✨</h3>
+        <div class="story-box">
+            آفرین! تو الان یاد گرفتی که چطوری با استفاده از هفته‌ها، سریع روزها رو بشماری! 🌟 این یکی از پایه‌های مهم ریاضیات جادویی‌ئه! 🎩✨
+        </div>
+
+        <p><strong>چیزایی که یاد گرفتی:</strong></p>
+        <div class="counting-help">
+            ✅ هر هفته همیشه ۷ روز داره!<br>
+            ✅ وقتی چند هفته داریم، می‌تونیم ۷ تا ۷ تا جمع کنیم!<br>
+            ✅ می‌تونیم با ۷ تا بشماریم: ۷، ۱۴، ۲۱، ۲۸...<br>
+            ✅ ۲ هفته = ۷ + ۷ = ۱۴ روز<br>
+            ✅ ۳ هفته = ۷ + ۷ + ۷ = ۲۱ روز<br>
+            ✅ ۴ هفته = ۷ + ۷ + ۷ + ۷ = ۲۸ روز<br>
+            ✅ این کار شمارش رو خیلی راحت‌تر می‌کنه! 🚀
+        </div>
+
+        <p><strong>حالا چالش نهایی! 💪</strong></p>
+        <p>اگه یه ماه ۵ هفته کامل داشته باشه (یه ماه ۳۵ روزه!)، چند روز می‌شه؟</p>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <div class="week-box">
+                <div class="week-label">هفته ۱</div>
+                <div class="day-dots">⭐⭐⭐⭐⭐⭐⭐</div>
+            </div>
+            <div class="week-box">
+                <div class="week-label">هفته ۲</div>
+                <div class="day-dots">⭐⭐⭐⭐⭐⭐⭐</div>
+            </div>
+            <div class="week-box">
+                <div class="week-label">هفته ۳</div>
+                <div class="day-dots">⭐⭐⭐⭐⭐⭐⭐</div>
+            </div>
+            <div class="week-box">
+                <div class="week-label">هفته ۴</div>
+                <div class="day-dots">⭐⭐⭐⭐⭐⭐⭐</div>
+            </div>
+            <div class="week-box">
+                <div class="week-label">هفته ۵</div>
+                <div class="day-dots">⭐⭐⭐⭐⭐⭐⭐</div>
+            </div>
+        </div>
+
+        <div class="quiz">
+            <p>چالش نهایی: ۵ هفته کامل = چند روز؟ 🎯</p>
+            <button onclick="correctAnswer('وااااای! 🎆🎊🏆 فوق‌العاده! ۵ هفته = ۳۵ روز. تو الان استاد واقعی تقویم شدی! می‌تونی همه ماه‌ها رو سریع بشماری!')">۳۵ روز</button>
+            <button onclick="wrongAnswer('نزدیک بودی! بیا با هم بشماریم: ۷ + ۷ + ۷ + ۷ + ۷ یا با ۷ تا: ۷، ۱۴، ۲۱، ۲۸، ۳۵ 💪')">۳۰ روز</button>
+            <div id="feedback-step6" class="feedback"></div>
+        </div>
+
+        <div class="story-box" style="margin-top: 30px;">
+            <strong>🎉 عالی! تو الان یاد گرفتی چطوری با تقویم سریع بشماری! 🎉</strong><br><br>
+            این چیزی که یاد گرفتی، پایه یک مهارت خیلی مهمه که بهش "ضرب" می‌گن! 🌟<br>
+            وقتی می‌گیم "۵ هفته"، در واقع داریم می‌گیم "۵ تا گروه که هر کدوم ۷ تا روز داره"! 🎯<br>
+            بعداً وقتی بزرگ‌تر شدی، یاد می‌گیری که به‌جای نوشتن ۷+۷+۷+۷+۷، می‌تونی بنویسی ۵×۷! ✨<br><br>
+            ولی الان مهم اینه که تو می‌فهمی <strong>چرا</strong> این کار می‌کنیم!<br>
+            چون هفته‌ها گروه‌های یکسان هستن که هر کدوم ۷ تا روز دارن! 📦📦📦<br><br>
+            <strong>آفرین به تو، استاد تقویم! 🏆💪</strong><br>
+            حالا می‌تونی به بقیه هم یاد بدی چطوری با تقویم سریع بشمارن! 🎓
+        </div>
+
+        <p style="font-size: 1.5em; margin-top: 20px;">اگه دوست داشتی دوباره تمرین کنی، صفحه رو تازه کن! 🔄</p>
+    </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        function nextStep(step) {
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
+            document.querySelectorAll('.feedback').forEach(el => el.style.display = 'none');
+            currentStep = step;
+            window.scrollTo(0, 0);
+            
+            // نمایش تقویم مربوط به هر گام
+            document.querySelectorAll('.calendar').forEach(cal => cal.style.display = 'none');
+            if (step >= 3) {
+                const calendar = document.getElementById('calendar' + step);
+                if (calendar) {
+                    calendar.style.display = 'table';
+                }
+            }
+        }
+        function correctAnswer(message) {
+            const feedbackDiv = document.getElementById('feedback-step' + currentStep);
+            feedbackDiv.innerHTML = message;
+            feedbackDiv.className = 'feedback correct-feedback';
+            feedbackDiv.style.display = 'block';
+            startConfetti();
+        }
+        function wrongAnswer(message) {
+            const feedbackDiv = document.getElementById('feedback-step' + currentStep);
+            feedbackDiv.innerHTML = message;
+            feedbackDiv.className = 'feedback wrong-feedback';
+            feedbackDiv.style.display = 'block';
+        }
+        // کد انیمیشن کنفتی جذاب با canvas
+        function startConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const confetti = [];
+            const colors = ['#ff6b6b', '#4ecdc4', '#ff9f43', '#ffeaa7', '#48dbfb'];
+
+            for (let i = 0; i < 300; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 6 + 2,
+                    d: Math.random() * 300 + 100,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    tilt: Math.random() * 10 - 5,
+                    tiltAngleIncremental: Math.random() * 0.07 + 0.05,
+                    tiltAngle: 0
+                });
+            }
+
+            let animationFrameId;
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confetti.forEach((conf, index) => {
+                    conf.tiltAngle += conf.tiltAngleIncremental;
+                    conf.y += (Math.cos(conf.d) + 3 + conf.r / 2) / 2;
+                    conf.x += Math.sin(conf.d) * 0.5;
+                    conf.tilt = Math.sin(conf.tiltAngle) * 15;
+
+                    if (conf.y > canvas.height) {
+                        confetti.splice(index, 1);
+                    } else {
+                        ctx.beginPath();
+                        ctx.lineWidth = conf.r;
+                        ctx.strokeStyle = conf.color;
+                        ctx.moveTo(conf.x + conf.tilt + conf.r / 4, conf.y);
+                        ctx.lineTo(conf.x + conf.tilt, conf.y + conf.tilt + conf.r / 4);
+                        ctx.stroke();
+                    }
+                });
+
+                if (confetti.length > 0) {
+                    animationFrameId = requestAnimationFrame(draw);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+
+            draw();
+
+            // توقف بعد از ۵ ثانیه
+            setTimeout(() => {
+                cancelAnimationFrame(animationFrameId);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }, 5000);
+        }
+
+        // تنظیم مجدد canvas با تغییر اندازه پنجره
+        window.addEventListener('resize', () => {
+            const canvas = document.getElementById('confetti-canvas');
+            if (canvas) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+        });
+
+        // انیمیشن اضافی برای تقویم
+        document.addEventListener('DOMContentLoaded', function() {
+            const saturdayCells = document.querySelectorAll('.saturday');
+            saturdayCells.forEach((cell, index) => {
+                setTimeout(() => {
+                    cell.style.animation = 'pulse 2s infinite';
+                }, index * 200);
+            });
+
+            // iOS Safari fix: Comprehensive button handling
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                // Make button tappable on iOS
+                button.style.cursor = 'pointer';
+                button.style.webkitUserSelect = 'none';
+                button.style.userSelect = 'none';
+
+                // Get the onclick attribute value
+                const onclickAttr = button.getAttribute('onclick');
+
+                if (onclickAttr) {
+                    // Remove the onclick attribute to prevent conflicts
+                    button.removeAttribute('onclick');
+
+                    // Create a unified click handler
+                    const handleClick = function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                        
+                        // Add visual feedback
+                        button.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            button.style.transform = '';
+                        }, 150);
+                        
+                        // Execute the original function
+                        try {
+                            eval(onclickAttr);
+                        } catch (error) {
+                            console.error('Error executing button function:', error);
+                        }
+                    };
+
+                    // Add multiple event listeners for maximum compatibility
+                    button.addEventListener('click', handleClick, { passive: false });
+                    button.addEventListener('touchend', handleClick, { passive: false });
+                    button.addEventListener('mousedown', handleClick, { passive: false });
+                }
+
+                // Visual feedback for touch
+                button.addEventListener('touchstart', function(e) {
+                    this.style.opacity = '0.8';
+                    this.style.transform = 'scale(0.98)';
+                }, { passive: true });
+
+                button.addEventListener('touchend', function(e) {
+                    this.style.opacity = '1';
+                    this.style.transform = '';
+                }, { passive: true });
+
+                button.addEventListener('touchcancel', function(e) {
+                    this.style.opacity = '1';
+                    this.style.transform = '';
+                }, { passive: true });
+            });
+
+            // Additional iOS fixes
+            document.body.style.webkitTouchCallout = 'none';
+            document.body.style.webkitUserSelect = 'none';
+            document.body.style.userSelect = 'none';
+        });
+    </script>
+
+    <p style="font-size:1em; color:#FFF;">این بازی آموزشی برای یادگیری مفهوم ضرب از طریق تقویم و جمع تکراری طراحی شده است. 🌟</p>
+</body>
+</html>
