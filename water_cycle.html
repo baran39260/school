@@ -357,18 +357,17 @@
 
         .ocean-droplet {
             position: absolute;
-            width: 30px;
-            height: 40px;
+            width: 28px;
+            height: 35px;
             animation: swim 4s ease-in-out infinite;
         }
 
         .ocean-droplet .mini-droplet-body {
-            width: 28px;
-            height: 35px;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(135deg, #B3E5FC 0%, #4FC3F7 50%, #0288D1 100%);
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            position: absolute;
-            left: 0;
+            position: relative;
             box-shadow: inset -2px -2px 4px rgba(255, 255, 255, 0.5),
                         inset 2px 2px 4px rgba(0, 0, 0, 0.1),
                         0 4px 8px rgba(0, 0, 0, 0.2);
@@ -378,22 +377,24 @@
         .ocean-droplet .mini-droplet-body::before {
             content: '';
             position: absolute;
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: rgba(255, 255, 255, 0.6);
             border-radius: 50%;
-            top: 6px;
-            left: 8px;
-            box-shadow: 2px 2px 3px rgba(255, 255, 255, 0.3);
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
         }
 
         .ocean-droplet .mini-droplet-face {
             position: absolute;
-            top: 15px;
+            top: 14px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 2;
             text-align: center;
+            width: 100%;
         }
 
         .ocean-droplet .mini-eye {
