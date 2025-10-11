@@ -754,18 +754,285 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
+
+        /* 24-Hour Teaching Section Styles */
+        .teaching-section {
+            margin: 30px 0;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #5f27cd;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .nested-clock-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .nested-clock {
+            position: relative;
+            width: 400px;
+            height: 400px;
+        }
+
+        .clock-svg-nested {
+            width: 100%;
+            height: 100%;
+        }
+
+        .clock-numbers {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .clock-number-inner,
+        .clock-number-outer {
+            position: absolute;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            transform: translate(-50%, -50%);
+        }
+
+        .clock-number-inner {
+            font-size: 1.2rem;
+            color: #f39c12;
+            background: white;
+            border-radius: 50%;
+            border: 2px solid #f39c12;
+        }
+
+        .clock-number-outer {
+            font-size: 1rem;
+            color: #0984e3;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            border: 2px solid #0984e3;
+        }
+
+        .inner-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #f39c12;
+            background: rgba(255,255,255,0.9);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .outer-label {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #0984e3;
+            background: rgba(255,255,255,0.9);
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .hour-counter {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            background: linear-gradient(135deg, #fff, #f8f9fa);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .counter-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2d3436;
+        }
+
+        .counter-display #currentHour {
+            color: #e74c3c;
+            font-size: 3rem;
+        }
+
+        .counter-display #periodLabel {
+            color: #5f27cd;
+            font-size: 1.5rem;
+            margin-left: 10px;
+        }
+
+        .btn-start {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #00b894, #55efc4);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Vazir', sans-serif;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-start:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .explanation-box {
+            background: linear-gradient(135deg, #e8f4fd, #d1ecf1);
+            border: 3px solid #17a2b8;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .explanation-box h3 {
+            color: #2d3436;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .explanation-box p {
+            font-size: 1.2rem;
+            color: #2d3436;
+            line-height: 1.8;
+        }
+
+        .continue-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Vazir', sans-serif;
+            animation: pulse 2s infinite;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        @keyframes markerTransition {
+            0%, 50% {
+                stroke: #e74c3c;
+                stroke-width: 4;
+            }
+            51%, 100% {
+                stroke: #0984e3;
+                stroke-width: 6;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <a href="math.html" class="back-button">🏠 بازگشت به صفحه ریاضی</a>
 
-        <h1>🕐 ۲۴ ساعت با علی</h1>
-        <p class="subtitle">بیایید ببینیم علی در طول ۲۴ ساعت شبانه‌روز چه کارهایی انجام می‌دهد!</p>
+        <h1>🕐 آموزش ۲۴ ساعت شبانه‌روز</h1>
+        <p class="subtitle">بیایید یاد بگیریم یک شبانه‌روز چگونه ۲۴ ساعت می‌شود!</p>
 
-        <div class="character" id="character">👦</div>
+        <!-- 24-Hour Teaching Section -->
+        <div class="teaching-section" id="teachingSection">
+            <h2 class="section-title">🌟 درک ساعت ۲۴ ساعته</h2>
 
-        <div class="control-buttons">
+            <div class="nested-clock-container">
+                <div class="nested-clock" id="nestedClock">
+                    <!-- Inner circle for morning (smaller) -->
+                    <svg class="clock-svg-nested" viewBox="0 0 400 400">
+                        <!-- Morning circle (inner) -->
+                        <circle cx="200" cy="200" r="120" fill="#ffeaa7" opacity="0.3" stroke="#f39c12" stroke-width="3"/>
+                        <!-- Afternoon circle (outer) -->
+                        <circle cx="200" cy="200" r="180" fill="none" stroke="#0984e3" stroke-width="3" stroke-dasharray="5,5" opacity="0.5"/>
+
+                        <!-- Hour marker -->
+                        <line id="hourMarker" x1="200" y1="200" x2="200" y2="80" stroke="#e74c3c" stroke-width="4" stroke-linecap="round">
+                            <animateTransform
+                                attributeName="transform"
+                                attributeType="XML"
+                                type="rotate"
+                                from="0 200 200"
+                                to="360 200 200"
+                                dur="24s"
+                                repeatCount="indefinite"/>
+                        </line>
+
+                        <!-- Center dot -->
+                        <circle cx="200" cy="200" r="8" fill="#e74c3c"/>
+                    </svg>
+
+                    <!-- Clock numbers will be added by JavaScript -->
+                    <div class="clock-numbers" id="clockNumbers"></div>
+
+                    <!-- Labels -->
+                    <div class="inner-label">صبح<br>۱-۱۲</div>
+                    <div class="outer-label">بعدازظهر<br>۱۳-۲۴</div>
+                </div>
+
+                <div class="hour-counter">
+                    <div class="counter-display">
+                        ساعت: <span id="currentHour">1</span>
+                        <span id="periodLabel">صبح</span>
+                    </div>
+                    <button class="btn-start" onclick="startHourAnimation()">
+                        🎬 شروع شمارش ۲۴ ساعت
+                    </button>
+                </div>
+            </div>
+
+            <div class="explanation-box">
+                <h3>💡 نکته مهم:</h3>
+                <p>
+                    🌅 دایره کوچک داخلی = صبح (ساعت ۱ تا ۱۲)
+                    <br>
+                    🌆 دایره بزرگ بیرونی = بعدازظهر (ساعت ۱۳ تا ۲۴)
+                    <br><br>
+                    وقتی عقربه به ساعت ۱۲ ظهر می‌رسد، از دایره کوچک به دایره بزرگ می‌رود و از ۱۳ شروع به شمردن می‌کند!
+                </p>
+            </div>
+
+            <button class="continue-btn" onclick="showInteractiveSection()">
+                ✅ متوجه شدم! بریم سراغ تمرین با علی
+            </button>
+        </div>
+
+        <div class="character" id="character" style="display: none;">👦</div>
+
+        <div class="control-buttons" style="display: none;">
             <button class="btn btn-morning btn-active" onclick="showAM()">
                 🌅 قبل از ظهر
             </button>
@@ -1019,7 +1286,7 @@
                     <div style="display: flex; align-items: center; justify-content: space-between;">
                         <div>
                             <div class="activity-time">${activity.time}</div>
-                            <div class="activity-description">${activity.title}</div>
+                            <div class="activity-description">${activity.desc}</div>
                         </div>
                         <div class="activity-icon">${activity.icon}</div>
                     </div>
@@ -1496,26 +1763,143 @@
         `;
         document.head.appendChild(style);
 
+        // 24-Hour Teaching Functions
+        function initNestedClock() {
+            const clockNumbers = document.getElementById('clockNumbers');
+            if (!clockNumbers) return;
+
+            // Add inner circle numbers (1-12 for morning)
+            for (let i = 1; i <= 12; i++) {
+                const angle = ((i - 3) * 30 - 90) * Math.PI / 180;
+                const radius = 120; // Inner circle radius
+                const x = 200 + radius * Math.cos(angle);
+                const y = 200 + radius * Math.sin(angle);
+
+                const number = document.createElement('div');
+                number.className = 'clock-number-inner';
+                number.style.left = `${x}px`;
+                number.style.top = `${y}px`;
+                number.textContent = i;
+                clockNumbers.appendChild(number);
+            }
+
+            // Add outer circle numbers (13-24 for afternoon)
+            for (let i = 13; i <= 24; i++) {
+                const displayNum = i === 24 ? 12 : (i > 12 ? i - 12 : i);
+                const angle = ((displayNum - 3) * 30 - 90) * Math.PI / 180;
+                const radius = 180; // Outer circle radius
+                const x = 200 + radius * Math.cos(angle);
+                const y = 200 + radius * Math.sin(angle);
+
+                const number = document.createElement('div');
+                number.className = 'clock-number-outer';
+                number.style.left = `${x}px`;
+                number.style.top = `${y}px`;
+                number.textContent = i === 24 ? '24' : i;
+                clockNumbers.appendChild(number);
+            }
+        }
+
+        function startHourAnimation() {
+            const btn = event.target;
+            const hourDisplay = document.getElementById('currentHour');
+            const periodLabel = document.getElementById('periodLabel');
+            const hourMarker = document.getElementById('hourMarker');
+
+            btn.disabled = true;
+
+            let hour = 1;
+            let animationDuration = 0;
+
+            // Stop any existing animation
+            hourMarker.querySelector('animateTransform').beginElement();
+
+            const interval = setInterval(() => {
+                if (hour <= 24) {
+                    hourDisplay.textContent = hour;
+
+                    // Update period label
+                    if (hour <= 12) {
+                        periodLabel.textContent = 'صبح';
+                        periodLabel.style.color = '#f39c12';
+
+                        // Marker points to inner circle
+                        const angle = ((hour - 3) * 30 - 90);
+                        const radius = 120;
+                        const x2 = 200 + radius * Math.cos(angle * Math.PI / 180);
+                        const y2 = 200 + radius * Math.sin(angle * Math.PI / 180);
+
+                        hourMarker.setAttribute('x2', x2);
+                        hourMarker.setAttribute('y2', y2);
+                        hourMarker.style.stroke = '#e74c3c';
+                        hourMarker.style.strokeWidth = '4';
+                    } else {
+                        periodLabel.textContent = 'بعدازظهر';
+                        periodLabel.style.color = '#0984e3';
+
+                        // Marker points to outer circle
+                        const displayHour = hour === 24 ? 12 : hour - 12;
+                        const angle = ((displayHour - 3) * 30 - 90);
+                        const radius = 180;
+                        const x2 = 200 + radius * Math.cos(angle * Math.PI / 180);
+                        const y2 = 200 + radius * Math.sin(angle * Math.PI / 180);
+
+                        hourMarker.setAttribute('x2', x2);
+                        hourMarker.setAttribute('y2', y2);
+                        hourMarker.style.stroke = '#0984e3';
+                        hourMarker.style.strokeWidth = '6';
+                    }
+
+                    // Special effect at noon
+                    if (hour === 12) {
+                        hourMarker.style.animation = 'pulse 0.5s';
+                        showCelebration('🎉 ظهر شد! حالا از دایره کوچک به دایره بزرگ می‌رویم!');
+                    }
+
+                    hour++;
+                } else {
+                    clearInterval(interval);
+                    btn.disabled = false;
+                    showCelebration('🏆 آفرین! حالا می‌دانی یک شبانه‌روز ۲۴ ساعت دارد!');
+                }
+            }, 500);
+        }
+
+        function showInteractiveSection() {
+            // Hide teaching section
+            document.getElementById('teachingSection').style.display = 'none';
+
+            // Show interactive content
+            document.getElementById('character').style.display = 'block';
+            document.querySelector('.control-buttons').style.display = 'flex';
+            document.querySelector('.main-section').style.display = 'grid';
+            document.querySelector('.info-box').style.display = 'block';
+            document.querySelector('.quiz-section').style.display = 'block';
+            document.querySelector('.comparison-section').style.display = 'block';
+            document.querySelector('.practice-section').style.display = 'block';
+            document.querySelector('.reflection-section').style.display = 'block';
+            document.querySelector('.progress-section').style.display = 'block';
+
+            // Initialize interactive content
+            initClockNumbers();
+            displayActivities(amActivities);
+            selectActivity(0);
+            startAutoPlay();
+        }
+
         // Initialize interactive features on load
         window.addEventListener('load', () => {
-            // Add interactive hints
-            const hintBox = document.createElement('div');
-            hintBox.style.cssText = `
-                background: linear-gradient(135deg, #74b9ff, #a29bfe);
-                color: white;
-                padding: 20px;
-                border-radius: 15px;
-                margin: 20px 0;
-                text-align: center;
-                font-size: 1.2rem;
-                animation: pulse 2s infinite;
-            `;
-            hintBox.innerHTML = '👆 روی دکمه‌های بالا کلیک کن تا فعالیت‌های قبل و بعد از ظهر را ببینی!';
-            document.querySelector('.control-buttons').after(hintBox);
+            // Initialize nested clock
+            initNestedClock();
 
-            setTimeout(() => {
-                hintBox.style.display = 'none';
-            }, 5000);
+            // Hide interactive sections initially
+            document.querySelector('.main-section').style.display = 'none';
+            document.querySelector('.info-box').style.display = 'none';
+            document.querySelector('.quiz-section').style.display = 'none';
+            document.querySelector('.comparison-section').style.display = 'none';
+            document.querySelector('.practice-section').style.display = 'none';
+            document.querySelector('.reflection-section').style.display = 'none';
+            document.querySelector('.progress-section').style.display = 'none';
         });
     </script>
 </body>
