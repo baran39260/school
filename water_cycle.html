@@ -479,6 +479,133 @@
             animation-delay: 3.5s;
         }
 
+        /* Evaporation animation */
+        .evaporation-scene {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            margin: 30px auto;
+            position: relative;
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 40%, #4FC3F7 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .evap-sun {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #FFF9C4, #FFD54F);
+            border-radius: 50%;
+            top: 20px;
+            right: 30px;
+            box-shadow: 0 0 40px rgba(255, 193, 7, 0.8);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(255, 193, 7, 0.8); }
+            50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(255, 193, 7, 1); }
+        }
+
+        .sun-beam {
+            position: absolute;
+            width: 4px;
+            height: 150px;
+            background: linear-gradient(180deg, rgba(255, 235, 59, 0.8), rgba(255, 235, 59, 0));
+            top: 100px;
+            animation: shine 3s ease-in-out infinite;
+            transform-origin: top center;
+        }
+
+        .sun-beam:nth-child(1) { right: 70px; animation-delay: 0s; }
+        .sun-beam:nth-child(2) { right: 50px; animation-delay: 0.3s; }
+        .sun-beam:nth-child(3) { right: 30px; animation-delay: 0.6s; }
+        .sun-beam:nth-child(4) { right: 10px; animation-delay: 0.9s; }
+
+        @keyframes shine {
+            0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+            50% { opacity: 0.8; transform: scaleY(1); }
+        }
+
+        .evap-water {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(180deg, #4FC3F7, #0288D1);
+            border-radius: 0 0 15px 15px;
+        }
+
+        .water-droplet-evap {
+            position: absolute;
+            width: 20px;
+            height: 25px;
+            bottom: 60px;
+        }
+
+        .water-droplet-evap .evap-drop-body {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #B3E5FC, #4FC3F7);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            animation: evaporate 4s ease-in-out infinite;
+        }
+
+        @keyframes evaporate {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            70% {
+                opacity: 0.5;
+                transform: translateY(-180px) scale(0.5);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-220px) scale(0.3);
+            }
+        }
+
+        .water-droplet-evap:nth-child(1) { left: 15%; animation-delay: 0s; }
+        .water-droplet-evap:nth-child(2) { left: 35%; animation-delay: 0.8s; }
+        .water-droplet-evap:nth-child(3) { left: 55%; animation-delay: 1.6s; }
+        .water-droplet-evap:nth-child(4) { left: 75%; animation-delay: 2.4s; }
+        .water-droplet-evap:nth-child(5) { left: 25%; animation-delay: 3.2s; }
+
+        .steam-particle {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            bottom: 60px;
+            animation: rise 3s ease-out infinite;
+            filter: blur(2px);
+        }
+
+        @keyframes rise {
+            0% {
+                opacity: 0.8;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-200px) scale(1.5);
+            }
+        }
+
+        .steam-particle:nth-child(1) { left: 20%; animation-delay: 0s; }
+        .steam-particle:nth-child(2) { left: 40%; animation-delay: 0.5s; }
+        .steam-particle:nth-child(3) { left: 60%; animation-delay: 1s; }
+        .steam-particle:nth-child(4) { left: 80%; animation-delay: 1.5s; }
+        .steam-particle:nth-child(5) { left: 30%; animation-delay: 2s; }
+        .steam-particle:nth-child(6) { left: 50%; animation-delay: 2.5s; }
+
         /* Interactive buttons */
         .next-button {
             display: block;
@@ -757,8 +884,34 @@
                 گرمای خورشید باعث می‌شه من و دوستام از آب تبدیل به بخار بشیم و به آسمان پرواز کنیم!<br>
                 این فرآیند رو <strong>"تبخیر"</strong> می‌گن. مثل اینه که ناپدید بشم - ولی نترس، فقط تبدیل به بخار شدم! 💨
             </p>
-            <div class="sun-animation">
-                <div class="sun-ray"></div>
+            <div class="evaporation-scene">
+                <div class="evap-sun"></div>
+                <div class="sun-beam"></div>
+                <div class="sun-beam"></div>
+                <div class="sun-beam"></div>
+                <div class="sun-beam"></div>
+                <div class="water-droplet-evap">
+                    <div class="evap-drop-body"></div>
+                </div>
+                <div class="water-droplet-evap">
+                    <div class="evap-drop-body"></div>
+                </div>
+                <div class="water-droplet-evap">
+                    <div class="evap-drop-body"></div>
+                </div>
+                <div class="water-droplet-evap">
+                    <div class="evap-drop-body"></div>
+                </div>
+                <div class="water-droplet-evap">
+                    <div class="evap-drop-body"></div>
+                </div>
+                <div class="steam-particle"></div>
+                <div class="steam-particle"></div>
+                <div class="steam-particle"></div>
+                <div class="steam-particle"></div>
+                <div class="steam-particle"></div>
+                <div class="steam-particle"></div>
+                <div class="evap-water"></div>
             </div>
             <div class="fun-fact">
                 <div class="fun-fact-title">🤓 می‌دونستی؟</div>
