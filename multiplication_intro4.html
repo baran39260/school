@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>بازی‌های ضرب - تمرین فوق‌العاده! 🎮</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="student-picker.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #ff6b6b;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #4ecdc4;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .game-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 25px 0;
+            border: 3px solid #4ecdc4;
+        }
+
+        .score-board {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .score-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .card {
+            width: 120px;
+            height: 160px;
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d3436;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .card.flipped {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+        }
+
+        .card.matched {
+            background: linear-gradient(135deg, #55efc4, #00b894);
+            animation: pulse 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+            justify-items: center;
+        }
+
+        .beads-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .beads-row {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bead {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .bead:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.3);
+        }
+
+        .bead.active {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            animation: bounceIn 0.3s;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .skip-game {
+            background: linear-gradient(135deg, #e8f4fd, #d1ecf1);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            border: 3px solid #17a2b8;
+        }
+
+        .skip-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+
+        .skip-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            border: none;
+            font-size: 1.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .skip-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .skip-btn.selected {
+            background: linear-gradient(135deg, #55efc4, #00b894);
+            animation: pulse 0.5s;
+        }
+
+        .timer {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            color: #ff6b6b;
+            margin: 20px 0;
+            animation: pulse 1s infinite;
+        }
+
+        .question-box {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            border: 3px solid #4ecdc4;
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 25px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .option-btn {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .option-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .option-btn:active {
+            transform: scale(0.98);
+        }
+
+        .pattern-builder {
+            background: linear-gradient(135deg, #fff5e6, #ffe8cc);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            border: 3px dashed #ff9f43;
+        }
+
+        .pattern-row {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .pattern-block {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #fdcb6e, #ffeaa7);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #2d3436;
+            font-weight: 700;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pattern-block:hover {
+            transform: scale(1.1);
+        }
+
+        .pattern-block.filled {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            transition: all 0.3s ease;
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .emoji {
+            font-size: 2em;
+            display: inline-block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+            20%, 40%, 60%, 80% { transform: translateX(8px); }
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .card {
+                width: 100px;
+                height: 130px;
+                font-size: 1.5rem;
+            }
+
+            .bead {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .skip-btn {
+                width: 70px;
+                height: 70px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti"></canvas>
+
+    <div class="container">
+        <h1>بازی‌های ضرب! <span class="emoji">🎮</span></h1>
+
+        <!-- Score Board -->
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">امتیاز</div>
+                <div class="score-value" id="totalScore">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">دور فعلی</div>
+                <div class="score-value" id="currentRound">1</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">رکورد</div>
+                <div class="score-value" id="bestScore">0</div>
+            </div>
+        </div>
+
+        <!-- Game 1: Abacus Beads -->
+        <div class="game-section">
+            <h2>بازی ۱: چرتکه مجازی <span class="emoji">🧮</span></h2>
+            <p style="text-align: center; font-size: 1.2rem;">هر ردیف ۱۰ تا مهره داره. چند تا ردیف فعال کنی؟</p>
+            
+            <div class="beads-container" id="beadsContainer">
+                <!-- Rows will be generated by JavaScript -->
+            </div>
+
+            <div style="text-align: center; margin: 25px 0;">
+                <p style="font-size: 1.5rem; font-weight: 600; margin-bottom: 15px;">
+                    تعداد مهره‌های فعال: <span id="beadsCount" style="color: #ff6b6b;">0</span>
+                </p>
+                <button class="start-btn" onclick="checkBeadsAnswer()">بررسی جواب! ✓</button>
+            </div>
+        </div>
+
+        <!-- Game 2: Memory Cards -->
+        <div class="game-section">
+            <h2>بازی ۲: کارت‌های حافظه <span class="emoji">🎴</span></h2>
+            <p style="text-align: center; font-size: 1.2rem;">هر کارت یه گروه رو نشون میده. کارت‌های با جواب یکسان رو پیدا کن!</p>
+            
+            <div class="cards-grid" id="cardsGrid">
+                <!-- Cards will be generated by JavaScript -->
+            </div>
+
+            <button class="start-btn" onclick="startMemoryGame()">شروع بازی! 🎯</button>
+        </div>
+
+        <!-- Game 3: Skip Counting Race -->
+        <div class="game-section">
+            <h2>بازی ۳: مسابقه شمارش پرشی <span class="emoji">🏁</span></h2>
+            <p style="text-align: center; font-size: 1.2rem;">با عدد مشخص شده بشمار و تا ۵۰ برو!</p>
+            
+            <div class="skip-game">
+                <div class="timer" id="timer">30</div>
+                <div class="question-text" id="skipQuestion">با ۵ تا بشمار!</div>
+                <div class="skip-buttons" id="skipButtons">
+                    <!-- Buttons will be generated by JavaScript -->
+                </div>
+                <button class="start-btn" onclick="startSkipRace()">شروع مسابقه! 🚀</button>
+            </div>
+        </div>
+
+        <!-- Game 4: Quick Fire Questions -->
+        <div class="game-section">
+            <h2>بازی ۴: سوالات سریع <span class="emoji">⚡</span></h2>
+            <p style="text-align: center; font-size: 1.2rem;">چند تا سوال سریع جواب بده!</p>
+            
+            <div class="question-box">
+                <div class="timer" id="quickTimer">20</div>
+                <div class="question-text" id="quickQuestion">آماده شو...</div>
+                <div class="options-grid" id="quickOptions">
+                    <!-- Options will be generated by JavaScript -->
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <span style="font-size: 1.3rem; font-weight: 600;">
+                        جواب‌های درست: <span id="correctCount" style="color: #4ecdc4;">0</span> / <span id="totalQuestions">0</span>
+                    </span>
+                </div>
+            </div>
+            
+            <button class="start-btn" onclick="startQuickFire()">شروع! ⚡</button>
+        </div>
+
+        <!-- Game 5: Pattern Builder -->
+        <div class="game-section">
+            <h2>بازی ۵: سازنده الگو <span class="emoji">🎨</span></h2>
+            <p style="text-align: center; font-size: 1.2rem;">آرایه رو با کلیک روی بلوک‌ها بساز!</p>
+            
+            <div class="pattern-builder">
+                <p style="text-align: center; font-size: 1.4rem; font-weight: 600; margin-bottom: 20px;" id="patternTask">
+                    آرایه ۴×۶ رو بساز!
+                </p>
+                <div id="patternGrid">
+                    <!-- Pattern blocks will be generated by JavaScript -->
+                </div>
+                <div style="text-align: center; margin-top: 25px;">
+                    <p style="font-size: 1.3rem; font-weight: 600;">
+                        بلوک‌های انتخاب شده: <span id="selectedCount" style="color: #ff6b6b;">0</span> / <span id="targetCount">24</span>
+                    </p>
+                    <button class="start-btn" onclick="checkPattern()">بررسی الگو! ✓</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let totalScore = 0;
+        let bestScore = 0;
+        let currentRound = 1;
+        let audioContext = null;
+        let confettiAnimationId = null;
+
+        function initAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            }
+            return audioContext;
+        }
+
+        function updateScoreBoard() {
+            document.getElementById('totalScore').textContent = totalScore;
+            document.getElementById('currentRound').textContent = currentRound;
+            document.getElementById('bestScore').textContent = bestScore;
+        }
+
+        function playSuccessSound() {
+            const ctx = initAudioContext();
+            const now = ctx.currentTime;
+            
+            const melody = [
+                { freq: 523.25, start: 0, duration: 0.15 },
+                { freq: 659.25, start: 0.15, duration: 0.15 },
+                { freq: 783.99, start: 0.3, duration: 0.15 },
+                { freq: 1046.50, start: 0.45, duration: 0.3 }
+            ];
+
+            melody.forEach(note => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.value = note.freq;
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0, now + note.start);
+                gain.gain.linearRampToValueAtTime(0.15, now + note.start + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + note.start + note.duration);
+                osc.start(now + note.start);
+                osc.stop(now + note.start + note.duration);
+            });
+        }
+
+        function playWrongSound() {
+            const ctx = initAudioContext();
+            const now = ctx.currentTime;
+            
+            const notes = [
+                { freq: 400, start: 0, duration: 0.15 },
+                { freq: 350, start: 0.1, duration: 0.15 }
+            ];
+            
+            notes.forEach(note => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.value = note.freq;
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0, now + note.start);
+                gain.gain.linearRampToValueAtTime(0.1, now + note.start + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + note.start + note.duration);
+                osc.start(now + note.start);
+                osc.stop(now + note.start + note.duration);
+            });
+        }
+
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            if (confettiAnimationId) {
+                cancelAnimationFrame(confettiAnimationId);
+                confettiAnimationId = null;
+            }
+
+            const pieces = [];
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#a29bfe'];
+
+            for (let i = 0; i < 100; i++) {
+                pieces.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    w: Math.random() * 10 + 5,
+                    h: Math.random() * 10 + 5,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rotation: Math.random() * 360,
+                    rotationSpeed: Math.random() * 10 - 5,
+                    vx: Math.random() * 4 - 2,
+                    vy: Math.random() * 3 + 2
+                });
+            }
+
+            const startTime = Date.now();
+            const duration = 3000;
+
+            function animate() {
+                const elapsed = Date.now() - startTime;
+                if (elapsed >= duration) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    confettiAnimationId = null;
+                    return;
+                }
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach(p => {
+                    ctx.save();
+                    ctx.translate(p.x + p.w / 2, p.y + p.h / 2);
+                    ctx.rotate(p.rotation * Math.PI / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                    ctx.restore();
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.rotation += p.rotationSpeed;
+                    p.vy += 0.1;
+                });
+
+                confettiAnimationId = requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        // Game 1: Abacus Beads
+        function initBeads() {
+            const container = document.getElementById('beadsContainer');
+            container.innerHTML = '';
+            
+            for (let row = 0; row < 5; row++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'beads-row';
+                
+                for (let col = 0; col < 10; col++) {
+                    const bead = document.createElement('div');
+                    bead.className = 'bead';
+                    bead.dataset.row = row;
+                    bead.dataset.col = col;
+                    bead.onclick = function() {
+                        initAudioContext();
+                        this.classList.toggle('active');
+                        updateBeadsCount();
+                    };
+                    rowDiv.appendChild(bead);
+                }
+                
+                container.appendChild(rowDiv);
+            }
+        }
+
+        function updateBeadsCount() {
+            const activeBeads = document.querySelectorAll('.bead.active').length;
+            document.getElementById('beadsCount').textContent = activeBeads;
+        }
+
+        function checkBeadsAnswer() {
+            initAudioContext();
+            const activeBeads = document.querySelectorAll('.bead.active').length;
+            if (activeBeads > 0 && activeBeads % 10 === 0) {
+                totalScore += 10;
+                updateScoreBoard();
+                playSuccessSound();
+                launchConfetti();
+                alert('🎉 آفرین! ' + activeBeads + ' مهره فعال کردی! این میشه ' + (activeBeads / 10) + ' ردیف کامل!');
+            } else if (activeBeads > 0) {
+                playSuccessSound();
+                alert('✨ خوبه! ' + activeBeads + ' مهره فعال کردی!');
+            }
+        }
+
+        // Game 2: Memory Cards
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+
+        function startMemoryGame() {
+            initAudioContext();
+            matchedPairs = 0;
+            flippedCards = [];
+            
+            // Create pairs of matching multiplications
+            const pairs = [
+                { text: '۲+۲+۲', value: 6 },
+                { text: '۶', value: 6 },
+                { text: '۳+۳+۳+۳', value: 12 },
+                { text: '۱۲', value: 12 },
+                { text: '۵+۵+۵', value: 15 },
+                { text: '۱۵', value: 15 },
+                { text: '۴+۴+۴+۴', value: 16 },
+                { text: '۱۶', value: 16 }
+            ];
+
+            // Shuffle cards
+            memoryCards = pairs.sort(() => Math.random() - 0.5);
+
+            const grid = document.getElementById('cardsGrid');
+            grid.innerHTML = '';
+
+            memoryCards.forEach((card, index) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card';
+                cardDiv.textContent = '?';
+                cardDiv.dataset.index = index;
+                cardDiv.dataset.value = card.value;
+                cardDiv.onclick = flipCard;
+                grid.appendChild(cardDiv);
+            });
+        }
+
+        function flipCard() {
+            initAudioContext();
+            
+            if (flippedCards.length >= 2 || this.classList.contains('flipped') || this.classList.contains('matched')) {
+                return;
+            }
+
+            const index = parseInt(this.dataset.index);
+            this.classList.add('flipped');
+            this.textContent = memoryCards[index].text;
+            flippedCards.push(this);
+
+            if (flippedCards.length === 2) {
+                setTimeout(checkMatch, 1000);
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+
+            if (card1.dataset.value === card2.dataset.value) {
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchedPairs++;
+                totalScore += 20;
+                updateScoreBoard();
+                playSuccessSound();
+                
+                if (matchedPairs === 4) {
+                    launchConfetti();
+                    setTimeout(() => alert('🏆 آفرین! همه رو پیدا کردی!'), 500);
+                }
+            } else {
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                card1.textContent = '?';
+                card2.textContent = '?';
+                playWrongSound();
+            }
+
+            flippedCards = [];
+        }
+
+        // Game 3: Skip Counting Race
+        let skipSequence = [];
+        let skipStep = 5;
+        let skipTimer;
+        let skipTime = 30;
+
+        function startSkipRace() {
+            initAudioContext();
+            clearInterval(skipTimer);
+            
+            skipStep = [3, 4, 5, 6][Math.floor(Math.random() * 4)];
+            skipTime = 30;
+            skipSequence = [];
+
+            document.getElementById('skipQuestion').textContent = 'با ' + skipStep + ' تا بشمار!';
+            document.getElementById('timer').textContent = skipTime;
+
+            const buttonsContainer = document.getElementById('skipButtons');
+            buttonsContainer.innerHTML = '';
+
+            // Generate numbers from 1 to 50
+            const numbers = [];
+            for (let i = 1; i <= 50; i++) {
+                numbers.push(i);
+            }
+            numbers.sort(() => Math.random() - 0.5);
+
+            numbers.slice(0, 15).forEach(num => {
+                const btn = document.createElement('button');
+                btn.className = 'skip-btn';
+                btn.textContent = num;
+                btn.dataset.value = num;
+                btn.onclick = function() {
+                    selectSkipNumber(this);
+                };
+                buttonsContainer.appendChild(btn);
+            });
+
+            skipTimer = setInterval(() => {
+                skipTime--;
+                document.getElementById('timer').textContent = skipTime;
+                if (skipTime <= 0) {
+                    clearInterval(skipTimer);
+                    checkSkipSequence();
+                }
+            }, 1000);
+        }
+
+        function selectSkipNumber(btn) {
+            initAudioContext();
+            
+            if (btn.classList.contains('selected')) {
+                return;
+            }
+
+            const value = parseInt(btn.dataset.value);
+            const expectedNext = skipSequence.length === 0 ? skipStep : skipSequence[skipSequence.length - 1] + skipStep;
+
+            if (value === expectedNext) {
+                btn.classList.add('selected');
+                skipSequence.push(value);
+                playSuccessSound();
+                
+                if (skipSequence.length >= 8) {
+                    clearInterval(skipTimer);
+                    totalScore += 50;
+                    updateScoreBoard();
+                    launchConfetti();
+                    alert('🏆 عالی! تا ' + value + ' شمردی!');
+                }
+            } else {
+                playWrongSound();
+                btn.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    btn.style.animation = '';
+                }, 500);
+            }
+        }
+
+        function checkSkipSequence() {
+            if (skipSequence.length > 0) {
+                totalScore += skipSequence.length * 5;
+                updateScoreBoard();
+                alert('✨ خوب بود! ' + skipSequence.length + ' عدد درست انتخاب کردی!');
+            }
+        }
+
+        // Game 4: Quick Fire
+        let quickQuestions = [];
+        let quickCurrentQ = 0;
+        let quickCorrect = 0;
+        let quickTimer;
+        let quickTime = 20;
+
+        function startQuickFire() {
+            initAudioContext();
+            clearInterval(quickTimer);
+            
+            quickCurrentQ = 0;
+            quickCorrect = 0;
+            quickTime = 20;
+            document.getElementById('correctCount').textContent = '0';
+            document.getElementById('totalQuestions').textContent = '5';
+
+            // Generate 5 questions
+            quickQuestions = [];
+            for (let i = 0; i < 5; i++) {
+                const groups = Math.floor(Math.random() * 5) + 2;
+                const items = Math.floor(Math.random() * 6) + 2;
+                quickQuestions.push({ groups, items, answer: groups * items });
+            }
+
+            showNextQuickQuestion();
+
+            quickTimer = setInterval(() => {
+                quickTime--;
+                document.getElementById('quickTimer').textContent = quickTime;
+                if (quickTime <= 0) {
+                    clearInterval(quickTimer);
+                    endQuickFire();
+                }
+            }, 1000);
+        }
+
+        function showNextQuickQuestion() {
+            if (quickCurrentQ >= quickQuestions.length) {
+                clearInterval(quickTimer);
+                endQuickFire();
+                return;
+            }
+
+            const q = quickQuestions[quickCurrentQ];
+            document.getElementById('quickQuestion').textContent = 
+                q.groups + ' گروه، هر کدوم ' + q.items + ' تا = ?';
+
+            const optionsContainer = document.getElementById('quickOptions');
+            optionsContainer.innerHTML = '';
+
+            // Generate options
+            const correct = q.answer;
+            const options = [correct, correct - 2, correct + 2, correct + 4]
+                .sort(() => Math.random() - 0.5);
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = function() {
+                    answerQuickQuestion(opt === correct);
+                };
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function answerQuickQuestion(isCorrect) {
+            initAudioContext();
+            
+            if (isCorrect) {
+                quickCorrect++;
+                totalScore += 15;
+                updateScoreBoard();
+                playSuccessSound();
+                document.getElementById('correctCount').textContent = quickCorrect;
+            } else {
+                playWrongSound();
+            }
+
+            quickCurrentQ++;
+            showNextQuickQuestion();
+        }
+
+        function endQuickFire() {
+            if (quickCorrect === 5) {
+                launchConfetti();
+                alert('🏆 فوق‌العاده! همه رو درست جواب دادی!');
+            } else if (quickCorrect >= 3) {
+                alert('👍 خوب بود! ' + quickCorrect + ' جواب درست!');
+            } else {
+                alert('💪 تلاش کن بیشتر تمرین کنی!');
+            }
+        }
+
+        // Game 5: Pattern Builder
+        let patternBlocks = [];
+        let targetRows = 4;
+        let targetCols = 6;
+
+        function initPattern() {
+            targetRows = Math.floor(Math.random() * 3) + 3; // 3-5
+            targetCols = Math.floor(Math.random() * 4) + 4; // 4-7
+            const target = targetRows * targetCols;
+
+            document.getElementById('patternTask').textContent = 
+                'آرایه ' + targetRows + '×' + targetCols + ' رو بساز!';
+            document.getElementById('targetCount').textContent = target;
+            document.getElementById('selectedCount').textContent = '0';
+
+            const grid = document.getElementById('patternGrid');
+            grid.innerHTML = '';
+            grid.style.display = 'grid';
+            grid.style.gridTemplateColumns = `repeat(${targetCols}, 60px)`;
+            grid.style.gap = '10px';
+            grid.style.justifyContent = 'center';
+            grid.style.margin = '20px auto';
+
+            patternBlocks = [];
+
+            for (let i = 0; i < targetRows * targetCols; i++) {
+                const block = document.createElement('div');
+                block.className = 'pattern-block';
+                block.textContent = '';
+                block.dataset.index = i;
+                block.onclick = function() {
+                    initAudioContext();
+                    this.classList.toggle('filled');
+                    updateSelectedCount();
+                };
+                grid.appendChild(block);
+                patternBlocks.push(block);
+            }
+        }
+
+        function updateSelectedCount() {
+            const selected = document.querySelectorAll('.pattern-block.filled').length;
+            document.getElementById('selectedCount').textContent = selected;
+        }
+
+        function checkPattern() {
+            initAudioContext();
+            const selected = document.querySelectorAll('.pattern-block.filled').length;
+            const target = targetRows * targetCols;
+
+            if (selected === target) {
+                totalScore += 30;
+                updateScoreBoard();
+                playSuccessSound();
+                launchConfetti();
+                alert('🎉 عالی! آرایه ' + targetRows + '×' + targetCols + ' = ' + target + ' رو درست ساختی!');
+                setTimeout(initPattern, 2000);
+            } else {
+                playWrongSound();
+                alert('❌ هنوز نشد! باید دقیقاً ' + target + ' بلوک انتخاب کنی.');
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            initBeads();
+            initPattern();
+            updateScoreBoard();
+        });
+    </script>
+
+    <!-- Student Picker Button -->
+    <button class="student-picker-btn" onclick="openStudentPicker()" title="انتخاب دانش‌آموز">🎲</button>
+
+    <!-- Countdown Overlay -->
+    <div class="countdown-overlay" id="countdownOverlay">
+        <div class="countdown-number" id="countdownNumber"></div>
+    </div>
+
+    <!-- Winner Banner -->
+    <div class="winner-banner" id="winnerBanner">
+        <h1>🎉 برنده شد! 🎉</h1>
+        <div class="winner-number" id="winnerNumber"></div>
+        <div class="winner-message">نوبت پاسخ دهی توست! 🎯</div>
+        <button class="close-winner-btn" onclick="closeWinnerBanner()">متوجه شدم! 👍</button>
+    </div>
+
+    <!-- Student Picker Modal -->
+    <div class="modal-overlay" id="studentModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeStudentPicker()">×</button>
+            <div class="modal-header">
+                <h2>انتخاب دانش‌آموز پاسخ‌دهنده 🎯</h2>
+                <p>روی توپ کلیک کن یا دکمه قرعه‌کشی رو بزن!</p>
+            </div>
+            <div class="balls-container" id="ballsContainer"></div>
+            <button class="pick-random-btn" id="pickRandomBtn" onclick="pickRandomStudent()">
+                🎲 قرعه‌کشی تصادفی!
+            </button>
+            <div class="result-display" id="resultDisplay"></div>
+        </div>
+    </div>
+
+    <script src="student-picker.js"></script>
+</body>
+</html>
+

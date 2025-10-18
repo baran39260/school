@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="student-picker.css">
     <style>
         * {
             margin: 0;
@@ -283,6 +284,18 @@
             }
             50% {
                 background-color: #ffeaa7;
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            10%, 30%, 50%, 70%, 90% {
+                transform: translateX(-8px);
+            }
+            20%, 40%, 60%, 80% {
+                transform: translateX(8px);
             }
         }
 
@@ -827,17 +840,181 @@
 
     <script>
         let currentStep = 1;
+        let audioContext = null;
+
+        // Initialize audio context on first user interaction
+        function initAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                // Resume audio context if suspended (for mobile browsers)
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            }
+            return audioContext;
+        }
 
         function nextStep(step) {
+            // Initialize audio on first interaction
+            initAudioContext();
+            
             document.getElementById('step' + currentStep).classList.remove('active');
             currentStep = step;
             document.getElementById('step' + currentStep).classList.add('active');
             window.scrollTo(0, 0);
         }
 
+        function playSuccessSound() {
+            try {
+                const ctx = initAudioContext();
+                
+                // Resume context if it's suspended
+                if (ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+                
+                // Create an exciting and longer melody for kids
+                const melody = [
+                    // First phrase - ascending
+                    { frequency: 523.25, startTime: 0, duration: 0.2, volume: 0.4 },      // C5
+                    { frequency: 587.33, startTime: 0.2, duration: 0.2, volume: 0.4 },    // D5
+                    { frequency: 659.25, startTime: 0.4, duration: 0.2, volume: 0.4 },    // E5
+                    { frequency: 783.99, startTime: 0.6, duration: 0.2, volume: 0.4 },    // G5
+                    
+                    // Second phrase - high celebration
+                    { frequency: 1046.50, startTime: 0.9, duration: 0.25, volume: 0.5 },  // C6
+                    { frequency: 987.77, startTime: 1.15, duration: 0.15, volume: 0.4 },  // B5
+                    { frequency: 1046.50, startTime: 1.3, duration: 0.25, volume: 0.5 },  // C6
+                    
+                    // Third phrase - triumphant ending
+                    { frequency: 1174.66, startTime: 1.6, duration: 0.2, volume: 0.5 },   // D6
+                    { frequency: 1318.51, startTime: 1.8, duration: 0.2, volume: 0.5 },   // E6
+                    { frequency: 1046.50, startTime: 2.0, duration: 0.5, volume: 0.6 }    // C6 (long final note)
+                ];
+
+                // Play the main melody with square wave for brightness
+                melody.forEach(note => {
+                    const oscillator = ctx.createOscillator();
+                    const gainNode = ctx.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(ctx.destination);
+                    
+                    oscillator.frequency.value = note.frequency;
+                    oscillator.type = 'triangle'; // Warmer, child-friendly sound
+                    
+                    const now = ctx.currentTime;
+                    const startTime = now + note.startTime;
+                    const endTime = startTime + note.duration;
+                    
+                    gainNode.gain.setValueAtTime(0, startTime);
+                    gainNode.gain.linearRampToValueAtTime(note.volume, startTime + 0.02);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, endTime);
+                    
+                    oscillator.start(startTime);
+                    oscillator.stop(endTime);
+                });
+
+                // Add harmony notes for richness
+                const harmony = [
+                    { frequency: 659.25, startTime: 0.9, duration: 0.25 },   // E5
+                    { frequency: 783.99, startTime: 1.15, duration: 0.15 },  // G5
+                    { frequency: 659.25, startTime: 1.3, duration: 0.25 },   // E5
+                    { frequency: 783.99, startTime: 2.0, duration: 0.5 }     // G5
+                ];
+
+                harmony.forEach(note => {
+                    const oscillator = ctx.createOscillator();
+                    const gainNode = ctx.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(ctx.destination);
+                    
+                    oscillator.frequency.value = note.frequency;
+                    oscillator.type = 'sine';
+                    
+                    const now = ctx.currentTime;
+                    const startTime = now + note.startTime;
+                    const endTime = startTime + note.duration;
+                    
+                    gainNode.gain.setValueAtTime(0, startTime);
+                    gainNode.gain.linearRampToValueAtTime(0.2, startTime + 0.02);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, endTime);
+                    
+                    oscillator.start(startTime);
+                    oscillator.stop(endTime);
+                });
+
+                // Add sparkle effects throughout
+                const sparkles = [
+                    { time: 0.1, startFreq: 2000, endFreq: 2800 },
+                    { time: 0.5, startFreq: 2200, endFreq: 3000 },
+                    { time: 0.9, startFreq: 2500, endFreq: 3200 },
+                    { time: 1.3, startFreq: 2300, endFreq: 3100 },
+                    { time: 1.7, startFreq: 2600, endFreq: 3400 },
+                    { time: 2.0, startFreq: 2800, endFreq: 3600 }
+                ];
+
+                sparkles.forEach(sparkle => {
+                    setTimeout(() => {
+                        const sparkleOscillator = ctx.createOscillator();
+                        const sparkleGain = ctx.createGain();
+                        
+                        sparkleOscillator.connect(sparkleGain);
+                        sparkleGain.connect(ctx.destination);
+                        
+                        sparkleOscillator.type = 'sine';
+                        sparkleOscillator.frequency.setValueAtTime(sparkle.startFreq, ctx.currentTime);
+                        sparkleOscillator.frequency.exponentialRampToValueAtTime(sparkle.endFreq, ctx.currentTime + 0.25);
+                        
+                        sparkleGain.gain.setValueAtTime(0.15, ctx.currentTime);
+                        sparkleGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+                        
+                        sparkleOscillator.start(ctx.currentTime);
+                        sparkleOscillator.stop(ctx.currentTime + 0.25);
+                    }, sparkle.time * 1000);
+                });
+
+                // Add a drum-like beat for excitement
+                const beats = [0, 0.2, 0.4, 0.6, 0.9, 1.3, 2.0];
+                beats.forEach(time => {
+                    const noise = ctx.createOscillator();
+                    const noiseGain = ctx.createGain();
+                    const noiseFilter = ctx.createBiquadFilter();
+                    
+                    noise.type = 'square';
+                    noise.frequency.value = 80;
+                    noiseFilter.type = 'lowpass';
+                    noiseFilter.frequency.value = 150;
+                    
+                    noise.connect(noiseFilter);
+                    noiseFilter.connect(noiseGain);
+                    noiseGain.connect(ctx.destination);
+                    
+                    const now = ctx.currentTime;
+                    const startTime = now + time;
+                    
+                    noiseGain.gain.setValueAtTime(0.15, startTime);
+                    noiseGain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.08);
+                    
+                    noise.start(startTime);
+                    noise.stop(startTime + 0.08);
+                });
+
+            } catch (error) {
+                console.error('Error playing sound:', error);
+            }
+        }
+
         function correctAnswer() {
+            // Initialize audio context on user interaction
+            initAudioContext();
+            
             const feedback = document.getElementById('quiz-feedback');
             feedback.innerHTML = '<span style="color: #4ecdc4; font-weight: bold;">🎉 آفرین! درست گفتی! ۵ + ۵ + ۵ = ۱۵ 🎉</span>';
+
+            // Play success sound
+            playSuccessSound();
 
             // Launch confetti
             launchConfetti();
@@ -847,9 +1024,67 @@
             }, 3000);
         }
 
+        function playWrongSound() {
+            try {
+                const ctx = initAudioContext();
+                
+                if (ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+                
+                // Create a gentle "oops" sound - not scary, encouraging to try again
+                const notes = [
+                    { frequency: 400, startTime: 0, duration: 0.15, volume: 0.3 },
+                    { frequency: 350, startTime: 0.15, duration: 0.2, volume: 0.25 }
+                ];
+
+                notes.forEach(note => {
+                    const oscillator = ctx.createOscillator();
+                    const gainNode = ctx.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(ctx.destination);
+                    
+                    oscillator.frequency.value = note.frequency;
+                    oscillator.type = 'sine';
+                    
+                    const now = ctx.currentTime;
+                    const startTime = now + note.startTime;
+                    const endTime = startTime + note.duration;
+                    
+                    gainNode.gain.setValueAtTime(0, startTime);
+                    gainNode.gain.linearRampToValueAtTime(note.volume, startTime + 0.01);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, endTime);
+                    
+                    oscillator.start(startTime);
+                    oscillator.stop(endTime);
+                });
+
+            } catch (error) {
+                console.error('Error playing wrong sound:', error);
+            }
+        }
+
+        function shakeButton(btn) {
+            btn.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                btn.style.animation = '';
+            }, 500);
+        }
+
         function wrongAnswer(btn, message) {
+            // Initialize audio context on user interaction
+            initAudioContext();
+            
             const feedback = document.getElementById('quiz-feedback');
             feedback.innerHTML = '<span style="color: #ff6b6b;">' + message + '</span>';
+            
+            // Play gentle wrong sound
+            playWrongSound();
+            
+            // Shake the button
+            shakeButton(btn);
+            
             btn.style.opacity = '0.5';
             btn.disabled = true;
 
@@ -874,15 +1109,25 @@
         }
 
         // Confetti animation
+        let confettiAnimationId = null;
+        
         function launchConfetti() {
             const canvas = document.getElementById('confetti');
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
+            // Cancel any existing animation
+            if (confettiAnimationId) {
+                cancelAnimationFrame(confettiAnimationId);
+                confettiAnimationId = null;
+            }
+
             const confettiPieces = [];
             const confettiCount = 150;
             const colors = ['#ff6b6b', '#4ecdc4', '#ffeaa7', '#fab1a0', '#a29bfe', '#fd79a8'];
+            const startTime = Date.now();
+            const duration = 3000; // 3 seconds
 
             class ConfettiPiece {
                 constructor() {
@@ -901,9 +1146,9 @@
                     this.x += this.speedX;
                     this.rotation += this.rotationSpeed;
 
+                    // Don't reset position - let confetti fall off screen
                     if (this.y > canvas.height) {
-                        this.y = -10;
-                        this.x = Math.random() * canvas.width;
+                        this.y = canvas.height + 10; // Move it off screen
                     }
                 }
 
@@ -922,6 +1167,15 @@
             }
 
             function animate() {
+                const elapsed = Date.now() - startTime;
+                
+                // Stop animation after duration
+                if (elapsed >= duration) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    confettiAnimationId = null;
+                    return;
+                }
+
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
                 confettiPieces.forEach(piece => {
@@ -929,14 +1183,10 @@
                     piece.draw();
                 });
 
-                requestAnimationFrame(animate);
+                confettiAnimationId = requestAnimationFrame(animate);
             }
 
             animate();
-
-            setTimeout(() => {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }, 5000);
         }
 
         // Animate groups appearing sequentially
@@ -982,5 +1232,39 @@
             });
         });
     </script>
+
+    <!-- Student Picker Button -->
+    <button class="student-picker-btn" onclick="openStudentPicker()" title="انتخاب دانش‌آموز">🎲</button>
+
+    <!-- Countdown Overlay -->
+    <div class="countdown-overlay" id="countdownOverlay">
+        <div class="countdown-number" id="countdownNumber"></div>
+    </div>
+
+    <!-- Winner Banner -->
+    <div class="winner-banner" id="winnerBanner">
+        <h1>🎉 برنده شد! 🎉</h1>
+        <div class="winner-number" id="winnerNumber"></div>
+        <div class="winner-message">نوبت پاسخ دهی توست! 🎯</div>
+        <button class="close-winner-btn" onclick="closeWinnerBanner()">متوجه شدم! 👍</button>
+    </div>
+
+    <!-- Student Picker Modal -->
+    <div class="modal-overlay" id="studentModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeStudentPicker()">×</button>
+            <div class="modal-header">
+                <h2>انتخاب دانش‌آموز پاسخ‌دهنده 🎯</h2>
+                <p>روی توپ کلیک کن یا دکمه قرعه‌کشی رو بزن!</p>
+            </div>
+            <div class="balls-container" id="ballsContainer"></div>
+            <button class="pick-random-btn" id="pickRandomBtn" onclick="pickRandomStudent()">
+                🎲 قرعه‌کشی تصادفی!
+            </button>
+            <div class="result-display" id="resultDisplay"></div>
+        </div>
+    </div>
+
+    <script src="student-picker.js"></script>
 </body>
 </html>

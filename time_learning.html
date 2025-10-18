@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="student-picker.css">
     <style>
         * {
             margin: 0;
@@ -307,6 +308,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            -webkit-appearance: none;
+            appearance: none;
         }
 
         .btn:hover {
@@ -494,6 +497,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Vazir', sans-serif;
+            -webkit-appearance: none;
+            appearance: none;
         }
 
         .quiz-option:hover {
@@ -519,8 +524,8 @@
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+            20%, 40%, 60%, 80% { transform: translateX(8px); }
         }
 
         .feedback {
@@ -1998,6 +2003,8 @@
     </style>
 </head>
 <body>
+    <canvas id="confetti"></canvas>
+    
     <div class="container">
         <a href="math.html" class="back-button">🏠 بازگشت به صفحه ریاضی</a>
 
@@ -2491,6 +2498,236 @@
     </div>
 
     <script>
+        // Audio context and confetti animation management
+        let audioContext = null;
+        let confettiAnimationId = null;
+
+        function initAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            }
+            return audioContext;
+        }
+
+        function playSuccessSound() {
+            const ctx = initAudioContext();
+            const now = ctx.currentTime;
+            const duration = 2.5;
+
+            // Main melody notes with longer duration
+            const melodyNotes = [
+                { freq: 523.25, start: 0, duration: 0.15 },      // C5
+                { freq: 659.25, start: 0.15, duration: 0.15 },   // E5
+                { freq: 783.99, start: 0.3, duration: 0.15 },    // G5
+                { freq: 1046.50, start: 0.45, duration: 0.3 },   // C6
+                { freq: 987.77, start: 0.8, duration: 0.15 },    // B5
+                { freq: 1046.50, start: 0.95, duration: 0.4 }    // C6 (longer)
+            ];
+
+            // Create melody
+            melodyNotes.forEach(note => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.frequency.value = note.freq;
+                osc.type = 'sine';
+                
+                gain.gain.setValueAtTime(0, now + note.start);
+                gain.gain.linearRampToValueAtTime(0.15, now + note.start + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + note.start + note.duration);
+                
+                osc.start(now + note.start);
+                osc.stop(now + note.start + note.duration);
+            });
+
+            // Add harmony
+            const harmonyNotes = [
+                { freq: 392.00, start: 0.45, duration: 0.3 },    // G4
+                { freq: 659.25, start: 0.45, duration: 0.3 },    // E5
+                { freq: 523.25, start: 0.95, duration: 0.4 }     // C5
+            ];
+
+            harmonyNotes.forEach(note => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.frequency.value = note.freq;
+                osc.type = 'triangle';
+                
+                gain.gain.setValueAtTime(0, now + note.start);
+                gain.gain.linearRampToValueAtTime(0.08, now + note.start + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + note.start + note.duration);
+                
+                osc.start(now + note.start);
+                osc.stop(now + note.start + note.duration);
+            });
+
+            // Add sparkle effects
+            for (let i = 0; i < 8; i++) {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.frequency.value = 2000 + Math.random() * 1000;
+                osc.type = 'sine';
+                
+                const startTime = now + 0.5 + (i * 0.08);
+                gain.gain.setValueAtTime(0, startTime);
+                gain.gain.linearRampToValueAtTime(0.08, startTime + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.15);
+                
+                osc.start(startTime);
+                osc.stop(startTime + 0.15);
+            }
+
+            // Add celebration beats
+            for (let i = 0; i < 3; i++) {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.frequency.value = 80;
+                osc.type = 'triangle';
+                
+                const startTime = now + 0.45 + (i * 0.25);
+                gain.gain.setValueAtTime(0.2, startTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.1);
+                
+                osc.start(startTime);
+                osc.stop(startTime + 0.1);
+            }
+        }
+
+        function playWrongSound() {
+            const ctx = initAudioContext();
+            const now = ctx.currentTime;
+            
+            // Gentle descending "oops" sound
+            const notes = [
+                { freq: 400, start: 0, duration: 0.15 },
+                { freq: 350, start: 0.1, duration: 0.15 },
+                { freq: 300, start: 0.2, duration: 0.2 }
+            ];
+            
+            notes.forEach(note => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.frequency.value = note.freq;
+                osc.type = 'sine';
+                
+                gain.gain.setValueAtTime(0, now + note.start);
+                gain.gain.linearRampToValueAtTime(0.1, now + note.start + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + note.start + note.duration);
+                
+                osc.start(now + note.start);
+                osc.stop(now + note.start + note.duration);
+            });
+        }
+
+        function shakeButton(btn) {
+            btn.style.animation = 'none';
+            setTimeout(() => {
+                btn.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    btn.style.animation = '';
+                }, 500);
+            }, 10);
+        }
+
+        function launchConfetti() {
+            const canvas = document.createElement('canvas');
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.pointerEvents = 'none';
+            canvas.style.zIndex = '9999';
+            document.body.appendChild(canvas);
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const ctx = canvas.getContext('2d');
+            const pieces = [];
+            const numberOfPieces = 100;
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#a29bfe', '#fd79a8', '#fdcb6e'];
+
+            for (let i = 0; i < numberOfPieces; i++) {
+                pieces.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    w: Math.random() * 10 + 5,
+                    h: Math.random() * 10 + 5,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rotation: Math.random() * 360,
+                    rotationSpeed: Math.random() * 10 - 5,
+                    vx: Math.random() * 4 - 2,
+                    vy: Math.random() * 3 + 2
+                });
+            }
+
+            // Cancel any existing confetti animation
+            if (confettiAnimationId) {
+                cancelAnimationFrame(confettiAnimationId);
+                confettiAnimationId = null;
+            }
+
+            const startTime = Date.now();
+            const duration = 3000; // 3 seconds
+
+            function animate() {
+                const elapsed = Date.now() - startTime;
+                
+                // Stop after duration
+                if (elapsed >= duration) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    document.body.removeChild(canvas);
+                    confettiAnimationId = null;
+                    return;
+                }
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                pieces.forEach(p => {
+                    ctx.save();
+                    ctx.translate(p.x + p.w / 2, p.y + p.h / 2);
+                    ctx.rotate(p.rotation * Math.PI / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                    ctx.restore();
+
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.rotation += p.rotationSpeed;
+                    p.vy += 0.1;
+
+                    // Don't reset position - let pieces fall off screen naturally
+                });
+
+                confettiAnimationId = requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
         // قبل از ظهر: از ۱۲ شب تا ۱۲ ظهر
         const amActivities = [
             { time: '12:00 شب', hour: 0, minute: 0, icon: '😴', title: 'نیمه شب - خواب', desc: '💤 ساعت ۱۲ شب - علی در خواب عمیق است' },
@@ -2863,6 +3100,8 @@
         };
 
         function checkAnswer(button, answer, questionId) {
+            initAudioContext();
+            
             const options = button.parentElement.querySelectorAll('.quiz-option');
             const feedback = document.getElementById(`feedback-${questionId}`);
 
@@ -2876,11 +3115,15 @@
                 button.classList.add('correct');
                 feedback.textContent = '✅ آفرین! پاسخ درست بود!';
                 feedback.className = 'feedback correct show';
+                playSuccessSound();
+                launchConfetti();
                 updateScore(1);
             } else {
                 button.classList.add('wrong');
                 feedback.textContent = '❌ تلاش خوبی بود! دوباره فکر کن.';
                 feedback.className = 'feedback wrong show';
+                playWrongSound();
+                shakeButton(button);
 
                 // Show correct answer
                 options.forEach(opt => {
@@ -3161,6 +3404,8 @@
 
         // Exercise 1: Time Conversion
         function checkConversion(button, correctAnswer, exerciseId) {
+            initAudioContext();
+            
             const feedback = document.getElementById('feedback-' + exerciseId);
             const allButtons = button.parentElement.querySelectorAll('.conversion-btn');
 
@@ -3174,6 +3419,8 @@
                 button.classList.add('correct');
                 feedback.textContent = '✓ عالی! جواب درست است!';
                 feedback.className = 'conversion-feedback correct';
+                playSuccessSound();
+                launchConfetti();
 
                 // Only increment if this exercise wasn't already completed
                 if (!button.parentElement.parentElement.dataset.completed) {
@@ -3185,6 +3432,8 @@
                 button.classList.add('wrong');
                 feedback.textContent = '✗ اشتباه است! دوباره تلاش کن.';
                 feedback.className = 'conversion-feedback wrong';
+                playWrongSound();
+                shakeButton(button);
 
                 // Re-enable buttons after 1.5 seconds
                 setTimeout(() => {
@@ -3200,6 +3449,8 @@
 
         // Exercise 2: Time Reading
         function checkTimeReading(button, correctness, exerciseId, timeStr) {
+            initAudioContext();
+            
             const allButtons = button.parentElement.querySelectorAll('.time-reading-btn');
 
             // Disable all buttons after selection
@@ -3207,6 +3458,8 @@
 
             if (correctness === 'correct') {
                 button.classList.add('correct');
+                playSuccessSound();
+                launchConfetti();
 
                 // Only increment if this exercise wasn't already completed
                 if (!button.parentElement.parentElement.dataset.completed) {
@@ -3216,6 +3469,8 @@
                 }
             } else {
                 button.classList.add('wrong');
+                playWrongSound();
+                shakeButton(button);
 
                 // Re-enable buttons after 1.5 seconds
                 setTimeout(() => {
@@ -3229,6 +3484,8 @@
 
         // Exercise 3: Word Problems
         function checkProblem(button, correctness, problemId) {
+            initAudioContext();
+            
             const allButtons = button.parentElement.querySelectorAll('.problem-btn');
 
             // Disable all buttons after selection
@@ -3236,6 +3493,8 @@
 
             if (correctness === 'correct') {
                 button.classList.add('correct');
+                playSuccessSound();
+                launchConfetti();
 
                 // Create feedback if doesn't exist
                 let feedback = button.parentElement.parentElement.querySelector('.problem-feedback');
@@ -3255,6 +3514,8 @@
                 }
             } else {
                 button.classList.add('wrong');
+                playWrongSound();
+                shakeButton(button);
 
                 let feedback = button.parentElement.parentElement.querySelector('.problem-feedback');
                 if (!feedback) {
@@ -3281,6 +3542,8 @@
         let draggedElement = null;
 
         function checkSequence() {
+            initAudioContext();
+            
             const container = document.getElementById('sequenceItems');
             const items = Array.from(container.querySelectorAll('.sequence-item'));
             const times = items.map(item => parseInt(item.dataset.time));
@@ -3306,6 +3569,8 @@
                 items.forEach(item => item.classList.add('correct-position'));
                 feedback.textContent = '🎉 عالی! ترتیب صحیح است!';
                 feedback.className = 'sequence-feedback correct';
+                playSuccessSound();
+                launchConfetti();
 
                 // Only increment if this exercise wasn't already completed
                 if (!container.parentElement.dataset.completed) {
@@ -3322,6 +3587,7 @@
             } else {
                 feedback.textContent = '💡 هنوز درست نیست! دوباره ترتیب بده.';
                 feedback.className = 'sequence-feedback partial';
+                playWrongSound();
             }
         }
 
@@ -3611,5 +3877,39 @@
         }
 
     </script>
+
+    <!-- Student Picker Button -->
+    <button class="student-picker-btn" onclick="openStudentPicker()" title="انتخاب دانش‌آموز">🎲</button>
+
+    <!-- Countdown Overlay -->
+    <div class="countdown-overlay" id="countdownOverlay">
+        <div class="countdown-number" id="countdownNumber"></div>
+    </div>
+
+    <!-- Winner Banner -->
+    <div class="winner-banner" id="winnerBanner">
+        <h1>🎉 برنده شد! 🎉</h1>
+        <div class="winner-number" id="winnerNumber"></div>
+        <div class="winner-message">نوبت پاسخ دهی توست! 🎯</div>
+        <button class="close-winner-btn" onclick="closeWinnerBanner()">متوجه شدم! 👍</button>
+    </div>
+
+    <!-- Student Picker Modal -->
+    <div class="modal-overlay" id="studentModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeStudentPicker()">×</button>
+            <div class="modal-header">
+                <h2>انتخاب دانش‌آموز پاسخ‌دهنده 🎯</h2>
+                <p>روی توپ کلیک کن یا دکمه قرعه‌کشی رو بزن!</p>
+            </div>
+            <div class="balls-container" id="ballsContainer"></div>
+            <button class="pick-random-btn" id="pickRandomBtn" onclick="pickRandomStudent()">
+                🎲 قرعه‌کشی تصادفی!
+            </button>
+            <div class="result-display" id="resultDisplay"></div>
+        </div>
+    </div>
+
+    <script src="student-picker.js"></script>
 </body>
 </html>

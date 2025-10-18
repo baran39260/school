@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>چالش ضرب - سطح پیشرفته! 🎯</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="student-picker.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step {
+            display: none;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        h1 {
+            color: #ff6b6b;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #4ecdc4;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .story-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 3px solid #ff6b6b;
+            font-size: 1.125rem;
+            line-height: 1.8;
+        }
+
+        .challenge-box {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 3px dashed #4ecdc4;
+        }
+
+        .array-grid {
+            display: grid;
+            gap: 8px;
+            justify-content: center;
+            margin: 25px auto;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            max-width: fit-content;
+        }
+
+        .array-item {
+            font-size: 2.5em;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .array-item:hover {
+            transform: scale(1.1);
+        }
+
+        .answer-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .answer-btn {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 15px;
+            font-size: 1.125rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            -webkit-appearance: none;
+            appearance: none;
+            touch-action: manipulation;
+        }
+
+        .answer-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .answer-btn:active {
+            transform: scale(0.98);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 15px;
+            font-size: 1.125rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            transition: all 0.3s ease;
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .next-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .drag-drop-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .drop-zone {
+            width: 150px;
+            height: 150px;
+            border: 3px dashed #4ecdc4;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone.over {
+            background: #e3f2fd;
+            border-color: #2196F3;
+            transform: scale(1.05);
+        }
+
+        .drop-zone.filled {
+            background: #c8e6c9;
+            border-color: #4CAF50;
+        }
+
+        .draggable {
+            width: 120px;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 10px;
+            cursor: move;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .draggable:hover {
+            transform: scale(1.05);
+        }
+
+        .draggable.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+        }
+
+        .input-answer {
+            width: 100px;
+            padding: 12px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            border: 3px solid #4ecdc4;
+            border-radius: 10px;
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            margin: 0 10px;
+        }
+
+        .input-answer:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+        }
+
+        .check-btn {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-size: 1.125rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Vazir', Tahoma, Arial, sans-serif;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .feedback {
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+            animation: slideInUp 0.5s ease;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 3px solid #4ecdc4;
+        }
+
+        .feedback.wrong {
+            background: #fff3cd;
+            color: #d63031;
+            border: 3px solid #ffc107;
+        }
+
+        .comparison-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .comparison-box {
+            background: white;
+            border: 3px solid #4ecdc4;
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ecdc4, #44a08d);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .emoji {
+            font-size: 2em;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+            20%, 40%, 60%, 80% { transform: translateX(8px); }
+        }
+
+        .skip-counting {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+
+        .skip-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3436;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            animation: popIn 0.5s ease;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .array-item {
+                font-size: 2em;
+                width: 50px;
+                height: 50px;
+            }
+
+            .draggable {
+                width: 100px;
+                font-size: 1rem;
+            }
+
+            .drop-zone {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti"></canvas>
+
+    <div class="container">
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar">0%</div>
+        </div>
+
+        <!-- Step 1: Introduction -->
+        <div class="step active" id="step1">
+            <h1>چالش ضرب - سطح پیشرفته! <span class="emoji">🎯</span></h1>
+            <div class="story-box">
+                <p><span class="emoji">🌟</span> سلام قهرمان!</p>
+                <p>تو الان آماده‌ای برای چالش‌های هیجان‌انگیزتر؟</p>
+                <p>امروز می‌خوایم با هم چیزهای جالبی یاد بگیریم:</p>
+                <p>✨ آرایه‌های بزرگ‌تر و پیچیده‌تر</p>
+                <p>✨ شمارش پرشی سریع</p>
+                <p>✨ حل مسائل واقعی</p>
+                <p>✨ و یه راز جادویی درباره ترتیب!</p>
+            </div>
+            <button class="next-btn" onclick="nextStep(2)">بزن بریم! <span class="emoji">🚀</span></button>
+        </div>
+
+        <!-- Step 2: Large Arrays -->
+        <div class="step" id="step2">
+            <h2>آرایه‌های بزرگ <span class="emoji">📐</span></h2>
+            <p>نگاه کن به این آرایه بزرگ از ستاره‌ها!</p>
+            
+            <div class="array-grid" style="grid-template-columns: repeat(6, 1fr);">
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+                <div class="array-item">⭐</div>
+            </div>
+
+            <div class="challenge-box">
+                <p><strong>سوال:</strong> چند ردیف ستاره داریم؟ <input type="number" class="input-answer" id="rows2" min="0" max="20"></p>
+                <p><strong>سوال:</strong> چند ستون ستاره داریم؟ <input type="number" class="input-answer" id="cols2" min="0" max="20"></p>
+                <p><strong>سوال:</strong> جمعاً چند ستاره داریم؟ <input type="number" class="input-answer" id="total2" min="0" max="100"></p>
+                <button class="check-btn" onclick="checkArrayAnswer(4, 6, 24, 2)">بررسی کن! ✓</button>
+                <div class="feedback" id="feedback2"></div>
+            </div>
+        </div>
+
+        <!-- Step 3: Commutative Property -->
+        <div class="step" id="step3">
+            <h2>راز جابجایی! <span class="emoji">🔄</span></h2>
+            <div class="story-box">
+                <p>می‌دونی چیه؟ یه راز جالب هست!</p>
+                <p>فرقی نمی‌کنه که از کدوم طرف بشماریم، جواب یکیه! <span class="emoji">✨</span></p>
+            </div>
+
+            <div class="comparison-container">
+                <div class="comparison-box">
+                    <h3 style="color: #ff6b6b;">۳ ردیف، هر کدوم ۵ تا</h3>
+                    <div class="array-grid" style="grid-template-columns: repeat(5, 1fr);">
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                    </div>
+                    <p style="margin-top: 15px; font-weight: 600;">۵ + ۵ + ۵ = ۱۵</p>
+                </div>
+
+                <div class="comparison-box">
+                    <h3 style="color: #4ecdc4;">۵ ردیف، هر کدوم ۳ تا</h3>
+                    <div class="array-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                        <div class="array-item">🍎</div>
+                    </div>
+                    <p style="margin-top: 15px; font-weight: 600;">۳ + ۳ + ۳ + ۳ + ۳ = ۱۵</p>
+                </div>
+            </div>
+
+            <div class="challenge-box">
+                <p style="font-size: 1.3rem;"><strong>هر دو یکسان هستن! هر دو ۱۵ تا! <span class="emoji">🎉</span></strong></p>
+                <p>یعنی می‌تونیم به دو شکل مختلف همون چیز رو بشماریم!</p>
+            </div>
+
+            <button class="next-btn" onclick="nextStep(4)">سوال بعدی! <span class="emoji">➡️</span></button>
+        </div>
+
+        <!-- Step 4: Drag and Drop Challenge -->
+        <div class="step" id="step4">
+            <h2>چالش کشیدن و رها کردن! <span class="emoji">🎯</span></h2>
+            <p>اعداد رو بکش و تو خونه‌های درست بذار!</p>
+
+            <div class="challenge-box">
+                <p><strong>۴ گروه، هر کدوم ۷ تا دارن</strong></p>
+                <div style="text-align: center; margin: 20px 0; font-size: 1.5rem;">
+                    ۷ + ۷ + ۷ + ۷ = ?
+                </div>
+
+                <div class="drag-drop-container">
+                    <div class="drop-zone" id="dropZone4" data-correct="28">
+                        کشیدن اینجا
+                    </div>
+                </div>
+
+                <div class="drag-drop-container">
+                    <div class="draggable" draggable="true" data-value="24">۲۴</div>
+                    <div class="draggable" draggable="true" data-value="28">۲۸</div>
+                    <div class="draggable" draggable="true" data-value="32">۳۲</div>
+                    <div class="draggable" draggable="true" data-value="21">۲۱</div>
+                </div>
+
+                <div class="feedback" id="feedback4"></div>
+            </div>
+        </div>
+
+        <!-- Step 5: Skip Counting -->
+        <div class="step" id="step5">
+            <h2>شمارش پرشی! <span class="emoji">🦘</span></h2>
+            <p>بیا با ۳ تا بشماریم!</p>
+
+            <div class="skip-counting">
+                <div class="skip-number">۳</div>
+                <div class="skip-number">۶</div>
+                <div class="skip-number">۹</div>
+                <div class="skip-number">۱۲</div>
+                <div class="skip-number">۱۵</div>
+                <div class="skip-number">۱۸</div>
+                <div class="skip-number">۲۱</div>
+                <div class="skip-number">۲۴</div>
+            </div>
+
+            <div class="challenge-box">
+                <p><strong>سوال:</strong> اگه با ۳ تا بشماریم، بعد از ۲۴ چی میاد؟</p>
+                <input type="number" class="input-answer" id="skipCount1" min="0" max="50">
+                <button class="check-btn" onclick="checkSkipCounting(27, 5)">بررسی! ✓</button>
+                <div class="feedback" id="feedback5"></div>
+            </div>
+        </div>
+
+        <!-- Step 6: Word Problems -->
+        <div class="step" id="step6">
+            <h2>مسائل واقعی! <span class="emoji">📝</span></h2>
+            <div class="challenge-box">
+                <p style="font-size: 1.2rem; line-height: 2;">
+                    <span class="emoji">🍪</span> سارا برای مهمونی کلوچه درست می‌کنه.<br>
+                    اون ۵ تا سینی داره و تو هر سینی ۸ تا کلوچه می‌ذاره.<br>
+                    بعد از مهمونی، ۶ تا کلوچه خورده میشه و بقیه می‌مونن.<br><br>
+                    <strong>سوال ۱:</strong> اول چند تا کلوچه داشت؟
+                    <input type="number" class="input-answer" id="word1" min="0" max="100"><br><br>
+                    <strong>سوال ۲:</strong> بعد از مهمونی چند تا کلوچه موند؟
+                    <input type="number" class="input-answer" id="word2" min="0" max="100">
+                </p>
+                <button class="check-btn" onclick="checkWordProblem(40, 34, 6)">بررسی جواب! ✓</button>
+                <div class="feedback" id="feedback6"></div>
+            </div>
+        </div>
+
+        <!-- Step 7: Pattern Recognition -->
+        <div class="step" id="step7">
+            <h2>الگوها رو پیدا کن! <span class="emoji">🔍</span></h2>
+            <div class="challenge-box">
+                <p>نگاه کن به این الگو:</p>
+                <div style="text-align: center; font-size: 1.3rem; line-height: 2.5;">
+                    ۶ + ۶ = ۱۲<br>
+                    ۶ + ۶ + ۶ = ۱۸<br>
+                    ۶ + ۶ + ۶ + ۶ = ۲۴<br>
+                    ۶ + ۶ + ۶ + ۶ + ۶ = ?
+                </div>
+                <p><strong>سوال:</strong> عدد بعدی چیه؟</p>
+                <div class="answer-box">
+                    <button class="answer-btn" onclick="checkPattern(28, 7)">۲۸</button>
+                    <button class="answer-btn" onclick="checkPattern(30, 7)">۳۰</button>
+                    <button class="answer-btn" onclick="checkPattern(32, 7)">۳۲</button>
+                    <button class="answer-btn" onclick="checkPattern(36, 7)">۳۶</button>
+                </div>
+                <div class="feedback" id="feedback7"></div>
+            </div>
+        </div>
+
+        <!-- Step 8: Speed Challenge -->
+        <div class="step" id="step8">
+            <h2>چالش سرعت! <span class="emoji">⚡</span></h2>
+            <p>چند تا سریع جواب بده!</p>
+
+            <div class="challenge-box" style="margin-bottom: 20px;">
+                <p>۴ گروه ۵تایی = <input type="number" class="input-answer" id="speed1" min="0" max="50"></p>
+            </div>
+
+            <div class="challenge-box" style="margin-bottom: 20px;">
+                <p>۷ گروه ۳تایی = <input type="number" class="input-answer" id="speed2" min="0" max="50"></p>
+            </div>
+
+            <div class="challenge-box" style="margin-bottom: 20px;">
+                <p>۶ گروه ۴تایی = <input type="number" class="input-answer" id="speed3" min="0" max="50"></p>
+            </div>
+
+            <button class="check-btn" onclick="checkSpeedChallenge(20, 21, 24, 8)">بررسی همه! ✓</button>
+            <div class="feedback" id="feedback8"></div>
+        </div>
+
+        <!-- Step 9: Compare Challenge -->
+        <div class="step" id="step9">
+            <h2>چی بیشتره؟ <span class="emoji">⚖️</span></h2>
+            <div class="comparison-container">
+                <div class="comparison-box">
+                    <h3>گزینه A</h3>
+                    <p style="font-size: 1.3rem; margin: 20px 0;">۵ گروه ۶تایی</p>
+                </div>
+                <div class="comparison-box">
+                    <h3>گزینه B</h3>
+                    <p style="font-size: 1.3rem; margin: 20px 0;">۶ گروه ۵تایی</p>
+                </div>
+            </div>
+
+            <div class="challenge-box">
+                <p><strong>کدوم بیشتره؟</strong></p>
+                <div class="answer-box">
+                    <button class="answer-btn" onclick="checkComparison('A', 9)">A بیشتره</button>
+                    <button class="answer-btn" onclick="checkComparison('equal', 9)">هر دو یکسانن</button>
+                    <button class="answer-btn" onclick="checkComparison('B', 9)">B بیشتره</button>
+                </div>
+                <div class="feedback" id="feedback9"></div>
+            </div>
+        </div>
+
+        <!-- Step 10: Final Challenge -->
+        <div class="step" id="step10">
+            <h2>چالش نهایی! <span class="emoji">🏆</span></h2>
+            <div class="array-grid" style="grid-template-columns: repeat(7, 1fr);">
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+                <div class="array-item">🎁</div>
+            </div>
+
+            <div class="challenge-box">
+                <p style="font-size: 1.3rem; line-height: 2;">
+                    <strong>سوال چالشی:</strong><br>
+                    این آرایه رو می‌تونی به دو شکل بشماری!<br>
+                    یه شکل رو بگو:<br><br>
+                    <input type="number" class="input-answer" id="final1" min="0" max="20" placeholder="تعداد ردیف"> ردیف،
+                    هر کدوم <input type="number" class="input-answer" id="final2" min="0" max="20" placeholder="تعداد ستون"> تا<br><br>
+                    جمعاً = <input type="number" class="input-answer" id="final3" min="0" max="100">
+                </p>
+                <button class="check-btn" onclick="checkFinalChallenge(10)">بررسی جواب! ✓</button>
+                <div class="feedback" id="feedback10"></div>
+            </div>
+        </div>
+
+        <!-- Step 11: Completion -->
+        <div class="step" id="step11">
+            <h1>وااااو! تو یه استادی! <span class="emoji">🏆</span></h1>
+            <div class="story-box" style="background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 50%, #a29bfe 100%);">
+                <p style="text-align: center; font-size: 1.5rem;">
+                    <span class="emoji">🎉</span> تبریک میگم!<br><br>
+                    امروز یاد گرفتی:<br><br>
+                    ✅ آرایه‌های بزرگ رو بشماری<br>
+                    ✅ فرقی نداره از کجا شروع کنی، جواب یکیه!<br>
+                    ✅ شمارش پرشی خیلی سریع‌تره!<br>
+                    ✅ مسائل واقعی رو حل کنی<br>
+                    ✅ الگوها رو پیدا کنی<br><br>
+                    <span class="emoji">🌟</span> تو الان پایه‌های قوی برای یادگیری ضرب داری!<br>
+                    بعداً می‌فهمی که این چیزایی که یاد گرفتی همون "ضرب" هستن! 🚀<br><br>
+                    <span class="emoji">❤️</span> آفرین به تو، قهرمان!
+                </p>
+            </div>
+            <button class="next-btn" onclick="location.reload()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                می‌خوام دوباره تمرین کنم! <span class="emoji">🔄</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let correctAnswers = 0;
+        const totalSteps = 10;
+        let audioContext = null;
+        let confettiAnimationId = null;
+
+        function initAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            }
+            return audioContext;
+        }
+
+        function updateProgress() {
+            const percentage = (correctAnswers / totalSteps) * 100;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = Math.round(percentage) + '%';
+        }
+
+        function nextStep(step) {
+            initAudioContext();
+            document.getElementById('step' + currentStep).classList.remove('active');
+            currentStep = step;
+            document.getElementById('step' + currentStep).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function playSuccessSound() {
+            const ctx = initAudioContext();
+            const now = ctx.currentTime;
+            
+            const melody = [
+                { freq: 523.25, start: 0, duration: 0.15 },
+                { freq: 659.25, start: 0.15, duration: 0.15 },
+                { freq: 783.99, start: 0.3, duration: 0.15 },
+                { freq: 1046.50, start: 0.45, duration: 0.3 },
+                { freq: 987.77, start: 0.8, duration: 0.15 },
+                { freq: 1046.50, start: 0.95, duration: 0.4 }
+            ];
+
+            melody.forEach(note => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.value = note.freq;
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0, now + note.start);
+                gain.gain.linearRampToValueAtTime(0.15, now + note.start + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + note.start + note.duration);
+                osc.start(now + note.start);
+                osc.stop(now + note.start + note.duration);
+            });
+
+            const harmony = [
+                { freq: 392.00, start: 0.45, duration: 0.3 },
+                { freq: 659.25, start: 0.45, duration: 0.3 },
+                { freq: 523.25, start: 0.95, duration: 0.4 }
+            ];
+
+            harmony.forEach(note => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.value = note.freq;
+                osc.type = 'triangle';
+                gain.gain.setValueAtTime(0, now + note.start);
+                gain.gain.linearRampToValueAtTime(0.08, now + note.start + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + note.start + note.duration);
+                osc.start(now + note.start);
+                osc.stop(now + note.start + note.duration);
+            });
+
+            for (let i = 0; i < 8; i++) {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.value = 2000 + Math.random() * 1000;
+                osc.type = 'sine';
+                const startTime = now + 0.5 + (i * 0.08);
+                gain.gain.setValueAtTime(0, startTime);
+                gain.gain.linearRampToValueAtTime(0.08, startTime + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.15);
+                osc.start(startTime);
+                osc.stop(startTime + 0.15);
+            }
+
+            for (let i = 0; i < 3; i++) {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.value = 80;
+                osc.type = 'triangle';
+                const startTime = now + 0.45 + (i * 0.25);
+                gain.gain.setValueAtTime(0.2, startTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.1);
+                osc.start(startTime);
+                osc.stop(startTime + 0.1);
+            }
+        }
+
+        function playWrongSound() {
+            const ctx = initAudioContext();
+            const now = ctx.currentTime;
+            
+            const notes = [
+                { freq: 400, start: 0, duration: 0.15 },
+                { freq: 350, start: 0.1, duration: 0.15 },
+                { freq: 300, start: 0.2, duration: 0.2 }
+            ];
+            
+            notes.forEach(note => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.value = note.freq;
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0, now + note.start);
+                gain.gain.linearRampToValueAtTime(0.1, now + note.start + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + note.start + note.duration);
+                osc.start(now + note.start);
+                osc.stop(now + note.start + note.duration);
+            });
+        }
+
+        function shakeElement(element) {
+            element.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                element.style.animation = '';
+            }, 500);
+        }
+
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            if (confettiAnimationId) {
+                cancelAnimationFrame(confettiAnimationId);
+                confettiAnimationId = null;
+            }
+
+            const pieces = [];
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#a29bfe', '#fd79a8', '#fdcb6e'];
+
+            for (let i = 0; i < 100; i++) {
+                pieces.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    w: Math.random() * 10 + 5,
+                    h: Math.random() * 10 + 5,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rotation: Math.random() * 360,
+                    rotationSpeed: Math.random() * 10 - 5,
+                    vx: Math.random() * 4 - 2,
+                    vy: Math.random() * 3 + 2
+                });
+            }
+
+            const startTime = Date.now();
+            const duration = 3000;
+
+            function animate() {
+                const elapsed = Date.now() - startTime;
+                if (elapsed >= duration) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    confettiAnimationId = null;
+                    return;
+                }
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach(p => {
+                    ctx.save();
+                    ctx.translate(p.x + p.w / 2, p.y + p.h / 2);
+                    ctx.rotate(p.rotation * Math.PI / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                    ctx.restore();
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.rotation += p.rotationSpeed;
+                    p.vy += 0.1;
+                });
+
+                confettiAnimationId = requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        function showFeedback(stepNum, isCorrect, message) {
+            const feedback = document.getElementById('feedback' + stepNum);
+            feedback.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+            feedback.textContent = message;
+
+            if (isCorrect) {
+                correctAnswers++;
+                updateProgress();
+                playSuccessSound();
+                launchConfetti();
+                setTimeout(() => {
+                    nextStep(stepNum + 1);
+                }, 3000);
+            } else {
+                playWrongSound();
+            }
+        }
+
+        function checkArrayAnswer(rows, cols, total, stepNum) {
+            initAudioContext();
+            const r = parseInt(document.getElementById('rows' + stepNum).value);
+            const c = parseInt(document.getElementById('cols' + stepNum).value);
+            const t = parseInt(document.getElementById('total' + stepNum).value);
+
+            if (r === rows && c === cols && t === total) {
+                showFeedback(stepNum, true, '🎉 آفرین! درسته! ' + rows + ' ردیف × ' + cols + ' ستون = ' + total + ' تا!');
+            } else {
+                showFeedback(stepNum, false, '❌ دوباره بشمار! تعداد ردیف‌ها و ستون‌ها رو دقیق بشمار.');
+            }
+        }
+
+        function checkSkipCounting(correct, stepNum) {
+            initAudioContext();
+            const answer = parseInt(document.getElementById('skipCount' + stepNum).value);
+
+            if (answer === correct) {
+                showFeedback(stepNum, true, '🎉 عالی! ' + correct + ' درسته!');
+            } else {
+                showFeedback(stepNum, false, '❌ نزدیک بودی! بعد از ۲۴، با ۳ تا اضافه می‌کنیم: ۲۴ + ۳ = ۲۷');
+            }
+        }
+
+        function checkWordProblem(total, remaining, stepNum) {
+            initAudioContext();
+            const ans1 = parseInt(document.getElementById('word1').value);
+            const ans2 = parseInt(document.getElementById('word2').value);
+
+            if (ans1 === total && ans2 === remaining) {
+                showFeedback(stepNum, true, '🎉 عالی! اول ' + total + ' تا داشت و بعد ' + remaining + ' تا موند!');
+            } else {
+                showFeedback(stepNum, false, '❌ دوباره فکر کن! ۵ سینی × ۸ کلوچه = ? و بعد ۶ تا کم شد.');
+            }
+        }
+
+        function checkPattern(answer, stepNum) {
+            initAudioContext();
+            if (answer === 30) {
+                showFeedback(stepNum, true, '🎉 آفرین! هر بار ۶ تا اضافه میشه! ۲۴ + ۶ = ۳۰');
+            } else {
+                showFeedback(stepNum, false, '❌ نزدیک بودی! هر بار ۶ تا اضافه میشه.');
+                shakeElement(event.target);
+            }
+        }
+
+        function checkSpeedChallenge(ans1, ans2, ans3, stepNum) {
+            initAudioContext();
+            const a1 = parseInt(document.getElementById('speed1').value);
+            const a2 = parseInt(document.getElementById('speed2').value);
+            const a3 = parseInt(document.getElementById('speed3').value);
+
+            if (a1 === ans1 && a2 === ans2 && a3 === ans3) {
+                showFeedback(stepNum, true, '🎉 وااااو! سریع و درست! ۴×۵=۲۰، ۷×۳=۲۱، ۶×۴=۲۴');
+            } else {
+                showFeedback(stepNum, false, '❌ یکی دوتاش اشتباهه! دوباره حساب کن.');
+            }
+        }
+
+        function checkComparison(answer, stepNum) {
+            initAudioContext();
+            if (answer === 'equal') {
+                showFeedback(stepNum, true, '🎉 درسته! هر دو ۳۰ تان! ۵×۶ = ۶×۵ = ۳۰ (راز جابجایی!)');
+            } else {
+                showFeedback(stepNum, false, '❌ نه! یادت هست؟ فرقی نمی‌کنه از کجا بشماری! ۵×۶ = ۶×۵');
+                shakeElement(event.target);
+            }
+        }
+
+        function checkFinalChallenge(stepNum) {
+            initAudioContext();
+            const r = parseInt(document.getElementById('final1').value);
+            const c = parseInt(document.getElementById('final2').value);
+            const t = parseInt(document.getElementById('final3').value);
+
+            if ((r === 6 && c === 7 && t === 42) || (r === 7 && c === 6 && t === 42)) {
+                showFeedback(stepNum, true, '🎉🏆 فوق‌العاده! درسته! ۶×۷ = ۴۲ یا ۷×۶ = ۴۲ (هر دو درسته!)');
+            } else {
+                showFeedback(stepNum, false, '❌ دوباره بشمار! چند ردیف و چند ستون داریم؟');
+            }
+        }
+
+        // Drag and Drop functionality
+        let draggables = document.querySelectorAll('.draggable');
+        let dropZones = document.querySelectorAll('.drop-zone');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            draggables = document.querySelectorAll('.draggable');
+            dropZones = document.querySelectorAll('.drop-zone');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', () => {
+                    draggable.classList.add('dragging');
+                });
+
+                draggable.addEventListener('dragend', () => {
+                    draggable.classList.remove('dragging');
+                });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    zone.classList.add('over');
+                });
+
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('over');
+                });
+
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    zone.classList.remove('over');
+                    
+                    const dragging = document.querySelector('.dragging');
+                    if (dragging) {
+                        const value = parseInt(dragging.dataset.value);
+                        const correct = parseInt(zone.dataset.correct);
+                        
+                        zone.textContent = value;
+                        zone.classList.add('filled');
+                        dragging.style.display = 'none';
+
+                        if (value === correct) {
+                            initAudioContext();
+                            showFeedback(4, true, '🎉 آفرین! ۲۸ درسته! ۷+۷+۷+۷ = ۲۸');
+                        } else {
+                            initAudioContext();
+                            showFeedback(4, false, '❌ نه! دوباره امتحان کن. ۷+۷+۷+۷ = ?');
+                            setTimeout(() => {
+                                zone.textContent = 'بکش اینجا';
+                                zone.classList.remove('filled');
+                                dragging.style.display = 'block';
+                            }, 2000);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Student Picker Button -->
+    <button class="student-picker-btn" onclick="openStudentPicker()" title="انتخاب دانش‌آموز">🎲</button>
+
+    <!-- Countdown Overlay -->
+    <div class="countdown-overlay" id="countdownOverlay">
+        <div class="countdown-number" id="countdownNumber"></div>
+    </div>
+
+    <!-- Winner Banner -->
+    <div class="winner-banner" id="winnerBanner">
+        <h1>🎉 برنده شد! 🎉</h1>
+        <div class="winner-number" id="winnerNumber"></div>
+        <div class="winner-message">نوبت پاسخ دهی توست! 🎯</div>
+        <button class="close-winner-btn" onclick="closeWinnerBanner()">متوجه شدم! 👍</button>
+    </div>
+
+    <!-- Student Picker Modal -->
+    <div class="modal-overlay" id="studentModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeStudentPicker()">×</button>
+            <div class="modal-header">
+                <h2>انتخاب دانش‌آموز پاسخ‌دهنده 🎯</h2>
+                <p>روی توپ کلیک کن یا دکمه قرعه‌کشی رو بزن!</p>
+            </div>
+            <div class="balls-container" id="ballsContainer"></div>
+            <button class="pick-random-btn" id="pickRandomBtn" onclick="pickRandomStudent()">
+                🎲 قرعه‌کشی تصادفی!
+            </button>
+            <div class="result-display" id="resultDisplay"></div>
+        </div>
+    </div>
+
+    <script src="student-picker.js"></script>
+</body>
+</html>
+

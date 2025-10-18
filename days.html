@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="student-picker.css">
     <style>
         body {
             font-family: 'Vazir', Tahoma, Arial, sans-serif;
@@ -99,6 +100,7 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             -webkit-tap-highlight-color: rgba(0,0,0,0.1);
             -webkit-appearance: none;
+            appearance: none;
             touch-action: manipulation;
             user-select: none;
             -webkit-user-select: none;
@@ -192,6 +194,7 @@
             margin: 10px;
             -webkit-tap-highlight-color: rgba(0,0,0,0.1);
             -webkit-appearance: none;
+            appearance: none;
             touch-action: manipulation;
             user-select: none;
             -webkit-user-select: none;
@@ -215,6 +218,18 @@
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
             40% { transform: translateY(-10px); }
             60% { transform: translateY(-5px); }
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            10%, 30%, 50%, 70%, 90% {
+                transform: translateX(-8px);
+            }
+            20%, 40%, 60%, 80% {
+                transform: translateX(8px);
+            }
         }
         #confetti-canvas {
             position: absolute;
@@ -438,7 +453,7 @@
     </style>
 </head>
 <body>
-    <canvas id="confetti-canvas"></canvas>
+    <canvas id="confetti"></canvas>
 
     <div class="container">
         <h1 class="emoji">📅 ماجراجویی تقویم جادویی - یاد بگیریم سریع بشماریم! ✨</h1>
@@ -882,7 +897,22 @@
 
     <script>
         let currentStep = 1;
+        let audioContext = null;
+        let confettiAnimationId = null;
+
+        // Initialize audio context on first user interaction
+        function initAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            }
+            return audioContext;
+        }
+
         function nextStep(step) {
+            initAudioContext();
             document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
             document.getElementById('step' + step).classList.add('active');
             document.querySelectorAll('.feedback').forEach(el => el.style.display = 'none');
@@ -898,18 +928,208 @@
                 }
             }
         }
+
+        function playSuccessSound() {
+            try {
+                const ctx = initAudioContext();
+                
+                if (ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+                
+                const melody = [
+                    { frequency: 523.25, startTime: 0, duration: 0.2, volume: 0.4 },
+                    { frequency: 587.33, startTime: 0.2, duration: 0.2, volume: 0.4 },
+                    { frequency: 659.25, startTime: 0.4, duration: 0.2, volume: 0.4 },
+                    { frequency: 783.99, startTime: 0.6, duration: 0.2, volume: 0.4 },
+                    { frequency: 1046.50, startTime: 0.9, duration: 0.25, volume: 0.5 },
+                    { frequency: 987.77, startTime: 1.15, duration: 0.15, volume: 0.4 },
+                    { frequency: 1046.50, startTime: 1.3, duration: 0.25, volume: 0.5 },
+                    { frequency: 1174.66, startTime: 1.6, duration: 0.2, volume: 0.5 },
+                    { frequency: 1318.51, startTime: 1.8, duration: 0.2, volume: 0.5 },
+                    { frequency: 1046.50, startTime: 2.0, duration: 0.5, volume: 0.6 }
+                ];
+
+                melody.forEach(note => {
+                    const oscillator = ctx.createOscillator();
+                    const gainNode = ctx.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(ctx.destination);
+                    
+                    oscillator.frequency.value = note.frequency;
+                    oscillator.type = 'triangle';
+                    
+                    const now = ctx.currentTime;
+                    const startTime = now + note.startTime;
+                    const endTime = startTime + note.duration;
+                    
+                    gainNode.gain.setValueAtTime(0, startTime);
+                    gainNode.gain.linearRampToValueAtTime(note.volume, startTime + 0.02);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, endTime);
+                    
+                    oscillator.start(startTime);
+                    oscillator.stop(endTime);
+                });
+
+                const harmony = [
+                    { frequency: 659.25, startTime: 0.9, duration: 0.25 },
+                    { frequency: 783.99, startTime: 1.15, duration: 0.15 },
+                    { frequency: 659.25, startTime: 1.3, duration: 0.25 },
+                    { frequency: 783.99, startTime: 2.0, duration: 0.5 }
+                ];
+
+                harmony.forEach(note => {
+                    const oscillator = ctx.createOscillator();
+                    const gainNode = ctx.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(ctx.destination);
+                    
+                    oscillator.frequency.value = note.frequency;
+                    oscillator.type = 'sine';
+                    
+                    const now = ctx.currentTime;
+                    const startTime = now + note.startTime;
+                    const endTime = startTime + note.duration;
+                    
+                    gainNode.gain.setValueAtTime(0, startTime);
+                    gainNode.gain.linearRampToValueAtTime(0.2, startTime + 0.02);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, endTime);
+                    
+                    oscillator.start(startTime);
+                    oscillator.stop(endTime);
+                });
+
+                const sparkles = [
+                    { time: 0.1, startFreq: 2000, endFreq: 2800 },
+                    { time: 0.5, startFreq: 2200, endFreq: 3000 },
+                    { time: 0.9, startFreq: 2500, endFreq: 3200 },
+                    { time: 1.3, startFreq: 2300, endFreq: 3100 },
+                    { time: 1.7, startFreq: 2600, endFreq: 3400 },
+                    { time: 2.0, startFreq: 2800, endFreq: 3600 }
+                ];
+
+                sparkles.forEach(sparkle => {
+                    setTimeout(() => {
+                        const sparkleOscillator = ctx.createOscillator();
+                        const sparkleGain = ctx.createGain();
+                        
+                        sparkleOscillator.connect(sparkleGain);
+                        sparkleGain.connect(ctx.destination);
+                        
+                        sparkleOscillator.type = 'sine';
+                        sparkleOscillator.frequency.setValueAtTime(sparkle.startFreq, ctx.currentTime);
+                        sparkleOscillator.frequency.exponentialRampToValueAtTime(sparkle.endFreq, ctx.currentTime + 0.25);
+                        
+                        sparkleGain.gain.setValueAtTime(0.15, ctx.currentTime);
+                        sparkleGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+                        
+                        sparkleOscillator.start(ctx.currentTime);
+                        sparkleOscillator.stop(ctx.currentTime + 0.25);
+                    }, sparkle.time * 1000);
+                });
+
+                const beats = [0, 0.2, 0.4, 0.6, 0.9, 1.3, 2.0];
+                beats.forEach(time => {
+                    const noise = ctx.createOscillator();
+                    const noiseGain = ctx.createGain();
+                    const noiseFilter = ctx.createBiquadFilter();
+                    
+                    noise.type = 'square';
+                    noise.frequency.value = 80;
+                    noiseFilter.type = 'lowpass';
+                    noiseFilter.frequency.value = 150;
+                    
+                    noise.connect(noiseFilter);
+                    noiseFilter.connect(noiseGain);
+                    noiseGain.connect(ctx.destination);
+                    
+                    const now = ctx.currentTime;
+                    const startTime = now + time;
+                    
+                    noiseGain.gain.setValueAtTime(0.15, startTime);
+                    noiseGain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.08);
+                    
+                    noise.start(startTime);
+                    noise.stop(startTime + 0.08);
+                });
+
+            } catch (error) {
+                console.error('Error playing success sound:', error);
+            }
+        }
+
+        function playWrongSound() {
+            try {
+                const ctx = initAudioContext();
+                
+                if (ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+                
+                const notes = [
+                    { frequency: 400, startTime: 0, duration: 0.15, volume: 0.3 },
+                    { frequency: 350, startTime: 0.15, duration: 0.2, volume: 0.25 }
+                ];
+
+                notes.forEach(note => {
+                    const oscillator = ctx.createOscillator();
+                    const gainNode = ctx.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(ctx.destination);
+                    
+                    oscillator.frequency.value = note.frequency;
+                    oscillator.type = 'sine';
+                    
+                    const now = ctx.currentTime;
+                    const startTime = now + note.startTime;
+                    const endTime = startTime + note.duration;
+                    
+                    gainNode.gain.setValueAtTime(0, startTime);
+                    gainNode.gain.linearRampToValueAtTime(note.volume, startTime + 0.01);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, endTime);
+                    
+                    oscillator.start(startTime);
+                    oscillator.stop(endTime);
+                });
+
+            } catch (error) {
+                console.error('Error playing wrong sound:', error);
+            }
+        }
+
+        function shakeButton(btn) {
+            btn.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                btn.style.animation = '';
+            }, 500);
+        }
+
         function correctAnswer(message) {
+            initAudioContext();
+            
             const feedbackDiv = document.getElementById('feedback-step' + currentStep);
             feedbackDiv.innerHTML = message;
             feedbackDiv.className = 'feedback correct-feedback';
             feedbackDiv.style.display = 'block';
+            
+            playSuccessSound();
             startConfetti();
         }
+
         function wrongAnswer(message) {
+            initAudioContext();
+            
             const feedbackDiv = document.getElementById('feedback-step' + currentStep);
             feedbackDiv.innerHTML = message;
             feedbackDiv.className = 'feedback wrong-feedback';
             feedbackDiv.style.display = 'block';
+            
+            playWrongSound();
+            const clickedButton = event.target;
+            shakeButton(clickedButton);
         }
         // کد انیمیشن کنفتی جذاب با canvas
         function startConfetti() {
@@ -918,8 +1138,16 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
+            // Cancel any existing animation
+            if (confettiAnimationId) {
+                cancelAnimationFrame(confettiAnimationId);
+                confettiAnimationId = null;
+            }
+
             const confetti = [];
             const colors = ['#ff6b6b', '#4ecdc4', '#ff9f43', '#ffeaa7', '#48dbfb'];
+            const startTime = Date.now();
+            const duration = 3000; // 3 seconds
 
             for (let i = 0; i < 300; i++) {
                 confetti.push({
@@ -934,8 +1162,16 @@
                 });
             }
 
-            let animationFrameId;
             function draw() {
+                const elapsed = Date.now() - startTime;
+                
+                // Stop animation after duration
+                if (elapsed >= duration) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    confettiAnimationId = null;
+                    return;
+                }
+
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 confetti.forEach((conf, index) => {
                     conf.tiltAngle += conf.tiltAngleIncremental;
@@ -943,9 +1179,7 @@
                     conf.x += Math.sin(conf.d) * 0.5;
                     conf.tilt = Math.sin(conf.tiltAngle) * 15;
 
-                    if (conf.y > canvas.height) {
-                        confetti.splice(index, 1);
-                    } else {
+                    if (conf.y <= canvas.height) {
                         ctx.beginPath();
                         ctx.lineWidth = conf.r;
                         ctx.strokeStyle = conf.color;
@@ -955,20 +1189,10 @@
                     }
                 });
 
-                if (confetti.length > 0) {
-                    animationFrameId = requestAnimationFrame(draw);
-                } else {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                }
+                confettiAnimationId = requestAnimationFrame(draw);
             }
 
             draw();
-
-            // توقف بعد از ۵ ثانیه
-            setTimeout(() => {
-                cancelAnimationFrame(animationFrameId);
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }, 5000);
         }
 
         // تنظیم مجدد canvas با تغییر اندازه پنجره
@@ -1055,5 +1279,36 @@
     </script>
 
     <p style="font-size:1em; color:#FFF;">این بازی آموزشی برای یادگیری مفهوم ضرب از طریق تقویم و جمع تکراری طراحی شده است. 🌟</p>
+
+    <!-- Student Picker System -->
+    <button class="student-picker-btn" onclick="openStudentPicker()" title="انتخاب دانش‌آموز">🎲</button>
+
+    <div class="countdown-overlay" id="countdownOverlay">
+        <div class="countdown-number" id="countdownNumber"></div>
+    </div>
+
+    <div class="winner-banner" id="winnerBanner">
+        <h1>🎉 برنده شد! 🎉</h1>
+        <div class="winner-number" id="winnerNumber"></div>
+        <div class="winner-message">نوبت پاسخ دهی توست! 🎯</div>
+        <button class="close-winner-btn" onclick="closeWinnerBanner()">متوجه شدم! 👍</button>
+    </div>
+
+    <div class="modal-overlay" id="studentModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeStudentPicker()">×</button>
+            <div class="modal-header">
+                <h2>انتخاب دانش‌آموز پاسخ‌دهنده 🎯</h2>
+                <p>روی توپ کلیک کن یا دکمه قرعه‌کشی رو بزن!</p>
+            </div>
+            <div class="balls-container" id="ballsContainer"></div>
+            <button class="pick-random-btn" id="pickRandomBtn" onclick="pickRandomStudent()">
+                🎲 قرعه‌کشی تصادفی!
+            </button>
+            <div class="result-display" id="resultDisplay"></div>
+        </div>
+    </div>
+
+    <script src="student-picker.js"></script>
 </body>
 </html>
