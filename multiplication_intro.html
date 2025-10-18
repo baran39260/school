@@ -833,7 +833,10 @@
             </div>
 
             <button class="next-btn" onclick="restartLesson()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                می‌خوام دوباره تمرین کنم! <span class="emoji">🔄</span>
+                می‌خوام با اعداد جدید تمرین کنم! <span class="emoji">🔄</span>
+            </button>
+            <button class="next-btn" onclick="nextStep(1)" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);">
+                شروع دوباره با همین اعداد <span class="emoji">🔁</span>
             </button>
         </div>
     </div>
@@ -841,6 +844,37 @@
     <script>
         let currentStep = 1;
         let audioContext = null;
+        
+        // Random problem data
+        let problems = {
+            step2: { groups: 0, itemsPerGroup: 0 },
+            step4: { groups: 0, itemsPerGroup: 0 },
+            step5: { groups: 0, itemsPerGroup: 0 },
+            step6: { groups: 0, itemsPerGroup: 0 },
+            step7: { groups: 0, itemsPerGroup: 0 },
+            step8: { itemsPerGroup: 0 },
+            step9: { itemsPerGroup: 0 }
+        };
+
+        // Generate random numbers for all problems
+        function generateRandomProblems() {
+            problems.step2 = { groups: randomInt(2, 4), itemsPerGroup: randomInt(3, 6) };
+            problems.step4 = { groups: randomInt(2, 4), itemsPerGroup: randomInt(4, 7) };
+            problems.step5 = { groups: randomInt(3, 5), itemsPerGroup: randomInt(2, 4) };
+            problems.step6 = { groups: randomInt(2, 4), itemsPerGroup: randomInt(5, 8) };
+            problems.step7 = { groups: randomInt(2, 4), itemsPerGroup: randomInt(4, 6) };
+            problems.step8 = { itemsPerGroup: randomInt(2, 4) };
+            problems.step9 = { itemsPerGroup: randomInt(3, 5) };
+        }
+
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function toPersian(num) {
+            const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            return num.toString().split('').map(d => persianDigits[parseInt(d)] || d).join('');
+        }
 
         // Initialize audio context on first user interaction
         function initAudioContext() {
@@ -860,8 +894,300 @@
             
             document.getElementById('step' + currentStep).classList.remove('active');
             currentStep = step;
+            
+            // Update content based on random data
+            if (step === 2) updateStep2();
+            if (step === 3) updateStep3();
+            if (step === 4) updateStep4();
+            if (step === 5) updateStep5();
+            if (step === 6) updateStep6();
+            if (step === 7) updateStep7();
+            if (step === 8) updateStep8();
+            if (step === 9) updateStep9();
+            
             document.getElementById('step' + currentStep).classList.add('active');
             window.scrollTo(0, 0);
+        }
+
+        function updateStep2() {
+            const { groups, itemsPerGroup } = problems.step2;
+            const total = groups * itemsPerGroup;
+            
+            document.querySelector('#step2 h2').innerHTML = `سارا ${toPersian(groups)} سینی داره <span class="emoji">🍪</span>`;
+            document.querySelector('#step2 p').innerHTML = `توی هر سینی ${toPersian(itemsPerGroup)} تا کلوچه می‌ذاره`;
+            
+            // Update visual groups
+            const groupsContainer = document.querySelector('#step2 .visual-groups');
+            groupsContainer.innerHTML = '';
+            for (let i = 1; i <= groups; i++) {
+                groupsContainer.innerHTML += `
+                    <div class="group">
+                        <div class="group-label">سینی ${toPersian(i)}</div>
+                        <div style="font-size: 2.5em; line-height: 1.5;">
+                            ${'🍪 '.repeat(itemsPerGroup)}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function updateStep3() {
+            const { groups, itemsPerGroup } = problems.step2;
+            const total = groups * itemsPerGroup;
+            
+            let html = '';
+            let calculation = [];
+            for (let i = 1; i <= groups; i++) {
+                html += `
+                    <p style="text-align: center;">سینی ${toPersian(i)}: ${toPersian(itemsPerGroup)} تا کلوچه</p>
+                    <div class="cookies-display">${'🍪 '.repeat(itemsPerGroup)}</div>
+                    ${i < groups ? '<p style="margin-top: 20px;"></p>' : ''}
+                `;
+                calculation.push(toPersian(itemsPerGroup));
+            }
+            
+            document.querySelector('#step3 h2').innerHTML = `بیا با هم بشماریم! <span class="emoji">🤓</span>`;
+            document.querySelector('#step3').innerHTML = `
+                <h2>بیا با هم بشماریم! <span class="emoji">🤓</span></h2>
+                ${html}
+                <div class="calculation-box" style="margin-top: 40px;">
+                    ${calculation.join(' + ')} = ${toPersian(total)}
+                </div>
+                <div class="explanation">
+                    <p style="text-align: center; font-size: 1.3em;">
+                        <span class="emoji">💡</span> پس سارا جمعاً ${toPersian(total)} تا کلوچه داره!<br>
+                        این میشه: <strong>${toPersian(groups)} گروه ${itemsPerGroup}تایی</strong>
+                    </p>
+                </div>
+                <button class="next-btn" onclick="nextStep(4)">یک مثال دیگه می‌بینیم؟ <span class="emoji">🌟</span></button>
+            `;
+        }
+
+        function updateStep4() {
+            const { groups, itemsPerGroup } = problems.step4;
+            const total = groups * itemsPerGroup;
+            
+            let groupsHtml = '';
+            for (let i = 1; i <= groups; i++) {
+                groupsHtml += `
+                    <div class="group">
+                        <div class="group-label">گلدون ${toPersian(i)}</div>
+                        <div style="font-size: 2.5em; line-height: 1.5;">
+                            ${'🌺 '.repeat(itemsPerGroup)}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            let calculation = Array(groups).fill(toPersian(itemsPerGroup)).join(' + ');
+            
+            document.querySelector('#step4').innerHTML = `
+                <h2>مثال ۱: گل‌ها توی گلدون <span class="emoji">🌺</span></h2>
+                <p style="text-align: center; font-size: 1.3em;">${toPersian(groups)} تا گلدون داریم، توی هر کدوم ${toPersian(itemsPerGroup)} تا گل هست</p>
+                <div class="visual-groups">${groupsHtml}</div>
+                <div class="calculation-box">${calculation} = ${toPersian(total)}</div>
+                <div class="explanation">
+                    <p style="text-align: center;">
+                        ${toPersian(groups)} گروه ${itemsPerGroup}تایی = ${toPersian(total)} تا گل <span class="emoji">🌸</span>
+                    </p>
+                </div>
+                <button class="next-btn" onclick="nextStep(5)">مثال بعدی <span class="emoji">⭐</span></button>
+            `;
+        }
+
+        function updateStep5() {
+            const { groups, itemsPerGroup } = problems.step5;
+            const total = groups * itemsPerGroup;
+            
+            let groupsHtml = '';
+            for (let i = 1; i <= groups; i++) {
+                groupsHtml += `
+                    <div class="group">
+                        <div class="group-label">ابر ${toPersian(i)}</div>
+                        <div style="font-size: 2.5em; line-height: 1.5;">
+                            ${'⭐ '.repeat(itemsPerGroup)}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            let calculation = Array(groups).fill(toPersian(itemsPerGroup)).join(' + ');
+            
+            document.querySelector('#step5').innerHTML = `
+                <h2>مثال ۲: ستاره‌ها توی آسمون <span class="emoji">⭐</span></h2>
+                <p style="text-align: center; font-size: 1.3em;">${toPersian(groups)} تا ابر داریم، روی هر ابر ${toPersian(itemsPerGroup)} تا ستاره می‌درخشه</p>
+                <div class="visual-groups">${groupsHtml}</div>
+                <div class="calculation-box">${calculation} = ${toPersian(total)}</div>
+                <div class="explanation">
+                    <p style="text-align: center;">
+                        ${toPersian(groups)} گروه ${itemsPerGroup}تایی = ${toPersian(total)} تا ستاره <span class="emoji">✨</span>
+                    </p>
+                </div>
+                <button class="next-btn" onclick="nextStep(6)">آخرین مثال <span class="emoji">🎯</span></button>
+            `;
+        }
+
+        function updateStep6() {
+            const { groups, itemsPerGroup } = problems.step6;
+            const total = groups * itemsPerGroup;
+            
+            const toys = ['🧸', '🚗', '🎮', '⚽', '🎨', '🪀', '🎸', '🎯', '🎭', '🎲', '🪁', '🎪', '🎺', '🎻', '🥁', '🎹', '🎤', '🎧'];
+            
+            let groupsHtml = '';
+            for (let i = 1; i <= groups; i++) {
+                let toysForShelf = '';
+                for (let j = 0; j < itemsPerGroup; j++) {
+                    toysForShelf += toys[(i * itemsPerGroup + j) % toys.length] + ' ';
+                    if ((j + 1) % 3 === 0 && j < itemsPerGroup - 1) toysForShelf += '<br>';
+                }
+                
+                groupsHtml += `
+                    <div class="group">
+                        <div class="group-label">قفسه ${toPersian(i)}</div>
+                        <div style="font-size: 2.5em; line-height: 1.5;">
+                            ${toysForShelf}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            let calculation = Array(groups).fill(toPersian(itemsPerGroup)).join(' + ');
+            
+            document.querySelector('#step6').innerHTML = `
+                <h2>مثال ۳: اسباب‌بازی‌ها روی قفسه <span class="emoji">🧸</span></h2>
+                <p style="text-align: center; font-size: 1.3em;">${toPersian(groups)} تا قفسه داریم، روی هر قفسه ${toPersian(itemsPerGroup)} تا اسباب‌بازی هست</p>
+                <div class="visual-groups">${groupsHtml}</div>
+                <div class="calculation-box">${calculation} = ${toPersian(total)}</div>
+                <div class="explanation">
+                    <p style="text-align: center;">
+                        ${toPersian(groups)} گروه ${itemsPerGroup}تایی = ${toPersian(total)} تا اسباب‌بازی <span class="emoji">🎉</span>
+                    </p>
+                </div>
+                <button class="next-btn" onclick="nextStep(7)">حالا نوبت توئه! <span class="emoji">🎮</span></button>
+            `;
+        }
+
+        function updateStep7() {
+            const { groups, itemsPerGroup } = problems.step7;
+            const correctAnswer = groups * itemsPerGroup;
+            
+            // Generate wrong answers
+            let wrongAnswers = [];
+            wrongAnswers.push(correctAnswer + randomInt(1, 3));
+            wrongAnswers.push(correctAnswer - randomInt(1, 3));
+            wrongAnswers.push(groups * (itemsPerGroup + 1));
+            
+            // Create answer buttons with correct and wrong answers
+            let allAnswers = [
+                { value: correctAnswer, isCorrect: true },
+                { value: wrongAnswers[0], isCorrect: false, msg: `${toPersian(wrongAnswers[0])} نه عزیزم! دوباره نگاه کن، هر سبد ${toPersian(itemsPerGroup)} تا سیب داره 😊` },
+                { value: wrongAnswers[1], isCorrect: false, msg: `${toPersian(wrongAnswers[1])} نه عزیزم! بشمار: ${Array(groups).fill(toPersian(itemsPerGroup)).join(' + ')} 🍎` },
+                { value: wrongAnswers[2], isCorrect: false, msg: `${toPersian(wrongAnswers[2])} نه عزیزم! ${toPersian(groups)} سبد داریم، هر کدوم ${toPersian(itemsPerGroup)} تا 😊` }
+            ];
+            
+            // Shuffle answers
+            allAnswers.sort(() => Math.random() - 0.5);
+            
+            let groupsHtml = '';
+            for (let i = 1; i <= groups; i++) {
+                groupsHtml += `
+                    <div class="group">
+                        <div class="group-label">سبد ${toPersian(i)}</div>
+                        <div style="font-size: 2.5em;">
+                            ${'🍎 '.repeat(itemsPerGroup)}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            let buttonsHtml = allAnswers.map(ans => {
+                if (ans.isCorrect) {
+                    return `<button class="answer-btn" onclick="correctAnswer()">${toPersian(ans.value)} تا</button>`;
+                } else {
+                    return `<button class="answer-btn" onclick="wrongAnswer(this, '${ans.msg}')">${toPersian(ans.value)} تا</button>`;
+                }
+            }).join('');
+            
+            document.querySelector('#step7').innerHTML = `
+                <h2>حالا نوبت توئه! <span class="emoji">🤔</span></h2>
+                <div class="problem-box">
+                    <p style="text-align: center; font-size: 1.4em;">
+                        اگر ${toPersian(groups)} سبد داریم و در هر سبد ${toPersian(itemsPerGroup)} سیب است،<br>
+                        جمعاً چند سیب داریم؟
+                    </p>
+                    <div class="visual-groups">${groupsHtml}</div>
+                </div>
+                <div class="answer-box">${buttonsHtml}</div>
+                <div id="quiz-feedback" style="text-align: center; font-size: 1.4em; margin-top: 20px; min-height: 40px;"></div>
+            `;
+        }
+
+        function updateStep8() {
+            const itemsPerGroup = problems.step8.itemsPerGroup;
+            const maxGroups = 4;
+            
+            let rows = '';
+            for (let g = 1; g <= maxGroups; g++) {
+                let total = g * itemsPerGroup;
+                let calculation = Array(g).fill(toPersian(itemsPerGroup)).join(' + ');
+                let visualItems = Array(g).fill('🍎'.repeat(itemsPerGroup)).join(' | ');
+                
+                rows += `
+                    <tr>
+                        <td>${toPersian(g)} گروه ${itemsPerGroup}تایی</td>
+                        <td>${calculation} = ${toPersian(total)}</td>
+                        <td><div style="font-size: 1.5em;">${visualItems}</div></td>
+                    </tr>
+                `;
+            }
+            
+            document.querySelector('#step8').innerHTML = `
+                <h2>الگوی جالب! <span class="emoji">🎨</span></h2>
+                <p style="text-align: center; font-size: 1.3em; margin-bottom: 30px;">
+                    ببین چه الگوی قشنگی پیدا می‌شه!
+                </p>
+                <table class="pattern-table">${rows}</table>
+                <div class="explanation">
+                    <p style="text-align: center; font-size: 1.3em;">
+                        <span class="emoji">💡</span> هر بار که یه گروه ${itemsPerGroup}تایی اضافه می‌کنیم،<br>
+                        جوابمون ${toPersian(itemsPerGroup)} تا بیشتر می‌شه!<br>
+                        این یه الگوی منظم و قشنگه! <span class="emoji">✨</span>
+                    </p>
+                </div>
+                <button class="next-btn" onclick="nextStep(9)">یک الگوی دیگه! <span class="emoji">🌈</span></button>
+            `;
+        }
+
+        function updateStep9() {
+            const itemsPerGroup = problems.step9.itemsPerGroup;
+            const maxGroups = 5;
+            
+            let rows = '';
+            for (let g = 1; g <= maxGroups; g++) {
+                let total = g * itemsPerGroup;
+                let calculation = Array(g).fill(toPersian(itemsPerGroup)).join(' + ');
+                let visualItems = Array(g).fill('⭐'.repeat(itemsPerGroup)).join(' | ');
+                
+                rows += `
+                    <tr>
+                        <td>${toPersian(g)} گروه ${itemsPerGroup}تایی</td>
+                        <td>${calculation} = ${toPersian(total)}</td>
+                        <td><div style="font-size: 1.5em;">${visualItems}</div></td>
+                    </tr>
+                `;
+            }
+            
+            document.querySelector('#step9').innerHTML = `
+                <h2>الگوی دیگه: گروه‌های ${itemsPerGroup}تایی! <span class="emoji">🎯</span></h2>
+                <table class="pattern-table">${rows}</table>
+                <div class="explanation">
+                    <p style="text-align: center; font-size: 1.3em;">
+                        <span class="emoji">🎉</span> با گروه‌های ${itemsPerGroup}تایی، هر بار ${toPersian(itemsPerGroup)} تا اضافه می‌شه!<br>
+                        این کار شمارش رو خیلی راحت می‌کنه! <span class="emoji">🚀</span>
+                    </p>
+                </div>
+                <button class="next-btn" onclick="nextStep(10)">پایان ماجرا! <span class="emoji">🏆</span></button>
+            `;
         }
 
         function playSuccessSound() {
@@ -1094,6 +1420,9 @@
         }
 
         function restartLesson() {
+            // Generate new random problems
+            generateRandomProblems();
+            
             // Reset all buttons
             const buttons = document.querySelectorAll('.answer-btn');
             buttons.forEach(btn => {
@@ -1102,7 +1431,8 @@
             });
 
             // Clear feedback
-            document.getElementById('quiz-feedback').innerHTML = '';
+            const feedback = document.getElementById('quiz-feedback');
+            if (feedback) feedback.innerHTML = '';
 
             // Go to step 1
             nextStep(1);
@@ -1189,8 +1519,11 @@
             animate();
         }
 
-        // Animate groups appearing sequentially
+        // Initialize on page load
         window.addEventListener('load', () => {
+            // Generate random problems
+            generateRandomProblems();
+            
             const groups = document.querySelectorAll('.group');
             groups.forEach((group, index) => {
                 group.style.opacity = '0';
