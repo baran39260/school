@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تساوی کسرها - ریاضی سوم دبستان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 50%, #d299c2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            position: relative;
+            border: 4px solid #ffd93d;
+        }
+
+        .header::before {
+            content: '✏️📐📏🖍️';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 20px;
+        }
+
+        .header::after {
+            content: '🎨✨🌟💫';
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .stage-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stage-dot {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            color: #764ba2;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+            font-weight: bold;
+        }
+
+        .stage-dot.active {
+            background: white;
+            color: #ff6b6b;
+            transform: scale(1.2);
+            border-color: #ffd700;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .stage-dot.completed {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .section {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #ff6b6b;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* Cute Box Characters */
+        .cute-box {
+            width: 120px;
+            height: 120px;
+            border-radius: 15px;
+            position: relative;
+            display: inline-block;
+            margin: 10px;
+            transition: transform 0.3s;
+        }
+
+        .cute-box:hover {
+            transform: scale(1.05);
+        }
+
+        .cute-box .face {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cute-box .eyes {
+            display: flex;
+            gap: 15px;
+        }
+
+        .cute-box .eye {
+            width: 10px;
+            height: 10px;
+            background: #333;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .cute-box .eye::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .cute-box .mouth {
+            width: 15px;
+            height: 8px;
+            border: 2px solid #333;
+            border-top: none;
+            border-radius: 0 0 15px 15px;
+            margin-top: 3px;
+        }
+
+        .cute-box .cheeks {
+            display: flex;
+            justify-content: space-between;
+            width: 40px;
+            margin-top: -5px;
+        }
+
+        .cute-box .cheek {
+            width: 8px;
+            height: 5px;
+            background: #ffb6c1;
+            border-radius: 50%;
+        }
+
+        /* Fraction Grid Shape */
+        .fraction-shape {
+            display: grid;
+            border: 4px solid #555;
+            border-radius: 15px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .fraction-shape.cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .fraction-shape.cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .fraction-shape.cols-4 { grid-template-columns: repeat(4, 1fr); }
+        .fraction-shape.cols-6 { grid-template-columns: repeat(6, 1fr); }
+
+        .fraction-shape .cell {
+            aspect-ratio: 1;
+            border: 1px solid rgba(0,0,0,0.2);
+            transition: background 0.3s;
+        }
+
+        .fraction-shape .cell.filled {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        }
+
+        .fraction-shape .cell.filled-blue {
+            background: linear-gradient(135deg, #a8e6cf, #88d8b0);
+        }
+
+        .fraction-shape .cell.filled-yellow {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+        }
+
+        .fraction-shape .cell.clickable {
+            cursor: pointer;
+        }
+
+        .fraction-shape .cell.clickable:hover {
+            background: rgba(255,154,158,0.5);
+        }
+
+        /* Folding Animation Demo */
+        .folding-demo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .fold-box {
+            width: 150px;
+            height: 150px;
+            position: relative;
+        }
+
+        .fold-shape {
+            width: 100%;
+            height: 100%;
+            border: 4px solid #555;
+            border-radius: 15px;
+            display: grid;
+            overflow: hidden;
+            transition: all 0.5s;
+        }
+
+        .equals-sign {
+            font-size: 3em;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        /* Fraction Display */
+        .fraction {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 15px 25px;
+            border-radius: 20px;
+            margin: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .fraction .num {
+            border-bottom: 4px solid #ff6b6b;
+            padding-bottom: 5px;
+            min-width: 40px;
+            text-align: center;
+            color: #e91e63;
+        }
+
+        .fraction .den {
+            padding-top: 5px;
+            color: #2196f3;
+        }
+
+        /* Explanation Boxes */
+        .explanation {
+            background: linear-gradient(135deg, #fff9c4, #fff59d);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            border-right: 5px solid #ffc107;
+        }
+
+        .explanation.green {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-color: #4CAF50;
+        }
+
+        .explanation.blue {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-color: #2196f3;
+        }
+
+        .explanation.pink {
+            background: linear-gradient(135deg, #fce4ec, #f8bbd9);
+            border-color: #e91e63;
+        }
+
+        .explanation h3 {
+            color: #f57f17;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .explanation.green h3 { color: #2e7d32; }
+        .explanation.blue h3 { color: #1565c0; }
+        .explanation.pink h3 { color: #c2185b; }
+
+        .explanation p {
+            color: #5d4037;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a5a);
+            color: white;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, #ffd93d, #f9c922);
+            color: #333;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Golden Rule Box */
+        .golden-rule {
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            border-radius: 25px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+            border: 4px solid #e6a800;
+        }
+
+        .golden-rule h3 {
+            color: #5d4037;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .golden-rule .formula {
+            font-size: 2em;
+            color: #333;
+            margin: 15px 0;
+        }
+
+        /* Multiplication Demo */
+        .multiply-demo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .multiply-arrow {
+            font-size: 2em;
+            color: #ff6b6b;
+        }
+
+        .multiply-circle {
+            width: 50px;
+            height: 50px;
+            background: #4ecdc4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        /* Interactive Shape Container */
+        .shapes-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        /* Quiz Options */
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .quiz-option {
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa, #e4e8eb);
+            border: 3px solid transparent;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .quiz-option:hover {
+            transform: scale(1.05);
+            border-color: #ff6b6b;
+        }
+
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            animation: pulse 0.5s;
+        }
+
+        .quiz-option.wrong {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+            animation: shake 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Score Display */
+        .score-display {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            z-index: 100;
+        }
+
+        .score-display span {
+            color: #ffc107;
+        }
+
+        /* Interactive Fraction Builder */
+        .fraction-builder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 20px;
+        }
+
+        .builder-controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .control-btn.plus { background: #4CAF50; color: white; }
+        .control-btn.minus { background: #f44336; color: white; }
+
+        /* Circle fraction */
+        .circle-fraction {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            position: relative;
+            border: 4px solid #555;
+            overflow: hidden;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Message Popup */
+        .message-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .message-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.8em; }
+            .section { padding: 20px; }
+            .fraction { font-size: 1.4em; padding: 10px 15px; }
+            .fold-box { width: 100px; height: 100px; }
+            .score-display {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 20px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="score-display">
+        ⭐ امتیاز: <span id="score">0</span>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>✨ تساوی کسرها ✨</h1>
+            <p>فصل ۳ - ریاضی سوم دبستان</p>
+        </div>
+
+        <div class="stage-indicator">
+            <div class="stage-dot active" data-stage="1">۱</div>
+            <div class="stage-dot" data-stage="2">۲</div>
+            <div class="stage-dot" data-stage="3">۳</div>
+            <div class="stage-dot" data-stage="4">۴</div>
+            <div class="stage-dot" data-stage="5">۵</div>
+            <div class="stage-dot" data-stage="6">۶</div>
+        </div>
+
+        <!-- Stage 1: Folding Magic -->
+        <div class="section active" id="stage1">
+            <h2 class="section-title">🪄 جادوی تا کردن!</h2>
+
+            <div class="explanation">
+                <h3>💡 بیا یک جادو یاد بگیریم!</h3>
+                <p>
+                    یک مربع کاغذی را به <strong>۴ قسمت مساوی</strong> تقسیم می‌کنیم
+                    و <strong>یک قسمت</strong> آن را رنگ می‌زنیم.
+                    <br><br>
+                    این می‌شود: <strong>۱/۴</strong> (یک چهارم)
+                </p>
+            </div>
+
+            <div class="folding-demo">
+                <div class="fold-box">
+                    <div class="fraction-shape cols-2" style="width: 150px; height: 150px; grid-template-rows: repeat(2, 1fr);">
+                        <div class="cell filled"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                </div>
+                <div class="fraction">
+                    <div class="num">۱</div>
+                    <div class="den">۴</div>
+                </div>
+            </div>
+
+            <div class="explanation blue">
+                <h3>🔍 حالا قسمت‌ها را بیشتر می‌کنیم!</h3>
+                <p>
+                    اگر هر قسمت را دوباره تقسیم کنیم، <strong>۱۶ قسمت</strong> می‌شود.
+                    <br>
+                    اما مقدار رنگ‌شده <strong>هیچ تغییری نکرده</strong>!
+                </p>
+            </div>
+
+            <div class="folding-demo">
+                <div class="fold-box">
+                    <div class="fraction-shape cols-4" style="width: 150px; height: 150px; grid-template-rows: repeat(4, 1fr);">
+                        <div class="cell filled"></div>
+                        <div class="cell filled"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell filled"></div>
+                        <div class="cell filled"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                </div>
+                <div class="equals-sign">=</div>
+                <div class="fraction">
+                    <div class="num">۴</div>
+                    <div class="den">۱۶</div>
+                </div>
+            </div>
+
+            <div class="explanation green">
+                <h3>✅ نتیجه مهم!</h3>
+                <p>
+                    <strong>۱/۴ = ۴/۱۶</strong>
+                    <br>
+                    وقتی قسمت‌ها را بیشتر تقسیم کنیم، کسرها مساوی می‌مانند!
+                </p>
+            </div>
+
+            <div class="btn-group">
+                <a href="fractions_intro.html" class="btn btn-success" style="text-decoration: none;">⬅️ بخش قبلی</a>
+                <button class="btn btn-primary" onclick="goToStage(2)">مرحله بعد ➡️</button>
+            </div>
+        </div>
+
+        <!-- Stage 2: Half Examples -->
+        <div class="section" id="stage2">
+            <h2 class="section-title">🎯 همیشه نصف!</h2>
+
+            <div class="explanation">
+                <h3>💡 نصف یک شکل همیشه مساوی است!</h3>
+                <p>
+                    این شکل‌ها را ببین - همه آن‌ها <strong>نصف</strong> شکل را نشان می‌دهند!
+                </p>
+            </div>
+
+            <div class="shapes-row">
+                <div style="text-align: center;">
+                    <div class="fraction-shape cols-2" style="width: 100px; height: 100px;">
+                        <div class="cell filled-blue"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="fraction" style="font-size: 1.2em; margin-top: 10px;">
+                        <div class="num">۱</div>
+                        <div class="den">۲</div>
+                    </div>
+                </div>
+
+                <div class="equals-sign" style="font-size: 2em;">=</div>
+
+                <div style="text-align: center;">
+                    <div class="fraction-shape cols-4" style="width: 100px; height: 100px;">
+                        <div class="cell filled-blue"></div>
+                        <div class="cell filled-blue"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="fraction" style="font-size: 1.2em; margin-top: 10px;">
+                        <div class="num">۲</div>
+                        <div class="den">۴</div>
+                    </div>
+                </div>
+
+                <div class="equals-sign" style="font-size: 2em;">=</div>
+
+                <div style="text-align: center;">
+                    <div class="fraction-shape cols-6" style="width: 120px; height: 80px; grid-template-rows: repeat(2, 1fr);">
+                        <div class="cell filled-blue"></div>
+                        <div class="cell filled-blue"></div>
+                        <div class="cell filled-blue"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell filled-blue"></div>
+                        <div class="cell filled-blue"></div>
+                        <div class="cell filled-blue"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="fraction" style="font-size: 1.2em; margin-top: 10px;">
+                        <div class="num">۶</div>
+                        <div class="den">۱۲</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation pink">
+                <h3>🌟 همه این کسرها یعنی «نصف شکل» رنگ شده است!</h3>
+                <p>
+                    <strong>۱/۲ = ۲/۴ = ۶/۱۲</strong>
+                </p>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="goToStage(1)">⬅️ قبلی</button>
+                <button class="btn btn-primary" onclick="goToStage(3)">بعدی ➡️</button>
+            </div>
+        </div>
+
+        <!-- Stage 3: One Third Examples -->
+        <div class="section" id="stage3">
+            <h2 class="section-title">🎨 یک سوم و دوستاش!</h2>
+
+            <div class="explanation">
+                <h3>💡 یک سوم هم می‌تواند به شکل‌های مختلف نوشته شود!</h3>
+            </div>
+
+            <div class="shapes-row">
+                <div style="text-align: center;">
+                    <div class="fraction-shape cols-3" style="width: 120px; height: 60px;">
+                        <div class="cell filled-yellow"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="fraction" style="font-size: 1.2em; margin-top: 10px;">
+                        <div class="num">۱</div>
+                        <div class="den">۳</div>
+                    </div>
+                </div>
+
+                <div class="equals-sign" style="font-size: 2em;">=</div>
+
+                <div style="text-align: center;">
+                    <div class="fraction-shape cols-6" style="width: 120px; height: 60px;">
+                        <div class="cell filled-yellow"></div>
+                        <div class="cell filled-yellow"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="fraction" style="font-size: 1.2em; margin-top: 10px;">
+                        <div class="num">۲</div>
+                        <div class="den">۶</div>
+                    </div>
+                </div>
+
+                <div class="equals-sign" style="font-size: 2em;">=</div>
+
+                <div style="text-align: center;">
+                    <div class="fraction-shape cols-4" style="width: 120px; height: 90px; grid-template-rows: repeat(3, 1fr);">
+                        <div class="cell filled-yellow"></div>
+                        <div class="cell filled-yellow"></div>
+                        <div class="cell filled-yellow"></div>
+                        <div class="cell filled-yellow"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="fraction" style="font-size: 1.2em; margin-top: 10px;">
+                        <div class="num">۴</div>
+                        <div class="den">۱۲</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h3>📝 مثال از کتاب:</h3>
+                <p>
+                    <strong>۱/۳ = ۲/۶</strong>
+                    <br>
+                    یک قسمت از سه قسمت دقیقاً با دو قسمت از شش قسمت برابر است.
+                </p>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="goToStage(2)">⬅️ قبلی</button>
+                <button class="btn btn-primary" onclick="goToStage(4)">بعدی ➡️</button>
+            </div>
+        </div>
+
+        <!-- Stage 4: Golden Rule -->
+        <div class="section" id="stage4">
+            <h2 class="section-title">⭐ قانون طلایی!</h2>
+
+            <div class="golden-rule">
+                <h3>🏆 قانون طلایی کسرهای مساوی</h3>
+                <p style="font-size: 1.2em; margin: 15px 0;">
+                    اگر <strong>صورت و مخرج</strong> را همزمان در <strong>یک عدد ضرب کنیم</strong>،
+                    <br>
+                    کسر مساوی می‌شود!
+                </p>
+            </div>
+
+            <div class="explanation blue">
+                <h3>🎯 مثال:</h3>
+                <p>برای کسر <strong>۳/۷</strong>، اگر صورت و مخرج را در <strong>۲</strong> ضرب کنیم:</p>
+            </div>
+
+            <div class="multiply-demo">
+                <div class="fraction" style="font-size: 1.5em;">
+                    <div class="num">۳</div>
+                    <div class="den">۷</div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <span class="multiply-arrow">→</span>
+                        <div class="multiply-circle">×۲</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <span class="multiply-arrow">→</span>
+                        <div class="multiply-circle">×۲</div>
+                    </div>
+                </div>
+
+                <div class="fraction" style="font-size: 1.5em;">
+                    <div class="num">۶</div>
+                    <div class="den">۱۴</div>
+                </div>
+            </div>
+
+            <div class="explanation green">
+                <h3>✅ پس:</h3>
+                <p style="font-size: 1.3em; text-align: center;">
+                    <strong>۳/۷ = ۶/۱۴</strong>
+                </p>
+            </div>
+
+            <div class="explanation pink">
+                <h3>🔔 یادت باشه!</h3>
+                <p>
+                    صورت و مخرج را باید در <strong>یک عدد یکسان</strong> ضرب کنی!
+                    <br>
+                    اگر فقط یکی را ضرب کنی، کسر مساوی نمی‌شود.
+                </p>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="goToStage(3)">⬅️ قبلی</button>
+                <button class="btn btn-primary" onclick="goToStage(5)">بعدی ➡️</button>
+            </div>
+        </div>
+
+        <!-- Stage 5: Practice Quiz -->
+        <div class="section" id="stage5">
+            <h2 class="section-title">🧠 حالا نوبت توست!</h2>
+
+            <div class="explanation">
+                <h3>❓ سوال ۱:</h3>
+                <p>کدام کسر با <strong>۱/۲</strong> مساوی است؟</p>
+            </div>
+
+            <div class="quiz-options" id="quiz1">
+                <div class="quiz-option" onclick="checkQuiz1(this, false)">۲/۳</div>
+                <div class="quiz-option" onclick="checkQuiz1(this, true)">۳/۶</div>
+                <div class="quiz-option" onclick="checkQuiz1(this, false)">۱/۴</div>
+                <div class="quiz-option" onclick="checkQuiz1(this, false)">۲/۵</div>
+            </div>
+
+            <div id="quiz1-result" style="display: none; margin: 20px 0;"></div>
+
+            <hr style="margin: 30px 0; border: 2px dashed #ddd;">
+
+            <div class="explanation">
+                <h3>❓ سوال ۲:</h3>
+                <p>اگر <strong>۲/۴</strong> را در ۳ ضرب کنیم، چه می‌شود؟</p>
+            </div>
+
+            <div class="quiz-options" id="quiz2">
+                <div class="quiz-option" onclick="checkQuiz2(this, false)">۲/۱۲</div>
+                <div class="quiz-option" onclick="checkQuiz2(this, false)">۴/۱۲</div>
+                <div class="quiz-option" onclick="checkQuiz2(this, true)">۶/۱۲</div>
+                <div class="quiz-option" onclick="checkQuiz2(this, false)">۸/۱۲</div>
+            </div>
+
+            <div id="quiz2-result" style="display: none; margin: 20px 0;"></div>
+
+            <hr style="margin: 30px 0; border: 2px dashed #ddd;">
+
+            <div class="explanation">
+                <h3>❓ سوال ۳:</h3>
+                <p>این شکل چه کسری را نشان می‌دهد که با <strong>۱/۳</strong> مساوی باشد؟</p>
+            </div>
+
+            <div style="display: flex; justify-content: center; margin: 20px 0;">
+                <div class="fraction-shape cols-6" style="width: 180px; height: 60px;">
+                    <div class="cell filled"></div>
+                    <div class="cell filled"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                </div>
+            </div>
+
+            <div class="quiz-options" id="quiz3">
+                <div class="quiz-option" onclick="checkQuiz3(this, false)">۱/۶</div>
+                <div class="quiz-option" onclick="checkQuiz3(this, true)">۲/۶</div>
+                <div class="quiz-option" onclick="checkQuiz3(this, false)">۳/۶</div>
+                <div class="quiz-option" onclick="checkQuiz3(this, false)">۴/۶</div>
+            </div>
+
+            <div id="quiz3-result" style="display: none; margin: 20px 0;"></div>
+
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="goToStage(4)">⬅️ قبلی</button>
+                <button class="btn btn-primary" onclick="goToStage(6)" id="next5" disabled>پایان ➡️</button>
+            </div>
+        </div>
+
+        <!-- Stage 6: Completion -->
+        <div class="section" id="stage6">
+            <h2 class="section-title">🎉 آفرین!</h2>
+
+            <div style="text-align: center; padding: 30px;">
+                <div style="font-size: 80px; margin-bottom: 20px;">🏆</div>
+                <h3 style="color: #4CAF50; font-size: 1.8em; margin-bottom: 20px;">
+                    تو بخش تساوی کسرها را تمام کردی!
+                </h3>
+
+                <div class="explanation green">
+                    <h3>📚 خلاصه درس:</h3>
+                    <p>
+                        ✅ وقتی قسمت‌ها را بیشتر تقسیم کنیم، کسرها مساوی می‌مانند
+                        <br><br>
+                        ✅ <strong>قانون طلایی:</strong> صورت و مخرج را همزمان در یک عدد ضرب کنیم = کسر مساوی
+                        <br><br>
+                        ✅ مثال: ۱/۲ = ۲/۴ = ۳/۶ = ۴/۸
+                    </p>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 20px; border-radius: 20px; color: white; margin: 20px 0;">
+                    <h3>🌟 امتیاز نهایی تو:</h3>
+                    <p style="font-size: 2.5em; margin: 10px 0;" id="finalScore">۰</p>
+                </div>
+
+                <div class="progress-container" style="background: #e0e0e0; border-radius: 25px; height: 20px; margin: 20px 0; overflow: hidden;">
+                    <div style="height: 100%; background: linear-gradient(45deg, #4CAF50, #8BC34A); border-radius: 25px; width: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8em; font-weight: bold;">
+                        ۲ از ۴ بخش
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-success" onclick="goToStage(1)">🔄 دوباره</button>
+                    <a href="fractions_compare.html" class="btn btn-primary" style="text-decoration: none;">
+                        بخش بعد: مقایسه کسرها ➡️
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Popup -->
+    <div class="message-popup" id="messagePopup">
+        <h2 id="popupTitle">🎉 آفرین!</h2>
+        <p id="popupMessage">پاسخ درست بود!</p>
+        <button class="btn btn-primary" onclick="closePopup()">ادامه</button>
+    </div>
+
+    <canvas class="confetti" id="confetti"></canvas>
+
+    <script>
+        // Persian numbers
+        const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        function toPersian(num) {
+            return String(num).split('').map(d => persianDigits[parseInt(d)] || d).join('');
+        }
+
+        // Audio
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            if (type === 'success') {
+                oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                oscillator.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+                oscillator.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2);
+            } else if (type === 'wrong') {
+                oscillator.frequency.setValueAtTime(200, audioCtx.currentTime);
+                oscillator.frequency.setValueAtTime(150, audioCtx.currentTime + 0.1);
+            } else if (type === 'click') {
+                oscillator.frequency.setValueAtTime(400, audioCtx.currentTime);
+            }
+
+            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.3);
+        }
+
+        // Score
+        let score = 0;
+        let quiz1Done = false, quiz2Done = false, quiz3Done = false;
+
+        function addScore(points) {
+            score += points;
+            document.getElementById('score').textContent = toPersian(score);
+            document.getElementById('finalScore').textContent = toPersian(score);
+        }
+
+        // Stage navigation
+        function goToStage(stage) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.stage-dot').forEach(d => d.classList.remove('active'));
+
+            document.getElementById('stage' + stage).classList.add('active');
+            document.querySelector(`.stage-dot[data-stage="${stage}"]`).classList.add('active');
+
+            for (let i = 1; i < stage; i++) {
+                document.querySelector(`.stage-dot[data-stage="${i}"]`).classList.add('completed');
+            }
+
+            playSound('click');
+        }
+
+        // Quiz functions
+        function checkQuiz1(option, isCorrect) {
+            if (quiz1Done) return;
+            const result = document.getElementById('quiz1-result');
+
+            if (isCorrect) {
+                option.classList.add('correct');
+                result.innerHTML = '<div class="explanation green"><h3>✅ آفرین!</h3><p>۱/۲ = ۳/۶ چون ۱×۳=۳ و ۲×۳=۶</p></div>';
+                result.style.display = 'block';
+                playSound('success');
+                addScore(20);
+                quiz1Done = true;
+                checkAllQuizzes();
+                launchConfetti();
+            } else {
+                option.classList.add('wrong');
+                result.innerHTML = '<div class="explanation pink"><h3>❌ دوباره فکر کن!</h3><p>۱/۲ یعنی نصف. کدام کسر نصف است؟</p></div>';
+                result.style.display = 'block';
+                playSound('wrong');
+            }
+        }
+
+        function checkQuiz2(option, isCorrect) {
+            if (quiz2Done) return;
+            const result = document.getElementById('quiz2-result');
+
+            if (isCorrect) {
+                option.classList.add('correct');
+                result.innerHTML = '<div class="explanation green"><h3>✅ عالی!</h3><p>۲×۳=۶ و ۴×۳=۱۲ پس جواب ۶/۱۲ است!</p></div>';
+                result.style.display = 'block';
+                playSound('success');
+                addScore(20);
+                quiz2Done = true;
+                checkAllQuizzes();
+                launchConfetti();
+            } else {
+                option.classList.add('wrong');
+                result.innerHTML = '<div class="explanation pink"><h3>❌ یادت باشه!</h3><p>باید هم صورت و هم مخرج را در ۳ ضرب کنی!</p></div>';
+                result.style.display = 'block';
+                playSound('wrong');
+            }
+        }
+
+        function checkQuiz3(option, isCorrect) {
+            if (quiz3Done) return;
+            const result = document.getElementById('quiz3-result');
+
+            if (isCorrect) {
+                option.classList.add('correct');
+                result.innerHTML = '<div class="explanation green"><h3>✅ درست است!</h3><p>۲ قسمت از ۶ قسمت رنگ شده = ۲/۶ که با ۱/۳ مساوی است!</p></div>';
+                result.style.display = 'block';
+                playSound('success');
+                addScore(20);
+                quiz3Done = true;
+                checkAllQuizzes();
+                launchConfetti();
+            } else {
+                option.classList.add('wrong');
+                result.innerHTML = '<div class="explanation pink"><h3>❌ قسمت‌های رنگی را بشمار!</h3><p>چند قسمت رنگ شده؟ کل چند قسمت است؟</p></div>';
+                result.style.display = 'block';
+                playSound('wrong');
+            }
+        }
+
+        function checkAllQuizzes() {
+            if (quiz1Done && quiz2Done && quiz3Done) {
+                document.getElementById('next5').disabled = false;
+            }
+        }
+
+        // Popup
+        function showPopup(title, message) {
+            document.getElementById('popupTitle').textContent = title;
+            document.getElementById('popupMessage').textContent = message;
+            document.getElementById('messagePopup').classList.add('show');
+        }
+
+        function closePopup() {
+            document.getElementById('messagePopup').classList.remove('show');
+        }
+
+        // Confetti
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const colors = ['#ff6b6b', '#4ecdc4', '#ffd93d', '#6c5ce7', '#a8e6cf', '#ff9a9e'];
+
+            for (let i = 0; i < 80; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 10 + 5,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speedY: Math.random() * 3 + 2,
+                    speedX: Math.random() * 2 - 1,
+                    rotation: Math.random() * 360
+                });
+            }
+
+            let frame = 0;
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach(p => {
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation * Math.PI / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    p.rotation += 5;
+                });
+
+                frame++;
+                if (frame < 120) {
+                    requestAnimationFrame(animate);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            animate();
+        }
+
+        // Stage dot click handlers
+        document.querySelectorAll('.stage-dot').forEach(dot => {
+            dot.addEventListener('click', () => {
+                const stage = parseInt(dot.dataset.stage);
+                goToStage(stage);
+            });
+        });
+    </script>
+</body>
+</html>

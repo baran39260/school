@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آشنایی با کسرها - ریاضی سوم دبستان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '🍕🍰🎂🍫';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 24px;
+        }
+
+        .header::after {
+            content: '🍪🧁🍩🥧';
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .stage-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stage-dot {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+
+        .stage-dot.active {
+            background: white;
+            color: #764ba2;
+            transform: scale(1.2);
+            border-color: #ffd700;
+        }
+
+        .stage-dot.completed {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .section {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #764ba2;
+            text-align: center;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Cute Shape Characters */
+        .shape-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .cute-shape {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .cute-shape:hover {
+            transform: scale(1.05);
+        }
+
+        .cute-shape.selected {
+            transform: scale(1.1);
+        }
+
+        .cute-shape.selected::after {
+            content: '✓';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #4CAF50;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        /* Square Shape */
+        .square-shape {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #a8e6cf, #88d8b0);
+            border-radius: 15px;
+            display: grid;
+            position: relative;
+            overflow: hidden;
+            border: 4px solid #5a9;
+        }
+
+        .square-shape.parts-2 { grid-template-columns: repeat(2, 1fr); }
+        .square-shape.parts-3 { grid-template-columns: repeat(3, 1fr); }
+        .square-shape.parts-4 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
+        .square-shape.parts-6 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); }
+        .square-shape.parts-8 { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); }
+
+        .square-shape .part {
+            border: 1px solid rgba(0,0,0,0.2);
+            transition: background 0.3s;
+        }
+
+        .square-shape .part.filled {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        }
+
+        .square-shape .part.clickable {
+            cursor: pointer;
+        }
+
+        .square-shape .part.clickable:hover {
+            background: rgba(255,154,158,0.5);
+        }
+
+        /* Circle Shape */
+        .circle-shape {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #ffb6c1 0deg 90deg,
+                #a8e6cf 90deg 180deg,
+                #87ceeb 180deg 270deg,
+                #ffeaa7 270deg 360deg
+            );
+            position: relative;
+            border: 4px solid #888;
+        }
+
+        /* Face for shapes */
+        .shape-face {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .shape-face .eyes {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+
+        .shape-face .eye {
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .shape-face .eye::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .shape-face .mouth {
+            width: 20px;
+            height: 10px;
+            border: 3px solid #333;
+            border-top: none;
+            border-radius: 0 0 20px 20px;
+            margin: 0 auto;
+        }
+
+        .shape-face .cheeks {
+            display: flex;
+            justify-content: space-between;
+            width: 50px;
+            margin: -5px auto 0;
+        }
+
+        .shape-face .cheek {
+            width: 8px;
+            height: 5px;
+            background: #ffb6c1;
+            border-radius: 50%;
+        }
+
+        /* Fraction Display */
+        .fraction-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .fraction {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: #764ba2;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 15px 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .fraction .numerator {
+            border-bottom: 4px solid #764ba2;
+            padding-bottom: 5px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .fraction .denominator {
+            padding-top: 5px;
+        }
+
+        .fraction-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Interactive Pizza */
+        .pizza-container {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .pizza {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: #ffd93d;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 8px solid #e6a800;
+        }
+
+        .pizza-slice {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            clip-path: polygon(100% 100%, 0% 100%, 100% 0%);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .pizza-slice:hover {
+            filter: brightness(1.1);
+        }
+
+        .pizza-slice.eaten {
+            opacity: 0.3;
+        }
+
+        .pizza-slice:nth-child(1) { top: 0; left: 0; transform: rotate(0deg); transform-origin: bottom right; background: linear-gradient(135deg, #ff6b6b, #ee5a5a); }
+        .pizza-slice:nth-child(2) { top: 0; right: 0; transform: rotate(90deg); transform-origin: bottom left; background: linear-gradient(135deg, #4ecdc4, #45b7aa); }
+        .pizza-slice:nth-child(3) { bottom: 0; right: 0; transform: rotate(180deg); transform-origin: top left; background: linear-gradient(135deg, #95e1d3, #7bc9bc); }
+        .pizza-slice:nth-child(4) { bottom: 0; left: 0; transform: rotate(270deg); transform-origin: top right; background: linear-gradient(135deg, #f38181, #e66767); }
+
+        /* Buttons */
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, #ff9800, #f57c00);
+            color: white;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Quiz Options */
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .quiz-option {
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa, #e4e8eb);
+            border: 3px solid transparent;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .quiz-option:hover {
+            transform: scale(1.05);
+            border-color: #764ba2;
+        }
+
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            animation: pulse 0.5s;
+        }
+
+        .quiz-option.wrong {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+            animation: shake 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Explanation Box */
+        .explanation {
+            background: linear-gradient(135deg, #fff9c4, #fff59d);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            border-right: 5px solid #ffc107;
+        }
+
+        .explanation h3 {
+            color: #f57f17;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .explanation p {
+            color: #5d4037;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #e0e0e0;
+            border-radius: 25px;
+            height: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            border-radius: 25px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        /* Interactive Shape Builder */
+        .shape-builder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .shape-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 60px);
+            grid-template-rows: repeat(2, 60px);
+            gap: 5px;
+        }
+
+        .grid-cell {
+            background: #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .grid-cell:hover {
+            background: #bdbdbd;
+        }
+
+        .grid-cell.filled {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        }
+
+        /* Score Display */
+        .score-display {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            z-index: 100;
+        }
+
+        .score-display span {
+            color: #ffc107;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Message Popup */
+        .message-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .message-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .message-popup h2 {
+            font-size: 2em;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        .message-popup p {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* Character Mascot */
+        .mascot {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 100px;
+            height: 100px;
+            z-index: 50;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .mascot:hover {
+            transform: scale(1.1);
+        }
+
+        .mascot-body {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .mascot-face {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .speech-bubble {
+            position: absolute;
+            bottom: 90px;
+            left: 50px;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            max-width: 200px;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 20px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: white transparent transparent;
+        }
+
+        .mascot:hover .speech-bubble {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.8em; }
+            .section { padding: 20px; }
+            .cute-shape { width: 100px; height: 100px; }
+            .square-shape { width: 80px; height: 80px; }
+            .pizza { width: 150px; height: 150px; }
+            .score-display {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 20px;
+                justify-content: center;
+            }
+            .mascot { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="score-display">
+        ⭐ امتیاز: <span id="score">0</span>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🔢 آشنایی با کسرها</h1>
+            <p>فصل ۳ - ریاضی سوم دبستان</p>
+        </div>
+
+        <div class="stage-indicator">
+            <div class="stage-dot active" data-stage="1">۱</div>
+            <div class="stage-dot" data-stage="2">۲</div>
+            <div class="stage-dot" data-stage="3">۳</div>
+            <div class="stage-dot" data-stage="4">۴</div>
+            <div class="stage-dot" data-stage="5">۵</div>
+        </div>
+
+        <!-- Stage 1: What is a Fraction? -->
+        <div class="section active" id="stage1">
+            <h2 class="section-title">🍕 کسر چیست؟</h2>
+
+            <div class="explanation">
+                <h3>💡 یاد بگیر!</h3>
+                <p>
+                    کسر یعنی <strong>بخشی از یک چیز کامل</strong>!
+                    <br><br>
+                    مثلاً وقتی یک پیتزا را به ۴ قسمت مساوی تقسیم می‌کنیم و ۱ قسمت می‌خوریم،
+                    می‌گوییم <strong>یک چهارم (۱/۴)</strong> پیتزا خوردیم!
+                </p>
+            </div>
+
+            <div class="pizza-container">
+                <div class="pizza" id="pizza1">
+                    <div class="pizza-slice" onclick="eatSlice(this)"></div>
+                    <div class="pizza-slice" onclick="eatSlice(this)"></div>
+                    <div class="pizza-slice" onclick="eatSlice(this)"></div>
+                    <div class="pizza-slice" onclick="eatSlice(this)"></div>
+                </div>
+            </div>
+
+            <p style="text-align: center; color: #666; margin-bottom: 20px;">
+                👆 روی قسمت‌های پیتزا کلیک کن تا بخوری!
+            </p>
+
+            <div class="fraction-display">
+                <div class="fraction">
+                    <div class="numerator" id="eaten-count">۰</div>
+                    <div class="denominator">۴</div>
+                    <div class="fraction-label">خورده شده</div>
+                </div>
+                <span style="font-size: 2em; color: #764ba2;">از</span>
+                <div class="fraction">
+                    <div class="numerator">۴</div>
+                    <div class="denominator">۴</div>
+                    <div class="fraction-label">کل پیتزا</div>
+                </div>
+            </div>
+
+            <div class="explanation" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-color: #4CAF50;">
+                <h3 style="color: #2e7d32;">📝 یادآوری مهم!</h3>
+                <p>
+                    در کسر، عدد <strong>بالا</strong> را «<span style="color: #e91e63;">صورت</span>» می‌گویند (چند قسمت داریم)
+                    <br>
+                    و عدد <strong>پایین</strong> را «<span style="color: #2196f3;">مخرج</span>» می‌گویند (کل چند قسمت است)
+                </p>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="goToStage(2)">مرحله بعد ➡️</button>
+            </div>
+        </div>
+
+        <!-- Stage 2: Parts of a Whole -->
+        <div class="section" id="stage2">
+            <h2 class="section-title">🎨 قسمت‌های یک شکل</h2>
+
+            <div class="explanation">
+                <h3>💡 بیا تمرین کنیم!</h3>
+                <p>
+                    این شکل‌ها را ببین! هر کدام به قسمت‌های مساوی تقسیم شده‌اند.
+                    <br>
+                    روی قسمت‌ها کلیک کن تا رنگی شوند و ببین چه کسری می‌شود!
+                </p>
+            </div>
+
+            <div class="shape-builder">
+                <div class="shape-grid" id="shapeGrid">
+                    <div class="grid-cell" onclick="toggleCell(this)"></div>
+                    <div class="grid-cell" onclick="toggleCell(this)"></div>
+                    <div class="grid-cell" onclick="toggleCell(this)"></div>
+                    <div class="grid-cell" onclick="toggleCell(this)"></div>
+                    <div class="grid-cell" onclick="toggleCell(this)"></div>
+                    <div class="grid-cell" onclick="toggleCell(this)"></div>
+                    <div class="grid-cell" onclick="toggleCell(this)"></div>
+                    <div class="grid-cell" onclick="toggleCell(this)"></div>
+                </div>
+
+                <div class="fraction-display">
+                    <div class="fraction" style="font-size: 1.5em;">
+                        <div class="numerator" id="filled-count">۰</div>
+                        <div class="denominator">۸</div>
+                    </div>
+                    <span style="font-size: 1.5em; color: #666;">قسمت رنگ شده</span>
+                </div>
+
+                <button class="btn btn-warning" onclick="resetGrid()">🔄 از اول</button>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="goToStage(1)">⬅️ قبلی</button>
+                <button class="btn btn-primary" onclick="goToStage(3)">بعدی ➡️</button>
+            </div>
+        </div>
+
+        <!-- Stage 3: Quiz Time -->
+        <div class="section" id="stage3">
+            <h2 class="section-title">❓ سوال اول</h2>
+
+            <div class="explanation">
+                <h3>🧠 فکر کن!</h3>
+                <p>این شکل را ببین. چه کسری از آن رنگ شده است؟</p>
+            </div>
+
+            <div style="display: flex; justify-content: center; margin: 30px 0;">
+                <div class="square-shape parts-4" style="width: 150px; height: 150px;">
+                    <div class="part filled"></div>
+                    <div class="part filled"></div>
+                    <div class="part"></div>
+                    <div class="part"></div>
+                    <div class="shape-face">
+                        <div class="eyes">
+                            <div class="eye"></div>
+                            <div class="eye"></div>
+                        </div>
+                        <div class="mouth"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-options" id="quiz1">
+                <div class="quiz-option" onclick="checkAnswer(this, false)">۱/۴</div>
+                <div class="quiz-option" onclick="checkAnswer(this, true)">۲/۴</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">۳/۴</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">۴/۴</div>
+            </div>
+
+            <div id="quiz1-result" style="text-align: center; margin-top: 20px; display: none;">
+                <p style="font-size: 1.2em; color: #4CAF50;">✅ آفرین! ۲ قسمت از ۴ قسمت رنگ شده = ۲/۴</p>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="goToStage(2)">⬅️ قبلی</button>
+                <button class="btn btn-primary" onclick="goToStage(4)" id="next3" disabled>بعدی ➡️</button>
+            </div>
+        </div>
+
+        <!-- Stage 4: More Shapes -->
+        <div class="section" id="stage4">
+            <h2 class="section-title">🎯 سوال دوم</h2>
+
+            <div class="explanation">
+                <h3>🧠 این بار سخت‌تر!</h3>
+                <p>کدام شکل، کسر ۳/۶ را نشان می‌دهد؟</p>
+            </div>
+
+            <div class="shape-container" id="quiz2">
+                <div class="cute-shape" onclick="selectShape(this, 1)">
+                    <div class="square-shape parts-6" style="width: 120px; height: 80px;">
+                        <div class="part filled"></div>
+                        <div class="part filled"></div>
+                        <div class="part"></div>
+                        <div class="part"></div>
+                        <div class="part"></div>
+                        <div class="part"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px;">الف</p>
+                </div>
+
+                <div class="cute-shape" onclick="selectShape(this, 2)">
+                    <div class="square-shape parts-6" style="width: 120px; height: 80px;">
+                        <div class="part filled"></div>
+                        <div class="part filled"></div>
+                        <div class="part filled"></div>
+                        <div class="part"></div>
+                        <div class="part"></div>
+                        <div class="part"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px;">ب</p>
+                </div>
+
+                <div class="cute-shape" onclick="selectShape(this, 3)">
+                    <div class="square-shape parts-6" style="width: 120px; height: 80px;">
+                        <div class="part filled"></div>
+                        <div class="part"></div>
+                        <div class="part"></div>
+                        <div class="part"></div>
+                        <div class="part"></div>
+                        <div class="part"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px;">ج</p>
+                </div>
+            </div>
+
+            <div id="quiz2-result" style="text-align: center; margin-top: 20px; display: none;"></div>
+
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="goToStage(3)">⬅️ قبلی</button>
+                <button class="btn btn-primary" onclick="goToStage(5)" id="next4" disabled>بعدی ➡️</button>
+            </div>
+        </div>
+
+        <!-- Stage 5: Completion -->
+        <div class="section" id="stage5">
+            <h2 class="section-title">🎉 آفرین!</h2>
+
+            <div style="text-align: center; padding: 30px;">
+                <div style="font-size: 80px; margin-bottom: 20px;">🏆</div>
+                <h3 style="color: #4CAF50; font-size: 1.8em; margin-bottom: 20px;">
+                    تو بخش اول را تمام کردی!
+                </h3>
+                <p style="font-size: 1.2em; color: #666; margin-bottom: 30px;">
+                    حالا می‌دانی کسر چیست و چطور نشان داده می‌شود.
+                </p>
+
+                <div class="explanation">
+                    <h3>📚 خلاصه درس:</h3>
+                    <p>
+                        ✅ کسر یعنی بخشی از یک کل
+                        <br>
+                        ✅ صورت = تعداد قسمت‌هایی که داریم (بالا)
+                        <br>
+                        ✅ مخرج = کل قسمت‌ها (پایین)
+                    </p>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 25%;">۱ از ۴ بخش</div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-success" onclick="goToStage(1)">🔄 دوباره</button>
+                    <a href="fractions_equal.html" class="btn btn-primary" style="text-decoration: none;">
+                        بخش بعد: تساوی کسرها ➡️
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mascot -->
+    <div class="mascot">
+        <div class="speech-bubble">
+            سلام! من کسری هستم!
+            بیا با هم کسرها رو یاد بگیریم! 🎉
+        </div>
+        <div class="mascot-body">
+            <div class="mascot-face">
+                <div class="eyes" style="gap: 12px;">
+                    <div class="eye"></div>
+                    <div class="eye"></div>
+                </div>
+                <div class="mouth" style="width: 15px; height: 8px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Popup -->
+    <div class="message-popup" id="messagePopup">
+        <h2 id="popupTitle">🎉 آفرین!</h2>
+        <p id="popupMessage">پاسخ درست بود!</p>
+        <button class="btn btn-primary" onclick="closePopup()">ادامه</button>
+    </div>
+
+    <canvas class="confetti" id="confetti"></canvas>
+
+    <script>
+        // Persian number conversion
+        const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        function toPersian(num) {
+            return String(num).split('').map(d => persianDigits[parseInt(d)] || d).join('');
+        }
+
+        // Audio context for sounds
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            if (type === 'success') {
+                oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                oscillator.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+                oscillator.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2);
+            } else if (type === 'wrong') {
+                oscillator.frequency.setValueAtTime(200, audioCtx.currentTime);
+                oscillator.frequency.setValueAtTime(150, audioCtx.currentTime + 0.1);
+            } else if (type === 'click') {
+                oscillator.frequency.setValueAtTime(400, audioCtx.currentTime);
+            }
+
+            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.3);
+        }
+
+        // Score management
+        let score = 0;
+
+        function addScore(points) {
+            score += points;
+            document.getElementById('score').textContent = toPersian(score);
+        }
+
+        // Stage navigation
+        let currentStage = 1;
+
+        function goToStage(stage) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.stage-dot').forEach(d => d.classList.remove('active'));
+
+            document.getElementById('stage' + stage).classList.add('active');
+            document.querySelector(`.stage-dot[data-stage="${stage}"]`).classList.add('active');
+
+            // Mark previous stages as completed
+            for (let i = 1; i < stage; i++) {
+                document.querySelector(`.stage-dot[data-stage="${i}"]`).classList.add('completed');
+            }
+
+            currentStage = stage;
+            playSound('click');
+        }
+
+        // Pizza eating
+        let eatenSlices = 0;
+
+        function eatSlice(slice) {
+            if (!slice.classList.contains('eaten')) {
+                slice.classList.add('eaten');
+                eatenSlices++;
+                document.getElementById('eaten-count').textContent = toPersian(eatenSlices);
+                playSound('click');
+
+                if (eatenSlices === 4) {
+                    addScore(10);
+                    showPopup('🍕 همه پیتزا خورده شد!', 'تو ۴/۴ یعنی کل پیتزا را خوردی!');
+                }
+            }
+        }
+
+        // Grid cells
+        function toggleCell(cell) {
+            cell.classList.toggle('filled');
+            updateFilledCount();
+            playSound('click');
+        }
+
+        function updateFilledCount() {
+            const filled = document.querySelectorAll('.grid-cell.filled').length;
+            document.getElementById('filled-count').textContent = toPersian(filled);
+        }
+
+        function resetGrid() {
+            document.querySelectorAll('.grid-cell').forEach(c => c.classList.remove('filled'));
+            updateFilledCount();
+            playSound('click');
+        }
+
+        // Quiz answer checking
+        function checkAnswer(option, isCorrect) {
+            if (option.classList.contains('correct') || option.classList.contains('wrong')) return;
+
+            const quiz = option.parentElement;
+            if (quiz.querySelector('.correct') || quiz.querySelector('.wrong')) return;
+
+            if (isCorrect) {
+                option.classList.add('correct');
+                playSound('success');
+                addScore(20);
+                document.getElementById('quiz1-result').style.display = 'block';
+                document.getElementById('next3').disabled = false;
+                launchConfetti();
+            } else {
+                option.classList.add('wrong');
+                playSound('wrong');
+            }
+        }
+
+        // Shape selection for quiz 2
+        function selectShape(shape, num) {
+            document.querySelectorAll('#quiz2 .cute-shape').forEach(s => s.classList.remove('selected'));
+            shape.classList.add('selected');
+
+            const result = document.getElementById('quiz2-result');
+
+            if (num === 2) { // Correct answer: ب (3 filled out of 6)
+                result.innerHTML = '<p style="font-size: 1.2em; color: #4CAF50;">✅ آفرین! ۳ قسمت از ۶ قسمت = ۳/۶</p>';
+                result.style.display = 'block';
+                document.getElementById('next4').disabled = false;
+                playSound('success');
+                addScore(20);
+                launchConfetti();
+            } else {
+                result.innerHTML = '<p style="font-size: 1.2em; color: #f44336;">❌ دوباره فکر کن! ۳/۶ یعنی ۳ قسمت از ۶ قسمت رنگ شده باشد.</p>';
+                result.style.display = 'block';
+                playSound('wrong');
+            }
+        }
+
+        // Popup functions
+        function showPopup(title, message) {
+            document.getElementById('popupTitle').textContent = title;
+            document.getElementById('popupMessage').textContent = message;
+            document.getElementById('messagePopup').classList.add('show');
+        }
+
+        function closePopup() {
+            document.getElementById('messagePopup').classList.remove('show');
+        }
+
+        // Confetti
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const colors = ['#ff6b6b', '#4ecdc4', '#ffd93d', '#6c5ce7', '#a8e6cf', '#ff9a9e'];
+
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 10 + 5,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speedY: Math.random() * 3 + 2,
+                    speedX: Math.random() * 2 - 1,
+                    rotation: Math.random() * 360
+                });
+            }
+
+            let frame = 0;
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach(p => {
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation * Math.PI / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    p.rotation += 5;
+                });
+
+                frame++;
+                if (frame < 150) {
+                    requestAnimationFrame(animate);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            animate();
+        }
+
+        // Initialize stage dots click handlers
+        document.querySelectorAll('.stage-dot').forEach(dot => {
+            dot.addEventListener('click', () => {
+                const stage = parseInt(dot.dataset.stage);
+                goToStage(stage);
+            });
+        });
+    </script>
+</body>
+</html>
